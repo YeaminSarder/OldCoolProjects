@@ -1,0 +1,250 @@
+<style>
+.obj {
+position:absolute;
+top:10;
+left:5;
+border :1px solid gray;
+width:50;
+height:50;
+}
+
+div {
+border :1px solid gray;
+}
+
+</style>
+
+<div class="window">
+   <div class="header">Controls</div>
+</div>
+<script>
+
+
+
+
+var target=document.body
+var o1=document.body.appendChild(document.createElement('div'))
+o1.setAttribute('class','obj')
+
+//alert($( ".obj" ).dragga)
+//used for defining snake.
+function Type(width,height,left,top,tag,target) {
+    if (width){		this.w=width		}else{this.w=30}
+    if (height){	this.h=height		}else{this.h=30}
+    if (left){		this.x= left 		}else{this.x=0}
+    if (top){		this.y= top 		}else{this.y=0}
+    if (tag){		this.tag= tag 		}else{this.tag='div'}
+    if (target){	this.target= target 	}else{this.target=document.body}
+}
+//creats elements
+function createElement(Type) {
+    var e1 = Type.target.appendChild(document.createElement(Type.tag))
+    e1.style.width=Type.w +'px'
+    e1.style.height=Type.h +'px'
+    e1.style.position = 'absolute'
+    e1.style.left=Type.x +'px'
+    e1.style.top=Type.y +'px'
+
+    return e1
+}
+//createElement(new Type(90,90,50,60))
+    var arrDir = [[0,-1],[1,0],[0,1],[-1,0]] 	//up,right,down,left
+
+
+
+
+
+//alert (arrDir[2][0])
+
+function Snake(Type) {
+    this.type=Type
+    this.data= [300,150,3,3,3,3,3,3,3,2,2,2,2,2,1,1,1,1]	//bluebrint of snake:head,dir
+    this.head=(createElement(t1))
+    this.body=[]
+    //view
+    this.updateView= function () {
+        this.head.style.left = this.data[0]
+        this.head.style.top = this.data[1]
+        var pData=[this.data[0],this.data[1]]
+        
+        for (var i=2;i<this.data.length;i++) {
+            if (this.body[i-2]) {
+            var e1=this.body[i-2]
+            } else {
+            var e1=(createElement(t1))
+            this.body.push(e1)
+            }
+            e1.style.left=pData[0]+arrDir[this.data[i]][0] *t1.w +'px'
+            e1.style.top=pData[1]+arrDir[this.data[i]][1]*t1.h +'px'
+            e1.style.backgroundColor ='red'
+            pData=[pData[0]+arrDir[this.data[i]][0] *t1.w,pData[1]+arrDir[this.data[i]][1]*t1.h]
+            
+        }
+        while (this.body.length>this.data.length-2) {
+            target.removeChild(this.body.pop())
+        }
+    }
+    //this.data=[60,60,2,2,2,1,1]
+    this.updateView()
+    //this.data=[60,30,2,2,2,2,1]
+    //this.updateView()    
+
+    //control
+
+    this.move = function (dir) {
+        this.data[0] = this.data[0]+arrDir[dir][0] *t1.w
+        this.data[1] = this.data[1]+arrDir[dir][1] *t1.h
+        this.data.splice(2,0,(dir+2)%4)
+        this.data.pop()
+        this.updateView()
+    }
+    this.position =function (dir) {
+        return [this.data[0]+dir[0] *t1.w,this.data[1]+dir[1] *t1.h]
+    }
+    this.isReady=1;
+    this.speed=40
+    var t=this
+    this.moveSeq = function (seq){
+        if (t.isReady) {
+        seq.forEach(function (v,i,a){window.setTimeout(function (){t.move(v)},i*t.speed)})
+        t.isReady=0
+        window.setTimeout(function (){t.isReady=1},seq.length*t.speed)
+        }else{
+            window.setTimeout(function (){t.moveSeq(seq)},t.speed)
+        }
+    }
+    this.onReady = function (script){
+        if (t.isReady) {
+            eval(script)
+        }else{
+            window.setTimeout(function (){t.onReady(script)},t.speed)
+        }
+
+    }
+
+    this.getRelBody = function (data){
+        var out=[[0,0]]
+        for (var i=2;i<data.length;i++) {
+            out[out.length]=[out[out.length-1][0]*1+arrDir[data[i]][0]*1,out[out.length-1][1]*1+arrDir[data[i]][1]*1]  
+             //alert(out) 
+        }
+        return out
+    }
+
+    this.move(1)
+}
+
+
+var targ1=createElement(new Type())
+
+
+
+//create a default type snake.
+var t1 = new Type()
+var s1=new Snake(t1)
+
+var end=[4,4]
+var start=[0,0]
+s1.speed=40
+
+target.addEventListener('click',function (e){	//onclick
+//alert(e.x)
+    var relPos=[Math.floor((e.x-s1.data[0])/s1.type.w),Math.floor((e.y-s1.data[1])/s1.type.h)]
+//alert(relPos)
+targ1.style.left=s1.position(relPos)[0] +'px';
+targ1.style.top=s1.position(relPos)[1] +'px' ;
+s1.moveSeq(AStar(start,relPos))
+})
+
+
+
+//alert (s1.getRelBody([0,0,2,2,2,2]))
+//--------------------------------------aster
+
+function AStar(start,end) {
+    var openList=[start]
+    var closedList=[]
+    var map=s1.getRelBody(s1.data)
+//alert(map)
+    var g={} ; g[start]=0
+    var h={} ; h[start]=heruistic(start,end)
+    var f={} ; f[start]=g[start]+h[start]
+    var seq={} ; seq[start]=[]
+    while (openList.length>0) {
+        var m=openList[0]
+        openList.forEach(function (v,i,a){
+            if(f[v]<f[m]){m=v}
+        })
+        //
+
+        //alert(m)
+        if ((m[0]==end[0])&&(m[1]==end[1])) {return seq[m]}
+//console.log(openList.map(function (v){return JSON.stringify(v)+": "+f[v]}))
+//console.log(m)
+        openList.splice(openList.indexOf(m),1)
+//console.log(openList)
+        closedList.push(m)
+        //alert(openList)
+        var childM=child(m)
+
+        for (var i=0;i<childM.length;i++) {
+            n=childM[i]
+            if (!n){continue;}
+            if (closedList.indexOf(n)>-1) {
+                continue;
+            }
+            var cost = g[m]+1
+
+            if ((doesContain(openList,n)>-1)&&(cost<g[n])) {
+                openList.splice(openList.indexOf(n),1)
+            }
+            if ((doesContain(closedList,n)>-1)&&(cost<g[n])) {
+                closedList.splice(closedList.indexOf(n),1)
+            }
+//console.log(n+' '+openList.indexOf(n)+' '+doesContain(openList,n))
+            if ((!doesContain(openList,n))&&(!doesContain(closedList,n))) {
+                g[n]=cost
+                h[n]=heruistic(n,end)
+                f[n]=g[n]+h[n]
+                seq[n]=seq[m].concat([i])
+                //seq[n].push(i)
+
+                var insertIndex=0
+               
+                openList.push(n)
+                //alert(openList)
+            }
+            
+        }
+        //console.log(g)
+    }
+
+    alert("failed")
+
+
+    function heruistic(start,end){
+        return Math.abs(start[0]-end[0]) + Math.abs(start[0]-end[0])
+        //Math.sqrt((start[0]-end[0])*(start[0]-end[0])+(start[1]-end[1])*(start[1]-end[1]))
+    }
+
+    function child(m) {
+        var r=[[m[0],m[1]-1],[m[0]+1,m[1]],[m[0],m[1]+1],[m[0]-1,m[1]]]
+        for (var i=0;i<4;i++){
+//alert()
+            if (JSON.stringify(map).indexOf(JSON.stringify(r[i]))>-1){
+                r[i]=0;
+            }
+        }
+//alert(map+r)
+        return r
+        
+    }
+    function doesContain(arr,mat){
+        return (JSON.stringify(arr).indexOf(JSON.stringify(mat))>-1)
+    }
+}
+
+
+//alert(s1.data)
+
+</script>

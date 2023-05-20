@@ -1,0 +1,76 @@
+<style>
+p{
+font-family : courier ;
+color:orange
+
+
+}
+
+
+button{
+font-size:400%;
+
+}
+
+</style>
+
+<p   id='p'  onclick='this.innerHTML=cr()' style='font-size:600%'> </p>
+<button onclick=' p.innerHTML=arr.toString().replace(/,/g,"</br>")'>see all</button>
+
+<button onclick='var R=arr.indexOf(p.innerHTML.slice(4).toLowerCase()) -1;p.innerHTML=("0000"+R).slice(-3)+"."+toSCase(arr[R]);' >prev.</button>
+<button onclick='var R=arr.indexOf(p.innerHTML.slice(4).toLowerCase()) +1;p.innerHTML=("0000"+R).slice(-3)+"."+toSCase(arr[R]);' >next</button>
+<button onclick='var n=prompt ("","0");p.innerHTML=("0000"+n).slice(-3)+"."+toSCase(arr[n])' >jump to</button>
+<script>
+//window.event.preventDefault();
+var words= 
+
+"happy bland blissful calm capricious cheerful confident content convinced dazed delighted delightful ecstatic elated enchanted epicurean excessive fain fanciful formidable funny glad glorious gratified hilarious hopeful humorous joyful jubilant love struck lunatic overwhelmed pleased sanguine satisfied satisfied sensuous solemn splendid sprightly spruce sybaritic thrilled voluptuous wry zestful mischievous impish naughty playful prankish roguish whimsical careful attentive fastidious heedful mindful observant persnickety vigilant wary foolish absurd asinine certifiable comical cracked crazy dizzy droll dotty farcical fatuous gaga giddy insane jocose lightheaded ludicrous mad mentally deranged nonsensical not all there nuts out of one's mind preposterous ridiculous risible screwy silly troubled vertiginous wild woozy amazing astonishing astounding awesome breathtaking extraordinary fabulous fantastic improbable incredible marvelous overwhelming phenomenal remarkable spectacular splendid staggering startling onderful unbelievable unforeseen unthinkable unimaginable unanticipated unexpected unpredicted beautiful aesthetic appealing attractive awesome blooming bonny comely cute dazzling dishy drawing attention elegant exquisite fine glorious good-looking gorgeous graceful handsome lovely magnificent marvelous nice picturesque pleasing pretty pulchritudinous ravishing scenic shapely sparkling splendid statuesque stunning wonderful audacious awesome beauty brilliant charming enchanting extraordinary exuberant fabulous fanciful fantastic fascinating imaginative impressive incredible ingenious irresistible keen lavish lovely lush luxuriant outstanding prodigal profuse riotous smart splendid terrific"
+
+var arr = words.split(' ');
+//alert(arr)
+
+var p=document.getElementById('p');
+
+var p1=document.getElementById('p1');
+
+p.innerHTML=cr()
+
+function toSCase(str) {
+return str.replace(str[0],str[0].toUpperCase())
+}
+//r(p);
+//p.setAttribute('ondblclick','this.innerHTML=arr')
+var R=''
+
+function cr() {
+R=Math.floor(Math.random()*arr.length)   ;
+//p1.innerHTML=R+"."
+return ("0000"+R).slice(-3)+"."+toSCase(arr[R]);
+
+}
+
+function r(obj) {
+
+	var m;
+	var txt = '';
+
+	for (m in obj ) {
+
+		txt += m + ':'+ obj[m]+ '</br>'; 
+	}
+
+	var e = document.body.appendChild(document.createElement('div'));
+	var x = document.body.appendChild(document.createElement('button'));
+	x.setAttribute('style','position:absolute;right:18;top:10;color:white;background-color:red')
+	x.innerHTML='X'
+	x.setAttribute('onclick','document.body.removeChild(document.getElementById("lrtBox"));document.body.removeChild(this) ')
+	e.id='lrtBox'
+	e.innerHTML=txt
+	e.setAttribute('style','position:absolute;left:10;top:10;background-color:#dddddd; height:300px;overflow:auto;border:1px solid red')
+
+
+
+
+}
+</script>
+ 

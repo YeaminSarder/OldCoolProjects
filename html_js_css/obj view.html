@@ -1,0 +1,46 @@
+<input type='object' id='inpt'></input>
+<button onclick="go()"></button>
+<button onclick="back()"></button>
+<p id='out'>hj</p>
+<script>
+//document.body.currentStyle.scrollbarDarkShadowColor = 'red';
+//document.getElementById('inpt').value = 'ghjj';
+var obj={name:'anamul',age:2}
+//alert (eval('window'))
+//var ob = 'hjj';
+var val;
+var text = ''
+Object.getOwnPropertyNames(document).forEach(function(name){
+text = text + name
+}
+
+document.getElementById('out').innerHTML = text;
+
+
+
+function extractObj(objjk) {
+	var text = '';
+	for (var x in objjk ) {
+
+var click = "document.getElementById('inpt').value = val +'.'+this.innerHTML.split(':')[0];go() "
+		text+='<button onclick="'+click+'">'+ x +':'+ objjk[x] + '</button></br>';
+	}
+
+
+	return text;
+}
+
+function go() {
+val =document.getElementById('inpt').value 
+//var o = new object(val);
+//alert (typeof(eval('document')));
+document.getElementById('out').innerHTML = extractObj(eval(val));
+//document.body.currentStyle.scrollbarDarkShadowColor = #ffffff;
+}
+function back(){
+document.getElementById('inpt').value = val.replace('.'+val.split('.')[val.split('.').length-1],'');
+go()
+}
+
+
+</script>

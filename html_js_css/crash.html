@@ -1,0 +1,66 @@
+
+<style>
+div {
+
+height : 50px;
+width : 50px;
+position : absolute ;
+top : 30px;
+border:.1px solid #a1a1a1;
+background-color : black;
+
+
+}
+
+
+
+</style>
+
+
+<div id='o1'></div>
+<div id='o2' style = 'left:300; width:50px;'></div>
+
+
+<script>
+o1 = document.getElementById('o1');
+o2 = document.getElementById('o2');
+x = 0;
+v1 = 30;
+var v2 = 0;
+r = 0.0;
+m1 = 30;
+m2 = 3;
+var bool = 0;
+//alert(window.innerWidth)
+s =( o2.style.left.slice(0,-2) - o2.style.width.slice(0,-2) );
+var i = setInterval(f,1);
+
+function f() {
+	if(v1+r>0){
+	v1=v1+r;
+	}else{
+	v1=0
+	}
+	x=x+v1;
+	o1.style.left = x;
+	if(bool==0){
+		if (x>s){
+			v1 = (v1*m1+v2*m2)/(m1+m2);
+			bool = 1;
+		
+		}
+	}else{
+		o2.style.left = x + 50;
+	}
+	if(x>window.innerWidth-110){
+		clearInterval(i);
+	}
+
+}
+
+
+
+</script>
+
+
+

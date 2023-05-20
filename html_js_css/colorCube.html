@@ -1,0 +1,91 @@
+<p id=p1></p>
+
+<style>
+div {
+position:absolute;
+top:0;
+left:0;
+}
+
+p{
+border:1px solid white;
+position:fixed;
+top:0;
+right:5;
+background-color:white
+}
+
+</style>
+
+
+
+
+
+
+<script>
+//startup
+var p1=document.getElementById('p1')
+var pi=Math.PI
+
+//prefs
+var n1=128	//total cells in i direction
+var n2=128	//total cells in j direction
+var pad=[5,5]	//frist cell position
+var cellw=10/4	//cell width
+var cellh=10/4	//cell height
+
+
+
+/*
+syntax
+style = [red function,green function,blue function]
+
+it prints color rgb(r,g,b) in cell (i,j)
+where r, g and b are obtained 
+from red, green and blue function respectively 
+
+
+
+you can also use values obtained from other function refering them as X, Y and Z
+
+
+*/
+
+//styles
+var redBall=["(255*Math.sin((i/n1)*pi)+255*Math.sin((j/n1)*pi))/2",0,0]
+var shade=["255-Math.abs(j-64)*4",0,0]
+var supePlus=["255*Math.sin((i/n1)*pi)","255*Math.sin((j/n1)*pi)",255]
+var redCheck=["i%2*255/2+j%2*255/2",0,0]
+var coolCheck=["i%2*i%128+j%2*j%128",0,0]
+
+
+//using style
+var style=redBall
+	
+
+
+
+for (var j=0;j<n1;j++){
+for (var i=0;i<n2;i++){
+
+//defining X,Y,Z to enable using values of x,y,z
+X=eval(style[0]);
+Y=eval(style[1]);
+Z=eval(style[2]);
+
+//this code will be used for cell colouring
+var colhex="rgb("+Math.round(eval(style[0]))+","+Math.round(eval(style[1]))+","+Math.round(eval(style[2]))+")"
+
+//creating, positioning and colouring elements
+var e=document.body.appendChild(document.createElement('div'))
+e.style.left=pad[1]+(cellh)*i+'px'
+e.style.top=pad[0]+(cellw)*j+'px'
+e.style.backgroundColor=colhex
+e.style.width=cellw;
+e.style.height=cellh
+e.setAttribute('onclick',"p1.innerHTML='"+colhex+"';document.body.style.backgroundColor='"+colhex+"'")
+}
+}
+
+
+</script>

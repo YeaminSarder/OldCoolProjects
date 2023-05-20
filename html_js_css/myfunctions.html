@@ -1,0 +1,14 @@
+<button>click</button>
+<p id='demo'> </p>
+<p id= 'b'></p>
+
+
+
+
+<script>
+cb("demo","try")
+
+function cb(id,name,fx) {
+document.getElementById(id).innerHTML=" <button onclick=\" " + fx + "\">" + name + " </button> ";
+}
+</script>

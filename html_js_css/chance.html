@@ -1,0 +1,23 @@
+<p id='p'></p>
+
+
+
+
+<script>
+
+alert(chance("rnd(1,6)==6&&rnd(1,6)==6&&rnd(1,6)==6&&rnd(1,6)==6",1000000))
+
+
+function chance(con,n) {
+	var pos=0;
+	var str="";
+	for (var i=0;i<n;i++) {
+		if (eval(con)) {pos++;str+='1'}else{str+='0'}
+	}
+	document .getElementById('p').innerHTML=str
+	return pos+'/'+(n-pos)+'='+n/pos+'%'
+}
+function rnd(m,n) {
+return Math.floor(Math.random()*(n+1))+m
+}
+</script>

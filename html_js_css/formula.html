@@ -1,0 +1,46 @@
+<style>
+.box {
+width:50px;
+height:50px;
+border:1px solid;
+position :absolute ;
+top:0;
+left:0;
+background-color:black;
+}
+
+</style>
+<p></p>
+
+<script>
+
+
+for (i=0;i<20;i++) {
+
+for (j=0;j<10;j++) {
+if (        i%2==Math.floor(Math.random()*2)        ) {
+var p1=cE(document.body,'div','','','box',i*50,j*50)
+}
+}
+
+}
+
+
+
+
+
+
+
+
+function cE(tg,tag,text,id,Class,Left,Top) {
+var nE = document.createElement(tag);
+nE.appendChild(document.createTextNode(text));
+var e = tg.appendChild(nE);
+e.id = id;
+e.setAttribute('class',Class);
+e.style.top=Top;
+e.style.left=Left
+return e;
+}
+
+</script>

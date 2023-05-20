@@ -1,0 +1,40 @@
+<p id='des'></p>
+<p id='err'></p>
+<button id='b' style='background-color:#eee' onclick='act()' >click</button>
+<script>
+
+
+
+function act() {
+	try {
+		function Person(name,father,mother,wife,son) {
+			this.name = name;
+			this.father = father ;
+			this.mother = mother ;
+			this.wife = wife ;
+			this.son = son ;
+			
+		}
+		
+		var Yeamin = new Person('Yeamin', 'Anamul', 'Salma', '', ['s1', 's2', 's3']);
+		var txt;
+		Person.prototype.daughter = 'fbj';
+		for (var x in Yeamin) {
+			if (x==undefined||Yeamin[x]==''){continue ;}
+			txt += x + ': ' + Yeamin[x] + '<br>';
+		
+		}
+		var y = Object.getPrototypeOf(Yeamin); 
+		document.getElementById('des').innerHTML = y ;
+
+	}
+
+
+	catch(err) {
+		var x = err.message;
+		document.getElementById("err").innerHTML = err ;
+	}
+}
+</script>
+
+<script src='mf.js'></script>

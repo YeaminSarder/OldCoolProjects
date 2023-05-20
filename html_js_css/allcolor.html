@@ -1,0 +1,99 @@
+<p id=p1></p>
+
+<style>
+div {
+position:absolute;
+top:0;
+left:0;
+}
+
+p{
+border:1px solid white;
+position:absolute;
+top:0;
+right:5;
+}
+
+</style>
+
+<script>
+
+var p1=document.getElementById('p1')
+//col=['#800000','#555555','#000080','#008000']
+
+//alert(p1)
+
+var allblack=[
+'#000000','#000000','#000000','#000000',
+'#000000','#000000','#000000','#000000',
+'#000000','#000000','#000000','#000000',
+'#000000','#000000','#000000','#000000',
+]
+
+var allblack2=[
+'rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)',
+'rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)',
+'rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)',
+'rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)',
+]
+var Hex=[
+'#000000','#ffffff','#000000','#ffffff',
+'#ffffff','#000000','#ffffff','#000000',
+'#ffffff','#000000','#ffffff','#000000',
+'#000000','#ffffff','#000000','#ffffff'
+]
+
+var RgbSqare=[
+'#0000ff','#ff0000','#00ff00','#0000ff',
+'#00ff00','#000000','#000000','#ff0000',
+'#ff0000','#000000','#000000','#00ff00',
+'#0000ff','#00ff00','#ff0000','#0000ff'
+]
+
+
+var allcodes=[
+'#000000','#0000ff','#00ff00','#00ffff',
+'#ff0000','#ff00ff','#ffff00','#ffffff',
+'rgba(0,0,0,0.5)','rgba(0,0,255,0.5)','rgba(0,255,0,0.5)','rgba(0,255,255,0.5)',
+'rgba(255,0,0,0.5)','rgba(255,0,255,0.5)','rgba(255,255,0,0.5)','rgba(255,255,255,0.5)',
+]
+
+
+var col=allcodes
+var coll=col.length
+
+var n1=64
+var n2=64
+var pad=[5,5]
+var cellw=10
+var cellh=10
+
+
+var colcode=-1
+//colb=('000'+colcode.toString(16)).slice(-3)
+//colhex='#'+colb[0]+'0'+colb[1]+'0'+colb[2]+'0'
+
+
+
+//alert(colhex)
+
+for (var j=0;j<n1;j++){
+for (var i=0;i<n2;i++){
+
+colcode++
+colb=('000'+colcode.toString(16)).slice(-3)
+var colhex=colb[0]+'0'+colb[1]+'0'+colb[2]+'0'
+
+
+var e=document.body.appendChild(document.createElement('div'))
+e.style.left=pad[1]+(cellh)*(i%16+16*(Math.floor(j/16)))+'px'
+e.style.top=pad[0]+(cellw)*(Math.floor(i/16)+(j%16)*4)+'px'
+e.style.backgroundColor='#'+colhex
+e.style.width=cellw;
+e.style.height=cellh
+e.setAttribute('onclick',"p1.innerHTML='#"+colhex+"';document.body.style.backgroundColor='"+colhex+"'")
+}
+}
+
+
+</script>

@@ -1,0 +1,292 @@
+
+<style>
+div {
+background-color:black;
+//display :inline;
+float:left;
+width:20px;
+height :20px;
+border: 1px solid #222;
+box-sizing : border-box;
+}
+div:hover {
+background-color:#aaa
+}
+button {
+position:absolute;
+
+width:45px;
+background-color : #ddd;
+//float:left;
+bottom :0
+}
+#b5 {
+position:absolute;
+bottom:0;
+left : 200;
+}
+#b1 {
+position:absolute;
+bottom:0;
+left : 0;
+}
+#b2 {
+position:absolute;
+bottom:0;
+left : 50px;
+}
+#b3 {
+position:absolute;
+bottom:0;
+left : 100px;
+color:red;
+}
+#b4 {
+position:absolute;
+bottom:0;
+left : 150px;
+color:blue;
+}
+#i1 {
+position:absolute;
+bottom:0;
+left : 250px;
+width:150px;
+color:blue;
+}
+#j {
+position:absolute;
+bottom:0;
+left : 400px;
+color:skyblue;
+}
+
+</style>
+<button id='b1' onclick='start()' >start</button>
+<button id='b2' onclick='back()' >back</button>
+<button id='b3' onclick='red()' >red</button>
+<button id='b4' onclick='blue()' >blue</button>
+<button id='b5' onclick='if (!auto){k=setInterval(start,sp)}else{clearInterval(k)};auto=!auto' >auto</button>
+<script>
+var auto=0;
+var sp=250;
+//var b1=getElem
+var xN = Math.floor(window.innerWidth / 20) -1;
+var yN = Math.floor(window.innerHeight / 20) -1;
+var arr=[];
+var toOn=[];
+var Rb=[3,4,5]
+var Rs=[4,5,7,6]
+Ru();
+function Ru() {
+Rd=[0,1,2,3,4,5,6,7,8]
+for (var i=0;i<Rs.length;i++){
+if(Rd.indexOf(Rs[i])>-1) {
+Rd.splice(Rd.indexOf(Rs[i]),1);
+}
+}
+}
+//var Rd=[1,7,6,8]
+var oned=[]
+var offed=[]
+for (var i=0;i<yN;i++) {
+	for (var j=0;j<xN;j++) {
+		arr.push(new sqr(j,i))
+	}
+}
+
+for (var i=0;i<arr.length;i++) {
+	
+	arr[i].gS()	
+	
+}
+
+
+//alert(getObj(1,1).obj.backgroundColor)
+//if (getObj(-1,1)){getObj(1,0).obj.style.backgroundColor='red'}
+
+//alert(getObj(9,1).n.x)
+
+
+function sqr(x,y) {
+this.obj = document.createElement('div');
+document.body.appendChild(this.obj)
+this.obj.style.backgroundColor="black"
+this.c = 0;
+this.obj.setAttribute('onclick','var t=ownerOf(this);t.toggle()')
+this.x = x;
+this.y = y;
+this.gS = function () {
+	var xpp=this.x+1
+	if (xpp==xN){xpp=0}
+	var xmm=this.x-1
+	if (xmm==-1){xmm=xN-1}
+	var ypp=this.y+1
+	if (ypp==yN){ypp=0}
+	var ymm=this.y-1
+	if (ymm==-1){ymm=yN-1}
+
+	this.nn=getObj(xpp,this.y)
+	this.mm=getObj(xmm,this.y)
+
+	this.aa=getObj(xmm,ymm)
+	this.bb=getObj(this.x,ymm)
+	this.cc=getObj(xpp,ymm)
+	this.xx=getObj(xmm,ypp)
+	this.yy=getObj(this.x,ypp)
+	this.zz=getObj(xpp,ypp)
+
+	}
+this.N = 0;
+this.gSN = function (pt) {
+	this.aa.N+=pt;
+	this.bb.N+=pt;
+	this.cc.N+=pt;
+	this.mm.N+=pt;
+	this.nn.N+=pt;
+	this.xx.N+=pt;
+	this.yy.N+=pt;
+	this.zz.N+=pt;
+	this.N+=pt*10;
+
+
+//	return (this.aa.c+this.bb.c+this.cc.c+this.mm.c+this.nn.c+this.xx.c+this.yy.c+this.zz.c)
+	}
+this.ch = function  () {
+	if ( (Rb.indexOf(this.aa.N)>-1)||(Rd.indexOf(this.aa.N-10)>-1)) {
+	onpp(this.aa)
+	}else{
+	onmm(this.aa)
+	}
+	if ( (Rb.indexOf(this.bb.N)>-1)||(Rd.indexOf(this.bb.N-10)>-1)) {
+	onpp(this.bb)
+	}else{
+	onmm(this.bb)
+	}
+	if ( (Rb.indexOf(this.cc.N)>-1)||(Rd.indexOf(this.cc.N-10)>-1)) {
+	onpp(this.cc)
+	}else{
+	onmm(this.cc)
+	}
+	if ( (Rb.indexOf(this.mm.N)>-1)||(Rd.indexOf(this.mm.N-10)>-1)) {
+	onpp(this.mm)
+	}else{
+	onmm(this.mm)
+	}
+	if ( (Rb.indexOf(this.nn.N)>-1)||(Rd.indexOf(this.nn.N-10)>-1)) {
+	onpp(this.nn)
+	}else{
+	onmm(this.nn)
+	}
+	if ( (Rb.indexOf(this.xx.N)>-1)||(Rd.indexOf(this.xx.N-10)>-1)) {
+	onpp(this.xx)
+	}else{
+	onmm(this.xx)
+	}
+	if ( (Rb.indexOf(this.yy.N)>-1)||(Rd.indexOf(this.yy.N-10)>-1)) {
+	onpp(this.yy)
+	}else{
+	onmm(this.yy)
+	}
+	if ( (Rb.indexOf(this.zz.N)>-1)||(Rd.indexOf(this.zz.N-10)>-1)) {
+	onpp(this.zz)
+	}else{
+	onmm(this.zz)
+	}
+	if ( (Rb.indexOf(this.N)>-1)||(Rd.indexOf(this.N-10)>-1)) {
+	onpp(this)
+	}else{
+	onmm(this)
+	}
+
+	}
+
+
+this.on = function () {
+	this.c = 1;
+	this.obj.style.backgroundColor="red";
+	this.gSN(1);	
+	
+	
+	//actv.push(this);
+
+	}
+this.off = function () {
+	this.c = 0;
+	this.obj.style.backgroundColor="black";
+	this.gSN(-1);	
+
+
+	}
+
+this.toggle = function () {
+	if (this.c) {
+	this.off()
+	}else{
+	this.on()
+	}
+if (!(oned.indexOf(this)>-1)) {
+oned.push(this);
+}
+
+	}
+//this.a = getObj
+
+
+//this.c = 0;
+//this.get
+}
+
+
+function getObj(x,y) {
+	for (var i=0;i<arr.length;i++) {
+		if ((arr[i].x==x)&&(arr[i].y==y)) {return arr[i];break;}
+	}
+	return 0;
+}
+function ownerOf(Obj) {
+	for (var i=0;i<arr.length;i++) {
+		if (arr[i].obj==Obj) {return arr[i];break;}
+	}
+	return 0;
+}
+
+function onpp(obj) {
+if (!(toOn.indexOf(obj)>-1)) {
+toOn.push(obj)
+}
+}
+
+function onmm(obj) {
+if (toOn.indexOf(obj)>-1) {
+toOn.splice(toOn.indexOf(obj),1)
+}
+}
+
+
+function start() {
+for (var i=0;i<oned.length;i++) {
+oned[i].ch();
+}
+oned=[]
+var pOn = toOn
+for (var i=0;i<pOn.length;i++) {
+pOn[i].toggle();
+}
+//toOn=[];
+}
+addCtrl ()
+function addCtrl () {
+iiii = document.createElement('input');
+var j = document.createElement('button');
+iiii.id='i1';
+j.id='j'
+j.innerHTML='run'
+document.body.appendChild(iiii);
+document.body.appendChild(j);
+j.onclick=doo;
+function doo() {
+eval(iiii.value)
+}
+}
+</script>

@@ -1,0 +1,1 @@
+cmd /k doskey /macrofile=c:\Users\Yeamin\Documents\cmdmacros.txt

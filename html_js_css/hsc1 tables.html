@@ -1,0 +1,84 @@
+<!link rel='stylesheet' type='text/css' href='hsc1.css'>
+<style>
+//th {background-color='white'}
+</style>
+
+
+<fieldset><legend>Options</legend>
+<input type='radio' name='r'         value ='0' onclick ="i[0].value='1';i[1].value='0';trig(i[0].value+i[1].value)">With border-collapse </input><br>
+<input type='radio' name='r' checked value ='1' onclick ="i[0].value='0';i[1].value='1';trig(i[0].value+i[1].value)" >Without border-collapse </input>
+</fieldset>
+<p>a simple table</p>
+<table border ='1' width ='100' height ='50' align ='center'>
+<tr><td>1,1</td><td>1,2</td></tr>
+<tr><td>2,1</td><td>2,2</td></tr>
+</table>
+<p>with cellspacing</p>
+<table cellspacing='10' border ='1' width ='100' height ='50' align ='center'>
+<tr><td>1,1</td><td>1,2</td></tr>
+<tr><td>2,1</td><td>2,2</td></tr>
+
+</table>
+<p>with cellpadding</p>
+<table cellpadding='10' border ='1' width ='100' height ='50' align ='center'>
+<tr><td>1,1</td><td>1,2</td></tr>
+<tr><td>2,1</td><td>2,2</td></tr>
+</table>
+
+<p>with bgcolor</p>
+<table bgcolor='#0000de' border ='1' width ='100' height ='50' align ='center'>
+<tr><td>1,1</td><td>1,2</td></tr>
+<tr><td>2,1</td><td>2,2</td></tr>
+
+</table>
+
+<p>with header</p>
+<table bgcolor='silver' border ='1' width ='100' height ='50' align ='center'>
+<tr><th>col 1</td><td>col 2</th></tr>
+<tr><td>1,1</td><td>1,2</td></tr>
+<tr><td>2,1</td><td>2,2</td></tr>
+
+</table>
+
+<p>with header colspan</p>
+<table bgcolor='silver' border ='1' width ='100' height ='50' align ='center'>
+<tr><th colspan ='2'>col 1</td></tr>
+<tr><td>1,1</td><td>1,2</td></tr>
+<tr><td>2,1</td><td>2,2</td></tr>
+
+</table>
+
+<p>with rowspan 3</p>
+<table bgcolor='silver' border ='1' width ='100' height ='50' align ='center'>
+<tr><td rowspan='3'>rows</td><th colspan ='2'>col 1</td></tr>
+<tr><td>1,1</td><td>1,2</td></tr>
+<tr><td>2,1</td><td>2,2</td></tr>
+
+</table>
+
+<script>
+var i=document.getElementsByTagName('input')
+
+function trig(val) {
+
+switch  (val) {
+case '10':
+var e=document.body.appendChild(document.createElement('link'))
+e.setAttribute('rel','stylesheet')
+e.setAttribute('type','text/css')
+e.setAttribute('href','hsc1.css')
+
+break;
+case '01':
+var e=document.getElementsByTagName('link')[0]
+if (e) {
+document.body.removeChild(e)
+}
+
+
+break;
+
+}
+
+}
+</script>

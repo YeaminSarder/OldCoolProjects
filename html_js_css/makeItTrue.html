@@ -1,0 +1,290 @@
+
+<style>
+div {
+border:1px solid red;
+position:absolute;
+top:0;
+left:5px;
+}
+
+button {
+border:1px solid black;
+position:absolute;
+bottom:30;
+left:0;
+color:green;
+}
+p {
+color:black;
+
+}
+</style>
+<p></p>
+<script>
+
+var nButt=3
+var level=10
+var buttW=30
+var buttH=20
+var buttP=[30,'']
+var buttSp=5
+
+
+
+var col=[
+'red',
+'green'
+]
+
+
+var ch='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+var sym=['+','.','~']
+var sym2=['||','&&','!']
+var autoC='()+.~'
+var b=[]	//array for buttons
+var p=document.body.appendChild(document.createElement('p'))
+p.innerHTML='Genar<span style="color:green">a</span>te'
+
+
+
+
+
+
+
+
+
+for (var i=0;i<nButt;i++){
+    var obj={}
+    obj['obj']=document.body.appendChild(document.createElement('button'))
+    obj['obj'].innerHTML=ch[i]
+    obj['obj'].style.width=buttW;
+    obj['obj'].style.Height=buttH;
+    obj['obj'].style.left=buttP[0]+i*(buttW+buttSp)
+    obj['obj'].style.top=buttP[1];
+    obj['obj'].setAttribute('onclick','trig('+i+')')
+    obj['isOn']=0
+    obj['obj'].style.color=col[0]
+
+    b.push(obj)
+}
+
+var bc
+var bd
+gen()
+function gen(){
+do {
+    bc=b.map(function (v,i,a){return ch[i]})   //contains expressions
+    bd=[]
+
+    for (var i=0;i<level;i++){
+        var op1=bc[Math.floor(Math.random()*bc.length)]
+        var opr=sym[Math.floor(Math.random()*sym.length)]
+        if (opr=='~'){
+            var exp=opr+op1
+        }else{
+            var op2=bc[Math.floor(Math.random()*bc.length)]
+            var exp=op1+opr+op2
+            if (!(bd.indexOf(op2)>-1)){
+                bd.push(op2)
+            }
+       }
+       if (opr=='.'){
+            bc.push(exp)
+       }else{
+            bc.push('('+exp+')')
+       }
+
+
+       if (!(bd.indexOf(op1)>-1)){
+            bd.push(op1)
+       }
+
+    }
+    bd=notArr(bc,bd)
+
+    while (bd.length>1){
+        var op1=bd[Math.floor(Math.random()*bd.length)]
+        var opr=sym[Math.floor(Math.random()*sym.length)]
+        if (opr=='~'){
+            var exp=opr+op1
+        }else{
+            var op2=bd[Math.floor(Math.random()*bd.length)]
+            var exp=op1+opr+op2
+            if (bd.indexOf(op2)>-1){
+                bd.splice(bd.indexOf(op2),1)
+            }
+        }
+        bd.push('('+exp+')')
+        if (bd.indexOf(op1)>-1){
+            bd.splice(bd.indexOf(op1),1)
+        }
+    }
+
+    var isPossible=0;
+    for (var i=0;i<Math.pow(2,nButt);i++){
+        var bin=i.toString(2);
+        while (bin.length<nButt){
+            bin='0'+bin
+        }
+        for (var j=0;j<nButt;j++){
+            b[j].isOn=bin[j]
+        }
+        if (valueOf(bd[0])){isPossible++;}else{}
+        if (isPossible==2){break;}
+
+    }
+//alert (bin)
+
+}
+while (!(isPossible==1))
+
+for (var j=0;j<nButt;j++){
+      b[j].isOn=0
+      b[j].obj.style.color=col[0]
+}
+
+}
+//!valueOf(bd[0])
+//alert()
+//var h='hjAtiBjCk'.split('')
+
+var k=bc.map(function (v,i,a){
+    var tt=0;
+
+    return (v+'j').split('').reduce(function (t,v,i,a){
+        if (ch.indexOf(v)>-1){
+            tt++
+        }
+        return tt
+    })
+})
+
+//alert(bc[k.indexOf(Math.max.apply(null,k))])
+
+
+
+var exp=bd[0]
+exp=applyCol('red','A',exp)
+
+
+function applyCol(col,str,tstr){
+    return tstr.replace(eval('/'+str+'/g'),'<span style="color:'+col+'">'+str+'</span>')
+}
+
+p.innerHTML=exp
+trig(0)
+trig(0)
+
+
+
+
+function trig(i){
+    if (b[i].isOn){
+        b[i].isOn=!b[i].isOn
+        b[i].obj.style.color=col[0];
+        exp=applyCol(col[0],ch[i],exp)
+    }else{
+        b[i].isOn=!b[i].isOn
+        b[i].obj.style.color=col[1];
+        exp=applyCol(col[1],ch[i],exp)
+    }
+    
+    var txt=''
+    for (var ii=0;ii<bd[0].length;ii++){
+        
+        if (autoC.indexOf(bd[0].split('')[ii])>-1){
+            //alert(fbFrac(bd[0],ii)+','+ii)
+            txt +='<span style="color:'+col[eval(valueOf(fbFrac(bd[0],ii)))]+'">'+bd[0].split('')[ii]+'</span>'
+        }else{
+            if (ch.indexOf(bd[0].split('')[ii])>-1){
+                txt+='<span style="color:'+col[b[ch.indexOf(bd[0].split('')[ii])].isOn*1]+'">'+bd[0].split('')[ii]+'</span>'
+            }
+        }
+
+    }
+    p.innerHTML=txt
+//alert (p)
+if (valueOf(bd[0])){p.innerHTML='<span style="color:'+col[1]+'">'+bd[0]+'</span>';gen()}
+
+}
+
+
+
+function valueOf(str){
+    str=str.replace(/[abcdefghijklmnopqrstuvwxyz<>=":/]/g,'')
+    for (var i=0;i<nButt;i++){
+        str=str.replace(eval('/'+ch[i]+'/g'),b[i].isOn)
+    }
+    for (var i=0;i<sym.length;i++){
+        str=str.replace(eval('/['+sym[i]+']/g'),sym2[i])
+    }
+return eval(str)*1;
+}
+
+//alert(fbFrac(bd[0],5))
+function fbFrac(str,pos){
+    var p
+    var b=0;
+    p=pos
+    if (str[p]=='('){pos=p+1}
+    
+    var i=pos;
+    while (!((b==0&&str[i]==')')||i==str.length-1)){
+        if (str[i]=='('){
+            b++;
+        }
+        if (str[i]==')'){
+            b--;
+        }
+        i++
+    }
+    var k=i
+    if (str[p]==')'){pos=p-1}else{pos=p}
+    b=0
+    i=pos
+    while (!((b==0&&str[i]=='(')||i==0)){
+        if (str[i]=='('){
+            b--;
+        }
+        if (str[i]==')'){
+            b++;
+        }
+        i--
+    }
+    var j=i;
+    return str.slice(j,k+1)
+}
+
+
+
+function notArr(a1,a2) {
+    var r= a1.map(function (v,i,a){
+        if (!(a2.indexOf(v)>-1)){
+            return v;
+        }else{
+            return 'e'
+        }
+    })
+    while (r.indexOf('e')>-1) {
+        r.splice(r.indexOf('e'),1)
+    }
+    return r
+}
+
+function remAll(str,arr){
+    while (arr.indexOf(str)>-1) {
+        arr.splice(arr.indexOf(str),1)
+    }
+}
+
+
+
+//alert()
+
+
+
+
+
+//alert(substArr([8,9,6,3,8],[7,8,9]))
+
+</script>

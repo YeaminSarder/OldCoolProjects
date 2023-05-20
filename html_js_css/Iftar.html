@@ -1,0 +1,152 @@
+<style>
+table {
+border:1px solid blue;
+background-color:black;
+color:#007700    ;
+width:100%
+}
+td {
+border:1px solid #003300   ;
+//height :300%
+}
+
+
+
+
+
+</style>
+<a id ='a' href='#i10'>today</a>
+<p id='p'></p>
+<script>
+
+var sehri = [
+3.57,
+3.56,
+3.56,
+3.55,
+3.55,
+3.54,
+3.54,
+3.53,
+3.52,
+3.52,
+
+
+3.52,
+3.51,
+3.51,
+3.50,
+3.49,
+3.49,
+3.48,
+3.47,
+3.47,
+3.47,
+
+
+3.46,
+3.46,
+3.46,
+3.45,
+3.45,
+3.44,
+3.44,
+3.44,
+3.44,
+3.43
+
+]
+
+
+
+
+
+
+var iftar = [
+6.38,
+6.39,
+
+6.40,
+6.40,
+6.40,
+
+6.41,
+6.41,
+6.41,
+
+6.42,
+6.42,
+
+
+6.43,
+
+6.44,
+6.44,
+6.44,
+
+6.45,
+6.45,
+
+6.46,
+
+6.47,
+6.47,
+6.47,
+
+
+6.48,
+6.48,
+
+6.49,
+
+6.50,
+6.50,
+
+6.51,
+6.51,
+6.51,
+6.51,
+
+6.52
+
+]
+
+
+
+//alert (getData(new Date(),1))
+
+function getData(d,b) {
+
+var e = new Date(2019,4,7)
+if (b) {
+return  sehri[Math.floor((d.getTime()-e.getTime())/(1000*60*60*24))].toFixed(2)
+}else {
+return  iftar[Math.floor((d.getTime()-e.getTime())/(1000*60*60*24))].toFixed(2)
+}
+}
+
+
+
+var txt = '<table><tr><td>ftyjk</td><td>ftyjk</td></tr><tr><td>ftyjk</td><td>ftyjk</td></tr></table>'
+var p=document .getElementById('p');
+var a=document .getElementById('a');
+txt = '<table><tr><td><b>Sl</b></td><td><b>Date</b></td><td><b>Sehri</b></td><td><b>Iftar</b></td></tr>'
+var dd = new Date(2019,4,7);
+var d = new Date();
+for (var i=0;i<30;i++) {
+
+txt += '<tr><td id="i'+ (i+1) +'\">'+ (i+1) +'</td><td><b><tt>'+ dd.toString().slice(0,10) +'</tt></b></td><td>'+ sehri[i].toFixed(2) +'</td><td>'+ iftar[i].toFixed(2) +'</td></tr>'
+if (d.toString().slice(0,10)==dd.toString().slice(0,10)) {a.href='#i'+(i+1) }
+dd.setTime(dd.getTime()+24*60*60*1000);
+
+}
+txt += '</table>'
+p.innerHTML=txt
+
+
+//var d = new Date
+//alert (document .getElementById('i10'))
+
+
+
+</script>

@@ -1,0 +1,77 @@
+
+<style>
+div {
+//border:1px solid;
+box-sizing:border-box;
+transition :width 5s;
+}
+#out {
+width:20px;
+height :20px;
+position : absolute;
+background-color:black;
+top:9;
+left:9;
+transition:top 3s,left 3s;
+z-index:1;
+//transition:left  3s;
+//top:0;
+//width :100px;
+}
+
+#tg {
+width:20px;
+height :20px;
+position : absolute;
+background-color:red;
+top:150;
+left:150;
+}
+
+
+</style>
+
+
+
+<div id='out'></div>
+<div id='tg'></div>
+
+
+
+
+<script src='create.js'></script>
+<script>
+
+//createElement(document.body,'b','hjj','i1');
+createScreen(20,20)
+var out = document.getElementById('out')
+var tg = document.getElementById('tg')
+function createScreen(w,h) {
+xN = Math.floor(window.innerWidth / w) -1;
+yN = Math.floor(window.innerHeight / h) -1;
+for (j=0;j<yN;j++) {
+
+for (i=0;i<xN;i++) {
+
+
+f = createElement(document.body,'div','',i + 'b'+j)
+f.style.width = w;
+f.style.height = h;
+f.style.float = 'left';
+f.style.zIndex = -1;
+f.setAttribute('onclick','out.style.top = this.id.split("b")[1] * 20 + 9;out.style.left = this.id.split("b")[0] * 20 + 9;')
+//f.style.position = 'absolute '
+}
+
+}
+}
+
+setInterval(check,5);
+function check() {
+tg.innerHTML = out.style.top;
+}
+
+
+
+//alert(document.getElementById('3b4').style.left)
+</script>

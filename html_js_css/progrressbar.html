@@ -1,0 +1,315 @@
+
+
+<head>
+<style>
+div {
+border:1px solid red;
+position:absolute;
+height:50px;
+width:50px;
+left:50px;
+top:0px;
+z-index:0
+}
+
+
+.con {
+position:absolute;
+left:0;
+bottom:20;
+border:1px solid red;
+}
+
+.bar {
+border:none;
+position:absolute;
+left:0;
+top:0;
+
+} 
+</style>
+</head>
+
+<div id='o'></div>
+
+
+
+
+
+<script>
+initStyle()
+
+var div=document.getElementById('o')
+
+var R=new Response(div)
+
+
+R.enableDrag()
+
+
+
+
+//var s=setTimeout(function (){alert()},500)
+
+//clearTimeout(s)
+
+
+//-----------------------
+var ctrlH=50
+
+//----------------------
+
+
+
+var MW=window.innerWidth
+var MH=window.innerHeight
+
+var conControl=document.body.appendChild(document .createElement('div'))
+var conProg=document.body.appendChild(document .createElement('div'))
+
+conControl.setAttribute('class','con ctrl')
+conProg.setAttribute('class','con prog')
+
+
+
+conControl.innerHTML='jl'
+//alert(MH)
+
+conProg.style.height=MH-ctrlH+'px'
+conProg.style.top=ctrlH-2+'px'
+conProg.style.width=MW-2+'px'
+
+var color='green'
+
+addBar(0)
+function addBar(top){
+bar=conProg.appendChild(document .createElement('div'))
+bar.setAttribute('class','bar')
+bar.style.width=MW-4+'px'
+bar.style.height='5px'
+bar.style.top=top+'px'
+bar.style.backgroundColor=color
+}
+
+var t=3600*1000
+var nm=Math.floor((MH-ctrlH)/5)
+var n=0
+
+w=0
+wm=MW-2
+inc=wm*nm/t*20
+
+var interv=window.setInterval(prog,20)
+function prog(){
+
+if (w+inc<=wm){
+w+=inc
+}else{
+w=wm
+}
+bar.style.width=w+'px'
+
+if (w>=wm){if(n>=nm-1){clearInterval(interv)}else{n++;w=0;addBar(5*n)}}
+}
+
+
+
+
+
+
+
+
+function Response(elem) {
+    var t=this
+    this.elem = elem
+    
+    var vec0 = [0,0]
+    var fnull=function (){}
+      //returns the middle position of elem
+    Object.defineProperty(this,"vecMid",{get: function (){return [this.elem.style.width.slice(0,-2)*0.5,this.elem.style.height.slice(0,-2)*0.5]}})
+      //defines cursor position while dragging
+    this.vecRelCursor=[0,0]
+    Object.defineProperty(this,"vecDrag",{get: function (){return eval(this.vecDragSet)}})
+    this.vecDragSet="this.vecRelCursor"
+   //this.vecDrag=this.vecRelCursor;
+
+    
+    
+ 
+
+      //sets elem position as the pointer position
+    this.moveWithPointer=function (e) {
+        x=e.x;
+        y=e.y;
+        this.elem.style.left=e.x-this.vecDrag[0]+'px';
+        this.elem.style.top=e.y-this.vecDrag[1]+'px';
+    }
+
+    this.onDrag=this.moveWithPointer;
+    this.onDragStart=fnull;
+    this.onDragStop=fnull;
+    this.onNClick=[];
+    //this.onDoubleClick=function (){alert()}
+
+
+//alert(this.onDrag)
+    this.clickdure=450	//clicks are delayed that many time for triggering bigger trigers
+    this.nClick=0	//number of repeated clicks
+    var T=0
+    var isMousedown=0;
+    this.elem.addEventListener('mousedown',function (){
+        if (t.onNClick.length==0){t.clickdure=0}
+        isMousedown=1;
+        setTimeout(function (){isMousedown=0;},t.clickdure)
+    })
+    this.elem.addEventListener('mouseup',function (){
+        if (isMousedown){
+            t.nClick+=1;
+            //t.elem.innerHTML=t.nClick
+            if (T){
+                clearTimeout(T)
+            }
+            T=setTimeout(function (){
+                
+                if (t.nClick){
+                    if(t.onNClick[t.nClick]){
+                        t.onNClick[t.nClick]()
+                    }
+                }
+                t.nClick=0;
+                //t.elem.innerHTML=t.nClick
+            },t.clickdure)
+        }
+        isMousedown=0;
+    }) 
+
+
+    
+      
+    this.enableDrag = function (){
+        
+        var od=(t.onDrag).bind(t)
+        this.elem.addEventListener('mousedown',function (e){
+            t.vecRelCursor=[e.x-t.elem.style.left.slice(0,-2)*1,e.y-t.elem.style.top.slice(0,-2)*1]
+            t.onDragStart(e)
+            
+            window.addEventListener('mousemove',od)
+            
+        })
+        this.elem.addEventListener('mouseup',function (e){
+            t.onDragStop(e)
+            window.removeEventListener('mousemove',od)
+        })
+    }
+}
+
+
+
+
+function Dynamic(obj){
+             //velocity [x,y] vector
+    this.vel=[0,0]
+    this.MS=250
+    Object.defineProperty(this,'ms',{
+        set:function (v){
+            this.MS=v
+            clearInterval(this.interv)
+            this.interv=setInterval(this.engine,this.MS)
+        }
+    })
+
+    this.x=obj.style.width.slice(0,-2)*1;
+    this.y=obj.style.top.slice(0,-2)*1;
+    if (!this.x){this.x=0}
+    if (!this.y){this.y=0}
+    var t=this
+
+    this.uFunc=function (){}		//user defined function;runs in engine;
+
+
+    this.time=0;
+    this.engine=function (){
+        //alert(t.x)
+        t.x+=t.vel[0];
+        obj.style.left=t.x+'px'
+        t.y+=t.vel[1];
+        obj.style.top=t.y+'px'
+        t.uFunc()
+        t.time++
+    }
+    this.interv=setInterval(this.engine,this.MS)
+    
+
+
+}
+
+
+
+
+
+
+
+function Dice(){
+    this.faces=[1,2,3,4,5,6]	
+               //----returns one of these	
+    Object.defineProperty(this,'autoFace',{
+        set:function (arr){	
+               //----of the format [start,end,step],sets face
+            if (!arr[2]){arr[2]=1}
+            this.faces=[]
+            for (var i=arr[0];i<(arr[1]+1);i+=arr[2]){
+                 this.faces.push(i);
+            }
+        }
+
+
+    })
+
+    Object.defineProperty(this,'roll',{
+                    //----get random output from the arr faces
+        get:function (){
+            return this.faces[Math.floor(Math.random()*this.faces.length)]        
+        }
+    })
+
+
+}
+
+
+
+
+
+function getStyle(){
+    //get style.innerHTML, remove all newlines, split by { and then }
+    var style=document.getElementsByTagName("style")[0].innerHTML.replace(/\n/g,"").split("}").map(function(v,i,a){return v.split("{")})
+    style.pop()
+    //iterate though style to form json string outp
+    var outp='{'
+    style.forEach(function (v,i,a){
+        outp+='"'+v[0]+'"'+':'+('{"'+(style[0][1].replace(/:/g,'":"')).replace(/;/g,'","')+'"}')
+        if (i!=a.length-1){
+            outp+=','
+        }else{
+            outp+='}'
+        }
+    })
+    //return the style object with style properties subObjects
+    return JSON.parse(outp)
+}
+
+
+function initStyle(){
+    var style=getStyle();
+    for (t in style) {
+        var e=document.getElementsByTagName(t.trim())
+        for (n in style[t]){
+            var l=e.length
+            for (var i=0;i<l;i++){
+                e[i]["style"][n.trim()]=style[t][n]
+            }
+        }
+    }
+}
+
+
+</script>

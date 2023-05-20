@@ -1,0 +1,193 @@
+<p id='p1'></p>
+<input id='i1' type='text' autofocus='true' multiple='true'></input>
+<button id='b1' onclick='B1()'>And</button>
+<button id='b2' onclick='B2()'>Then</button>
+<button id='b3' onclick='B3()'>All</button>
+
+<script>
+var i1=document.getElementById('i1')
+var b1=document.getElementById('b1')
+var b3=document.getElementById('b3')
+var p1=document.getElementById('p1')
+window.addEventListener('keydown',function (e) {if(e.key=='Enter'){B2()}})
+
+
+var arrSyl=[
+'AA1A','EA1E','AI1I','EI1O','AA1I','EA1O',
+'EA2E','AE2E','EI2O','AO2O','EA2O','AE2O',
+'AI3I','IA3I','EI3O','OA3O','EA3O','AA3I',
+'AE4E','IA4I','EI4O','AE4O','EA4O','AA4I'
+]
+
+var oForm= {
+A:['',' is '],
+E:['',' is not '],
+I:['some ',' are '],
+O:['some ',' are not ']
+
+}
+
+var arrMods=['am','is','are']
+
+var arrSylm=arrSyl.map(function (v,i,a){return v.slice(0,-1)})
+
+//alert(arrSylm)
+
+function B1(){
+    p1.innerHTML+=i1.value+'</br>'
+    i1.value=''
+    i1.focus()
+    //for (m in i1) {p1.innerHTML+=m+'<br>'}
+}
+function B2(){
+    //var str=p1.innerHTML.split('<br>')
+    var str=i1.value.split(';')
+    var str2=[]		//contains statements
+    str.forEach(function (v,i,a) {if (v){str2.push(v)}} )
+    str=str2
+    str2=[]
+    var bool=0
+    for (var i=0;i<str.length;i++){
+        if (str[i]){
+            str[i]=str[i].replace(/ a /g,' ')
+//alert(str[i])
+
+            for (var m=0;m<arrMods.length;m++){
+                if(str[i].indexOf(' '+arrMods[m]+' ')>-1){
+                    str[i]=str[i].split(' '+arrMods[m]+' ')
+                    bool=1
+                    var mod=arrMods[m];
+                    break;
+                }
+            }
+
+
+            if (bool){
+                var type
+                var a=0,s=0,n=0;
+                if(str[i][0].indexOf('some ')>-1){
+                    var s=1
+                    var A=str[i][0].slice(str[i][0].indexOf('some ')+5)
+                }else{
+                    var A=str[i][0]
+                }
+                if(str[i][0].indexOf('no ')>-1){
+                    var n=1
+                var A=str[i][0].slice(str[i][0].indexOf('no ')+3)
+                }
+
+                if(str[i][1].indexOf('not ')>-1){
+                    var n=1
+                    var B=str[i][1].slice(str[i][1].indexOf('not ')+4)
+                }else{
+                    var B=str[i][1]
+                }
+                if ((!s)&&(!n)){type='A'}
+                if ((!s)&&(n)){type='E'}
+                if ((s)&&(!n)){type='I'}
+                if ((s)&&(n)){type='O'}
+                str2.push([type,A,B])
+            }else{
+                alert("No 'is' or 'are'")
+            }
+        }
+    }
+    str=str2
+    var F;
+    var P;
+    var S;
+    if (str.length==2){
+        if (str[0][1]==str[1][2]){F=1;P=str[0][2];S=str[1][1]}
+        if (str[0][2]==str[1][2]){F=2;P=str[0][1];S=str[1][1]}
+        if (str[0][1]==str[1][1]){F=3;P=str[0][2];S=str[1][2]}
+        if (str[0][2]==str[1][1]){F=4;P=str[0][1];S=str[1][2]}
+//alert (F)
+        if (F){
+            var Sstr=str[0][0]+str[1][0]+F
+            if (arrSylm.indexOf(Sstr)>-1){
+                var osyl=arrSyl[arrSylm.indexOf(Sstr)]
+                var oType=osyl[3]
+                alert(oForm[oType][0]+S+oForm[oType][1]+P+'('+osyl+')')
+            }else{
+                alert('not deducable')
+            }
+        }
+    
+    }
+    //alert(str)
+}    
+    
+    //str.pop()
+    //alert (str)
+    //i1.value=''
+    //i1.focus()
+    //for (m in i1) {p1.innerHTML+=m+'</br>'}
+function B3(){
+    var str=i1.value.split(';')
+    var S=str[0]
+    var M=str[1]
+    var P=str[2]
+    var arrOut=[]
+    for (var i=0;i<arrSyl.length;i++) {
+        var arrS=[]
+        var f = arrSyl[i].split('')
+        switch (f[2]){
+            case '1':
+            arrS[0]=getStat(M,P,f[0])
+            arrS[1]=getStat(S,M,f[1])
+            arrS[2]=getStat(S,P,f[3])
+            break;
+            case '2':
+            arrS[0]=getStat(P,M,f[0])
+            arrS[1]=getStat(S,M,f[1])
+            arrS[2]=getStat(S,P,f[3])
+            break;
+            case '3':
+            arrS[0]=getStat(M,P,f[0])
+            arrS[1]=getStat(M,S,f[1])
+            arrS[2]=getStat(S,P,f[3])
+            break;
+            case '4':
+            arrS[0]=getStat(P,M,f[0])
+            arrS[1]=getStat(M,S,f[1])
+            arrS[2]=getStat(S,P,f[3])
+            break;
+
+        }
+        arrOut.push(arrS)
+    }
+    var txt=''
+    for (var i=0;i<arrOut.length;i++){
+        if (i%6==0){txt+='------------------------fig-'+(i/6+1)+'<br>'}
+        for (var j=0;j<3;j++){
+            txt+=arrOut[i][j]+'<br>'
+        }
+        txt+='<br>'
+        
+    }
+    p1.innerHTML=txt
+
+    
+}
+//alert (getStat('A','B','O'))
+function getStat(A,B,l){
+//var E
+//var ll='E'
+    switch(l){
+         case 'A':
+         return A+' is '+B
+         break;
+         case 'E':
+         return 'No '+A+' is '+B
+         break;
+         case 'I':
+         return 'Some ' +A+' is '+B
+         case 'O':
+         return 'Some ' +A+' is not '+B
+         
+    }
+}
+
+
+
+</script>

@@ -1,0 +1,61 @@
+<style>
+div {
+position :relative;
+width:256px;
+height:256px;
+//border:1px solid black 
+}
+svg {
+position :absolute;
+top:0;
+left:0;
+//transform:rotate(90deg)
+}
+</style>
+
+
+<button onclick='setInterval(v,1);'>cc</button>
+<div id='i1'>
+<svg id = '' height ='256' width='256' style=' transform:rotate(0deg)'>
+<path d='M0 0 q -64 64 0 128 q 64 -64 0 -128 q 64 -128 0 -64' stroke='red' stroke-width='7'/>
+
+
+
+
+<path d='M400 200 s -32 0 -32 32 89 87'  stroke='blue' />
+<rect x=90 y=80 height=89 width=78 />
+<circle style="fill:#000000;" cx="200.6" cy="287.2" r="50"/>
+
+
+
+</svg>
+<svg id = '' height ='256' width='256' style=' transform:rotate(120deg)'>
+<path d='M128 128 q -64 64 0 128 q 64 -64 0 -128' fill='green'/>
+
+</svg>
+<svg id = '' height ='256' width='256' style=' transform:rotate(0deg)'>
+<path d='M128 128 q -64 64 0 128 q 64 -64 0 -128' fill='blue'/>
+
+
+
+
+
+
+<path d='M120 80 a 100,100 0,100 50,50  '  stroke='red' style="z-index:4"/>
+
+<circle cx='120' cy='80' r='3' fill='blue'/>
+<circle cx='150' cy='110' r='3' fill='red'/>
+<circle cx='150' cy='100' r='3' fill='red'/>
+<circle cx='150' cy='110' r='3' fill='red'/>
+
+</svg>
+</div>
+<script>
+var vv=0
+//setInterval(v,1);
+
+function v() {
+vv+=1
+document.getElementById('i1').style.transform='rotateX('+vv+'deg)'
+}
+</script>

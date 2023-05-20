@@ -1,0 +1,11 @@
+<p id="1"> not yet  </p>
+<button type="button" onclick='border("1px solid blue")'>do</button>
+<button type="button" onclick='document.getElementById("1").style.border= "1px solid blue "'>do</button>
+<script>
+
+function border(x) {
+var obj=document.getElementsByTagName("button")[1,0];
+obj.innerHTML= x ;
+obj.style.border= x ;
+}
+</script>

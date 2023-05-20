@@ -1,0 +1,56 @@
+<style>
+#text{
+
+}
+
+input[type="number"] {
+width: 2em;
+}
+body {
+text-align:center
+}
+p{
+font-size : 300%
+}
+
+
+
+</style>
+
+
+
+
+<input type='text' onchange='' id='text'></input>
+<input type='number' id='hor'></input>
+<input type='number' id='ver'></input>
+<input type='number' id='blur'></input>
+<input text='text' id='color'></input>
+<input text='text' id='color2'></input>
+
+<input text='text' id='color3'></input>
+<button onclick='w()'>Apply</button>
+<p id='output'></p>
+
+
+<script>
+
+
+
+var inp = document.getElementsByTagName('input');
+outp = document.getElementById('output');
+
+
+function w() {
+//alert(inp[0])
+outp.innerHTML = inp[0].value
+
+
+outp.style.textShadow = inp[1].value +'px '+ inp[2].value +'px '+ inp[3].value +'px '+ inp[4].value
+outp.style.color = inp[5].value
+document.body.style.backgroundColor = inp[6].value
+
+}
+
+
+
+</script>

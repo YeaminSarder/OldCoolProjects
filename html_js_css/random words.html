@@ -1,0 +1,141 @@
+<b></b>
+
+
+<script>
+var p=document.createElement('div')
+p.innerHTML='fhj'
+//alert (p)
+document.body.appendChild(p);
+
+var ch = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+var c = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z']
+var v=['a','e','i','o','u']
+//var c='c'
+//var rr=strip("gensyl(1)+' '+gensyl(1)+' '+gensyl(1)+strip('\"a\"',10)+'</br>'",10)
+
+p.innerHTML=strip("gensyl(1)+' '+gensyl(1)+' '+gensyl(1)+strip('\"a\"',10)+'</br>'",10)
+
+
+//alert(rnd(2,4))
+
+//alert (gensyl(2))
+
+function gensyl(N) {
+var txt=''
+
+for (var i=0;i<N;i++){
+var n=rnd(2,4)
+//n=2;
+//var txt;
+switch (n) {
+
+case 2:
+txt+= (Math.random()<.5) ? rndE(c)+rndE(v):rndE(v)+rndE(c)
+break;
+
+case 3:
+txt += rndE(c)+rndE(v)+rndE(c);
+break;
+
+case 4:
+txt+=rndE(c)+rndE(v)+rndE(v)+rndE(c)
+}
+}
+return txt
+//rndE(v)
+}
+
+
+function rndE(arr) {
+return arr[Math.floor(Math.random()*arr.length)]
+
+}
+
+function rnd(a,b) {
+    return  a +Math.floor((b - a + 1) * Math.random());
+}
+
+function strip(str,n) {
+var txt=''
+for (var i=0;i<n;i++) {
+txt +=eval(str)
+}
+
+
+return txt;
+}
+
+
+
+
+(function addCtrl () {
+	var code=''
+	iiij = document.createElement('p');
+	iiii = document.createElement('input');
+	var j = document.createElement('button');
+	var k = document.createElement('button');
+	var l = document.createElement('button');
+	document.body.appendChild(iiij)
+	document.body.appendChild(iiii);
+	document.body.appendChild(j);
+	document.body.appendChild(k);
+	document.body.appendChild(l);
+	iiij.innerHTML=''
+	j.onclick=doo;
+	j.innerHTML='Run'
+	k.onclick=entr;
+	k.innerHTML='Enter'
+	l.onclick=runn;	
+	l.innerHTML='Script'
+	function entr() {
+		//eval(iiii.value)
+		iiij.innerHTML=iiij.innerHTML+'</br>'+iiii.value
+		code +=code+iiii.value
+		iiii.value='';
+		iiii.focus();
+	}
+	
+	function runn() {
+		//entr();
+		eval(code)
+		//iiij.innerHTML=iiij.innerHTML+'</br>'+iiii.value
+	}
+		
+	function doo() {
+		eval(iiii.value)
+		//iiij.innerHTML=iiij.innerHTML+'</br>'+iiii.value
+	}
+	
+	function clr() {
+		iiij.innerHTML='';code='';
+		//iiii.value=''
+	}
+
+})()
+//iiii.value='p.innerHTML="   "'
+r(iiii)
+
+function r(obj) {
+
+	var m;
+	var txt = '';
+
+	for (m in obj ) {
+
+		txt += m + ':'+ obj[m]+ '</br>'; 
+	}
+
+	var e = document.body.appendChild(document.createElement('div'));
+	var x = document.body.appendChild(document.createElement('button'));
+	x.setAttribute('style','position:absolute;right:18;top:10;color:white;background-color:red')
+	x.innerHTML='X'
+	x.setAttribute('onclick','document.body.removeChild(document.getElementById("lrtBox"));document.body.removeChild(this) ')
+	e.id='lrtBox'
+	e.innerHTML=txt
+	e.setAttribute('style','position:absolute;left:10;top:10;background-color:#dddddd; height:300px;overflow:auto;border:1px solid red')
+
+
+
+
+}
+</script>

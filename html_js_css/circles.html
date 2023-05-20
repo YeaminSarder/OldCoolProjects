@@ -1,0 +1,46 @@
+<body style='padding:auto;'>
+<p id='des'></p>
+<p id='err'></p>
+<button id='b' style='background-color:#eee' onclick='act()' >run</button>
+<div id='tg'>gg</div>
+</body>
+<script>
+
+var k=1
+
+function act() {
+	try {
+//----------------------------------------------------------------------------
+//setInterval(le,5);
+
+function le() {
+k++
+CSScircle('tg',k);
+}
+CSScircle('tg',50)
+
+function CSScircle(id,r) {
+var obj=document.getElementById(id).style;
+obj.width = 2*r + 'px';
+obj.height = 2*r + 'px';
+obj.border = '3px solid #eee'
+obj.borderRadius = 2*r + 'px';
+obj.textAlign = 'center';
+obj.backgroundColor = 'black';
+obj.verticalAlign = 'middle';
+obj.margin = 'auto';
+//obj.textShadow = '3px 2px red';
+}
+
+//----------------------------------------------------------------------------
+	}
+
+
+	catch(err) {
+		var x = err.message;
+		document.getElementById("err").innerHTML = err ;
+	}
+}
+</script>
+
+<script src='mf.js'></script>

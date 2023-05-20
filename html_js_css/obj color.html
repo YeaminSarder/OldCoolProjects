@@ -1,0 +1,95 @@
+<div>
+
+</div>
+<script>
+var c = new Color(255/3*2,255/3,0,1,1,1,100)
+c.work='{document.body.style.backgroundColor=c.color;}';
+//c.rMwork='if(obj.ri==3){obj.ri=0;};obj.ri=obj.ri+1;obj.r=0;if(obj.bi==3){obj.bi=0;};obj.bi=obj.bi+1;if(obj.gi==3){obj.gi=0;};obj.gi=obj.gi+1'
+c.rMwork='obj.ri=-6;'
+c.rmwork='obj.ri=1;'
+c.gMwork='obj.gi=-6;'
+c.gmwork='obj.gi=1;'
+c.bMwork='obj.bi=-6;'
+c.bmwork='obj.bi=1;'
+//c.gMwork='obj.g=225'
+//c.rMwork='obj.r=225;'
+//c.gMwork=''
+c.start()
+
+
+function Color(r,g,b,ri,gi,bi,acuracy){
+var obj=this;
+//this.id=[];		//default value
+this.r=0;
+this.g=0;
+this.b=0;
+this.ri=0;
+this.gi=0;
+this.bi=0;
+this.rM=255;
+this.rm=0;
+this.gM=255;
+this.gm=0;
+this.bM=255;
+this.bm=0;
+this.acuracy=100;
+
+
+this.work='';
+this.rMwork='obj.ri=-obj.ri'
+this.rmwork='obj.ri=-obj.ri'
+this.gMwork='obj.gi=-obj.gi'
+this.gmwork='obj.gi=-obj.gi'
+this.bMwork='obj.bi=-obj.bi'
+this.bmwork='obj.bi=-obj.bi'
+			//secured input
+//if(id){this.id =0}
+if(r){this.r=r}
+if(g){this.g =g}
+if(b){this.b =b}
+if(ri){this.ri =ri}
+if(gi){this.gi =gi}
+if(bi){this.bi =bi}
+if(acuracy){this.acuracy =acuracy}
+//if(work){this.work =work}
+
+//this.elem=document.getElementById(this.id);
+//if (elem){this.elem=elem};
+
+
+this.start = function () {setInterval(this.interval,this.acuracy)};
+
+
+
+this.interval = function () {
+
+
+
+if (obj.r+obj.ri>obj.rM&&obj.ri>0){eval(obj.rMwork);}
+if (obj.r+obj.ri<obj.rm&&obj.ri<0){eval(obj.rmwork);}
+if (obj.g+obj.gi>obj.gM&&obj.gi>0){eval(obj.gMwork);}
+if (obj.g+obj.gi<obj.gm&&obj.gi<0){eval(obj.gmwork);}
+if (obj.b+obj.bi>obj.bM&&obj.bi>0){eval(obj.bMwork);}
+if (obj.b+obj.bi<obj.bm&&obj.bi<0){eval(obj.bmwork);}
+
+
+obj.r+=obj.ri;
+obj.g+=obj.gi;
+obj.b+=obj.bi;
+
+
+
+
+obj.color='rgb('+obj.r+','+obj.g+','+obj.b+')'
+eval(obj.work);
+
+
+//elem.style.Backgroundcolor='rgb('
+
+
+};
+
+}
+
+
+</script>

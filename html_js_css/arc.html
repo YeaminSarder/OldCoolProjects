@@ -1,0 +1,123 @@
+<p id='des'></p>
+<p id='err'></p>
+<div id='div1' style='position:absolute;top:window.y;left:-55;border:1px solid black;'>
+:[]\
+</div>
+<button onclick='a=a+.01;'>a</button>
+<button onclick='if (a>0){a=a-.03;}'>r</button>
+<button id='b' style='background-color:#eee' onclick='this.style.color = "green";act(); ' >RUN</button>
+<button onclick='turn();dir(obj,s,m);'>turn</button>
+
+<script src='ani.js'></script>
+<script>
+var top =0;
+var i=0;
+var m=0;
+var s=0;
+var v=0;
+
+function act() {
+	try {
+//----------------------------------------------------------------------------
+//alert (6%5);
+var u = 0;
+var t = 1;
+a = 0;
+var obj = document.getElementById('div1');
+setInterval(setLeft,1);
+
+function setLeft() {
+t++;
+v = v + a ;
+if (v<=0) {v = 0;a=0;}
+s = s + v;
+//if (t%50===0){
+//turn()
+//}
+dir(obj,s,m);
+
+//obj.style.left = s + 'px' ;
+//obj.style.top = 2*s + 'px' ;
+}
+
+
+function turn() {
+
+i++;
+
+//alert (i);
+if(i==16) {i=0};
+switch  (i) {
+case 13:
+m=-2
+break;
+case 14:
+m=-1
+break;
+case 15:
+m=-1/2
+break;
+case 16:
+m=0;
+break;
+case 5:
+a=-a;
+m=2;
+break;
+case 6:
+a=-a;
+m=1;
+break;
+case 7:
+a=-a;
+m=1/2
+break;
+case 8:
+a=-a;
+m=0;
+break;
+case 9:
+m=1/2
+break;
+case 2:
+m=1
+break;
+case 3:
+m=2
+break;
+case 4:
+m=undefined
+break;
+case 9:
+a=-a;
+m=-1/2;
+break;
+case 10:
+a=-a;
+m=-1;
+break;
+case 11:
+a=-a;
+m=-2;
+break;
+case 12:
+a=-a;
+m=undefined;
+
+}
+
+}
+
+
+
+//----------------------------------------------------------------------------
+	}
+
+
+	catch(err) {
+		var x = err.message;
+		document.getElementById("err").innerHTML = err ;
+	}
+}
+</script>
+

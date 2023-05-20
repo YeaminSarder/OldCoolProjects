@@ -1,0 +1,60 @@
+<style>
+#box {
+position :absolute;
+bottom :0;
+left :0;
+width :100%;
+height :25%;
+//background-color:black;
+border : .1px solid blue;
+}
+#box [id] {
+position :relative;
+top:5%;
+left :5%;
+height:90%;
+width:30%
+}
+div[id^='p'] {
+position :absolute;
+top:0;
+left:0;
+border:.1px solid red;
+height :75%;
+width:100%;
+opacity : .5;
+//background-color: red
+}
+
+
+
+
+
+</style>
+
+<div id='p1'> </div>
+<div id='p2'> </div>
+<div id='box'>
+<input id='c1'></input>
+<button id='mix' onclick="trig()">Mix</button>
+<input id='c2'></input>
+</div>
+
+<script>
+var c1 =document.getElementById("c1")
+var c2 =document.getElementById("c2")
+var mix =document.getElementById("mix")
+var p1 =document.getElementById("p1")
+var p2=document.getElementById("p2")
+
+
+function trig() {
+p1.style.backgroundColor = c1.value;
+p2.style.backgroundColor = c2.value;
+c1.style.backgroundColor = c1.value;
+c2.style.backgroundColor = c2.value;
+
+}
+
+
+</script>

@@ -1,0 +1,58 @@
+<body onclick='this.style.backgroundColor=color'>
+<p></p>gg
+</body>
+<button onclick='grad()'>grad</button>
+<script>
+var t=0
+//alert("#"+("000000"+t.toString(16)).substr(-6))
+//document.body.style.backgroundColor="#"+Math.floor(Math.random()*(256*256*256)).toString(16)
+setInterval(grad,100)
+var a=[0,0,255];
+
+aa=[0,0,1]
+aa=("000").split('')
+
+x=0
+tt=1
+//alert(6%200)
+function grad() {
+	tt++
+	if (tt%256==0){
+//alert(t)
+		x++;
+		if (x==8){x=0};
+		
+	}
+aa=( ("000"+x.toString(2)).substr(-3) ).split('')
+
+	for (var i=0;i<3;i++){
+		switch (aa[i]) {
+			case "1":
+			if (a[i]<255){
+				a[i]++
+			}
+			break;
+
+			case "0":
+			if (a[i]>0){
+				a[i]--
+			}
+			break;
+
+			case "-1":
+			break;
+		}
+
+	}
+	
+
+t=256*256*a[0]+256*a[1]+a[2]
+//color="#"+("000000"+t.toString(16)).substr(-6)
+document.body.style.backgroundColor="#"+("000000"+t.toString(16)).substr(-6)
+//document.body.innerHTML=a+"------------------"+tt
+}
+
+
+
+
+</script>

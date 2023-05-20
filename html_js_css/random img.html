@@ -1,0 +1,65 @@
+<style>
+
+center{
+position:absolute;
+}
+
+
+body {
+background-color:black;
+}
+
+
+div {
+//border:1px solid black;
+position:absolute;
+
+}
+button {
+position:fixed;
+bottom:0
+}
+</style>
+<center id='c'></center>
+<button  onclick='document.body.style.backgroundColor="black"'>black</button>
+<button style='left:75px;' onclick='document.body.style.backgroundColor="white"'>white</button>
+<p>
+
+</p>
+<script>
+var cellWidth=15;
+var xlen=13;
+var ylen=8;
+var c=document.getElementById('c');
+//alert(c)
+//colors----------------
+var col=['#000000','#ffffff']
+var colLen=col.length
+//alert(colLen)
+  //----------------------
+var i,j;
+for (i=0;i<xlen;i++){
+	for (j=0;j<ylen;j++){
+		var elem=c.appendChild(document.createElement('div'))
+elem.style.width=cellWidth;
+elem.style.height=cellWidth;
+elem.style.top=10+j*cellWidth+'px';
+elem.style.left=10+i*cellWidth+'px';
+
+elem.style.backgroundColor=col[Math.floor(Math.random()*colLen)]
+
+	}
+
+}
+
+
+//new Cell(5,7);
+
+
+
+
+
+
+function Cell(y,x) {
+}
+</script>

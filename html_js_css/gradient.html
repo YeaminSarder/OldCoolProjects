@@ -1,0 +1,54 @@
+
+<style>
+body {
+//background-image: repeating-radial-gradient( circle ,red , green 5px ,blue 10px);
+//transition : background-image 2s;
+}
+body:hover {
+background-image: repeating-radial-gradient( circle ,blue ,red 5px ,green 10px);
+//transition : background-image 2s;
+}
+
+
+</style>
+<p>''</p>
+
+<script>
+t1();
+
+//alert()
+function t2() {
+document.body.style.backgroundImage = "repeating-radial-gradient( circle ,blue ,red 3px ,green 6px)"
+setTimeout(t3,50);
+//alert();
+}
+
+function t1() {
+document.body.style.backgroundImage = "repeating-radial-gradient( circle ,red ,green 3px ,blue 6px)"
+setTimeout(t2,50);
+}
+
+function t3() {
+document.body.style.backgroundImage = "repeating-radial-gradient( circle ,green ,blue 3px ,red 6px)"
+setTimeout(t1,50);
+}
+
+
+
+function s2() {
+document.body.style.backgroundImage = "repeating-linear-gradient( to right ,blue ,red 3px ,green 6px)"
+setTimeout(s3,50);
+//alert();
+}
+
+function s1() {
+document.body.style.backgroundImage = "repeating-linear-gradient( to right ,red ,green 3px ,blue 6px)"
+setTimeout(s2,50);
+}
+
+function s3() {
+document.body.style.backgroundImage = "repeating-linear-gradient( to right ,green ,blue 3px ,red 6px)"
+setTimeout(s1,50);
+}
+</script>
+

@@ -1,0 +1,89 @@
+<style>
+img {
+position:absolute;
+top:0;
+bottom:0;
+opacity:.5
+}
+</style>
+
+
+
+<table>
+<tr>
+<td colspan="3">
+<br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<button type='button' onclick='changePic("C:/Users/Yeamin/Pictures/s1.JPG")'  > s1</button>
+</td>
+<td>
+</td>
+<td align="right">
+<button type='button' onclick='changePic("C:/Users/Yeamin/Pictures/s2.JPG")'  > y1</button>
+</td>
+</table>
+
+
+
+
+<script>
+
+arrpics=[
+//"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/12022609_1192655444084255_777949132323561782_o.jpg",
+//"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/13096139_1747436825475313_345392347790495768_n.jpg"
+]
+
+
+
+
+
+
+
+
+
+//arrpics=[]
+var opa=1/arrpics.length
+for (var i=0;i<arrpics.length;i++){
+var e=document.body.appendChild(document.createElement('img'))
+e.setAttribute('src',arrpics[i]);
+e.style.opacity=opa
+alert(e.width)
+if (!(i==0)){
+e.width=k[0];
+e.height=k[1];
+}else{
+var k=[e.width,e.height];
+}
+//alert(e)
+//arrpics.push(arrpics2[i].replace(/[/]/g,'/'))
+}
+
+
+
+
+/*/alert(arrpics)
+var i=0
+var j=arrpics.length-1
+
+//setInterval(cp,10)
+
+function changePic(x) {
+document.getElementsByTagName('img')[0].src=x;
+//alert(x)
+}
+
+function cp (){
+document.getElementsByTagName('img')[0].src=arrpics[i];
+i++
+if (i>j){
+i=0;
+}
+}
+*/
+
+
+</script>

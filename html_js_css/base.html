@@ -1,0 +1,63 @@
+
+<style>
+div {
+border:1px solid red;
+position:absolute;
+top:0;
+left:5px;
+}
+
+</style>
+<p></p>
+<script>
+
+var defx=0
+var defy=0
+var defw=50
+var defh=50
+var defm=5
+var deftype='obj'
+
+new Cons(5,5,7,8)
+
+this.obj=document.body.appendChild(document.createElement('div'))
+
+
+this.upVars=function (){
+this.obj.style.width=w+'px';
+this.obj.style.height=h+'px'
+this.obj.style.left=this.x+'px'
+this.obj.style.top=this.y+'px'
+}
+this.upVars();
+
+
+
+this.toSide=function (obj,S) {
+//alert(obj.x)
+if (S%3==1){
+t.x=obj.x-t.w;
+}else
+if (S%3==2){
+t.x=obj.x
+}else
+if (S%3==0){
+t.x=obj.x+obj.w
+}
+
+if (Math.floor((S-1)/3)==0){
+t.y=obj.y-t.h;
+}else
+if (Math.floor((S-1)/3)==1){
+t.y=obj.y
+}else
+if (Math.floor((S-1)/3)==2){
+t.y=obj.y+obj.h
+}
+//t.y=obj.y
+t.upVars()
+}
+
+
+}
+</script>

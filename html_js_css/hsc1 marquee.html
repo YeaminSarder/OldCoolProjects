@@ -1,0 +1,105 @@
+<nav>
+<a href=''>Visit documents</a> |
+<a href='snake.html'>Play the snake game</a> |				<!it actually goes to C:\Users\khan\Documents\snake.html>
+<a href='hsc1 lists.html' target='_top'>lists</a> |
+<a href='hsc1 images.html'>images</a> |
+<a href='hsc1 tables.html'>tables</a>|
+<a href='hsc1 forms.html'>forms</a> |
+<a href='hsc1 marquee.html'>marquee</a> |
+<a href='hsc1 special character.html' target='_top'>special character</a> |
+<a href='hsc1 audio video.html' >audio video</a>
+</nav>
+<main>
+direction:
+<select id='s1'>
+ <option>left</option>
+ <option>right</option>
+ <option>up</option>
+<option>down</option>
+</select>
+
+<br>bgcolor: <input type='text'><button onclick="m.setAttribute('bgcolor',ip[0].value)">ok</button></input>
+
+
+<br>height: <input type='text'><button onclick="m.setAttribute('height',ip[1].value)">ok</button></input>
+
+<br>width: <input type='text'><button onclick="m.setAttribute('width',ip[2].value)">ok</button></input>
+<br>align:
+<select id='align'>
+ <option>top</option>
+ <option>middle</option>
+ <option>bottom</option>
+</select>
+
+
+<br>loop: <input type='text'><button onclick="m.setAttribute('loop',ip[3].value)">ok</button></input>
+
+<br>scrolldelay: <input type='text'><button onclick="m.setAttribute('scrolldelay',ip[4].value)">ok</button></input>
+<br>scrollamount: <input type='text'><button onclick="m.setAttribute('scrollamount',ip[5].value)">ok</button></input>
+
+<br>onmouseover:
+<select id='omo'>
+ <option></option>
+ <option>this.stop()</option>
+ <option>this.start()</option>
+</select>
+
+
+<br>onclick:
+<select id='oc'>
+ <option></option>
+ <option>this.stop()</option>
+ <option>this.start()</option>
+</select>
+
+
+
+
+
+
+
+
+<p id='p'></p>
+<marquee id='m'>marquee</marquee>
+
+
+
+</main>
+
+<script>
+var ip=document.getElementsByTagName('input')
+var p=document.getElementById('p')
+
+m=document.getElementById('m')
+//alert(m)
+//dir='left'
+
+
+activeDropdown('s1','m.innerHTML=this.innerHTML;m.setAttribute("direction",this.innerHTML)')
+activeDropdown('align','m.setAttribute("align",this.innerHTML)')
+activeDropdown('omo','m.setAttribute("onmouseover",this.innerHTML)')
+activeDropdown('oc','m.setAttribute("onclick",this.innerHTML)')
+function a(t) {
+m.innerHTML=this.innerHTML;m.setAttribute("direction",this.innerHTML)
+}
+
+//m.setAttribute('direction',dir)
+
+
+
+
+
+
+
+
+
+
+function activeDropdown(id,action) {
+	var option=document.getElementById(id).getElementsByTagName('option')
+	for (i=0;i<option.length;i++){
+		option[i].setAttribute('onclick',action)
+	}
+	
+}
+
+</script>

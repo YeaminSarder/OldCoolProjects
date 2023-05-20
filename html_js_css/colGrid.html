@@ -1,0 +1,92 @@
+<P></p>
+
+<style>
+div {
+position:absolute;
+top:0;
+left:0;
+}
+</style>
+
+<script>
+var checker=[
+'#000000','#000000',
+'#000000','#000000'
+]
+var greenChecker=[
+'#00c000','#004000',
+'#004000','#00c000'
+]
+
+
+var allblack=[
+'#000000','#000000','#000000','#000000',
+'#000000','#000000','#000000','#000000',
+'#000000','#000000','#000000','#000000',
+'#000000','#000000','#000000','#000000',
+]
+
+var allblack2=[
+'rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)',
+'rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)',
+'rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)',
+'rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)','rgba(0,0,0,1)',
+]
+var Hex=[
+'#000000','#ffffff','#000000','#ffffff',
+'#ffffff','#000000','#ffffff','#000000',
+'#ffffff','#000000','#ffffff','#000000',
+'#000000','#ffffff','#000000','#ffffff'
+]
+
+var RgbSqare=[
+'#0000ff','#ff0000','#00ff00','#0000ff',
+'#00ff00','#000000','#000000','#ff0000',
+'#ff0000','#000000','#000000','#00ff00',
+'#0000ff','#00ff00','#ff0000','#0000ff'
+]
+
+
+var allcodes=[
+'#000000','#0000ff','#00ff00','#00ffff',
+'#ff0000','#ff00ff','#ffff00','#ffffff',
+'rgba(0,0,0,0.5)','rgba(0,0,255,0.5)','rgba(0,255,0,0.5)','rgba(0,255,255,0.5)',
+'rgba(255,0,0,0.5)','rgba(255,0,255,0.5)','rgba(255,255,0,0.5)','rgba(255,255,255,0.5)',
+]
+
+
+
+
+
+
+
+var col=greenChecker	//grid defination
+
+
+
+var coll=col.length
+
+var n1=200		//grid size
+var n2=200	
+var pad=[5,5]		//grid position
+var cellw=2		//cell size
+var cellh=2
+for (var i=0;i<n1;i++){
+for (var j=0;j<n2;j++){
+
+var e=document.body.appendChild(document.createElement('div'))
+e.style.top=pad[1]+cellh*j+'px'
+e.style.left=pad[0]+cellw*i+'px'
+if (coll==16){
+e.style.backgroundColor=col[j%4*4+i%4]
+}else if (coll==4){
+e.style.backgroundColor=col[j%2*2+i%2]
+}
+
+e.style.width=cellw;
+e.style.height=cellh
+}
+}
+
+
+</script>

@@ -1,0 +1,26 @@
+<p id='px1'>ttf </p>
+<p id='demo'> </p>
+
+
+<button onclick="mainy()">click</button>
+
+
+
+<script>
+function mainy() {
+var x = [100,20,300,30]
+var y = Math.random()
+document.getElementById('demo').innerHTML= arrmax(x);
+document.getElementById('px1').innerHTML=y;
+}
+
+function arrmax (arr) {
+return Math.max.apply( null,arr);
+}
+
+
+</script>
+
+
+
+

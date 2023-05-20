@@ -1,0 +1,160 @@
+
+<style>
+
+
+#dot {
+	width:10px;
+	height:10px;
+	background-color:white ;
+	position:absolute;
+	top:90	
+}
+
+#dot2 {
+	width:30px;
+	height:30px;
+	border:1px dotted gray ;
+	position:absolute;
+	top:90	
+}
+#trgt {
+	width:50px;
+	height:50px;
+	border:1px dashed black ;
+	position:absolute;
+	top:0;	
+	left:0;
+}
+
+</style>
+
+<body onclicko=";alert(e)">
+<p id='p0'>0</p>
+</body>
+
+<script>
+var t=2000;
+var n=10
+var ls=10;
+var lb=50;
+var b=1;
+var d=0;
+var r=0;
+var key;
+var top=0;
+var left=0;
+var p0= document.getElementById('p0');
+var p = 0;
+var mh=window.innerHeight
+var mw=window.innerWidth
+//alert(window.innerWidth)
+var arrr = [];
+document.body.addEventListener('click',function(e){handleClick(e)})
+window.addEventListener('keypress',function(e){handleKey (e)})
+
+
+
+var dot = createElement(document.body,'div','','dot')
+var dot2 = createElement(document.body,'div','','dot2',0,0)
+
+
+var fr = setInterval(gen,t);
+function gen() {
+arrr[arrr.length] = createElement(document.body,'div','','trgt',Math.random()*(mw-lb-20),Math.random()*(mh-lb-20))
+//alert (trgt.style.top.slice(0,-2));
+if (arrr.length==n) {
+clearInterval(fr);
+alert("GAME OVER,your score: "+p0.innerHTML);
+}
+}
+function check(tr) {
+	top2 = tr.style.top.slice(0,-2);
+	left2 = tr.style.left.slice(0,-2);
+	if ((top>top2&&top-lb<top2)&&(left>left2 && left-lb<left2)) {
+		document.body.removeChild(tr);
+		arrr.splice(arrr.indexOf(tr),1);
+		p+=1
+		p0.innerHTML = p;
+	}
+
+}
+
+
+
+function createElement(tg,tag,text,id,x,y) {
+var nE = document.createElement(tag);
+nE.appendChild(document.createTextNode(text));
+var e = tg.appendChild(nE);
+e.id = id;
+e.style.top=y;
+e.style.left=x;
+return e;
+}
+
+function handleKey(e) {
+	key = e.keyCode;
+	//alert(key)
+	if (key==119) {		//up
+		d -= ls;
+		update()
+	}
+	if (key==120) {		//down
+		d += ls;
+		update()
+	}
+	if (key==100) {		//right
+		r += ls;
+		update()
+	}
+	if (key==97) {		//left
+		r -= ls;
+		update()
+	}
+	if (key==113) {		//q
+		d -= ls;
+		r -= ls;
+		update()
+	}
+	if (key==101) {		//e
+		d -= ls;
+		r += ls;
+		update()
+	}
+	if (key==122) {		//z
+		d += ls;
+		r -= ls;
+		update()
+	}
+	if (key==99) {		//c
+		d += ls;
+		r += ls;
+		update()
+	}
+	if (key==102) {		//f
+		d = 0;
+		r = 0;
+		update()
+	}
+}
+function update() {
+	top += d;
+	left += r; 
+	dot.style.top = top;
+	dot.style.left = left;
+	dot2.style.top = top+d-ls;
+	dot2.style.left = left+r-ls;	
+	for (var i=0;i<arrr.length;i++) {
+		check(arrr[i]);
+	}
+}
+function handleClick(e) {
+	if (b) {
+		dot.style.backgroundColor ='black';
+		b=0;
+	}
+	top = e.y - ls/2;
+	left = e.x - ls/2; 
+	dot.style.top = top;
+	dot.style.left = left;
+}
+</script>

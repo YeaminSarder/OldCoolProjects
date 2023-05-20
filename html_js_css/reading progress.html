@@ -1,0 +1,57 @@
+<style>
+.d {
+position:relative;
+width:100%;
+height:10%;
+border : 1px solid black;
+color:rgb(0,0,0)
+z-index:-1
+}
+.points {
+position:absolute;
+top:0;
+//left:0;
+//border : 1px solid Black;
+background-color:rgba(40,40,40,0.5);
+width:10%;
+height:100%;
+}
+
+.points:hover {
+background-color:red
+}
+.dd {
+position:absolute;
+right:5%;
+}
+</style>
+
+
+<div></div>
+<script src='rpFx.js' ></script>
+<script>
+
+//Objects
+
+
+if (getCookie('obj1')=='') {
+var obj1 = new objN('obj1','New World:Bangladesh',400);
+}else{
+var obj1 = getObj('obj1');
+}
+
+
+if (getCookie('obj2')=='') {
+var obj2 = new objN('obj2','New World:International',352);
+}else{
+var obj2 = getObj('obj2');
+}
+
+
+start (obj1)
+start (obj2)
+//start (obj3)
+
+
+
+</script>

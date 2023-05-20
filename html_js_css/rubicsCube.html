@@ -1,0 +1,312 @@
+<style>
+.cell{
+position:absolute;
+top:9px;
+left:9px;
+transition:top .4s,left .4s;
+z-index:-1;
+}
+.button{
+position:absolute;
+}
+body {
+background-color:black
+}
+p {
+position:absolute;
+right:5;
+top:5;
+color:white;
+}
+</style>
+
+
+
+
+<body>
+<p id='p'></p>
+<button onClick='mix()'>Mix</button>
+</body>
+
+<script>
+
+//declaring variables-------------------
+
+	//preferances
+
+
+//----------------------------------------------------------\
+var cellW=21;		//width of each cell
+var cellSpc=5;		//space between two cells
+var blockSpc=10;	//space between two blocks(group of 9 cells)
+var sideA=[109,109]	//position of the middle block
+var butPos=[400,20]	//bosition of the button z
+var butW=40;		//width of button
+var butSpc=5;		//space between 2 button
+//----------------------------------------------------------/
+
+
+
+//var sidePos=[100,100, 200,100, 100,5, 5,100, 100,200, 100,400]	//for arranging sides, 6pairs of x and y co-ordinate
+
+
+
+
+
+
+
+
+
+var sP=[sideA[0],sideA[1],cellW*3+2*cellSpc,blockSpc]	//side a pos,blockW,blockSpc
+var sidePos=[sP[0],sP[1], sP[0]+sP[3]+sP[2],sP[1], sP[0],sP[1]-sP[3]-sP[2], sP[0]-sP[3]-sP[2],sP[1], sP[0],sP[1]+sP[3]+sP[2], sP[0],sP[1]+2*sP[3]+2*sP[2]]
+
+
+
+
+
+
+
+
+
+	//colors for the sides
+var col=[
+"red",
+"yellow",
+"green",
+"white",
+"blue",
+"orange"
+]
+
+
+	//arrays
+var side=['a','b','c','d','e','f']
+
+
+
+//defining coordinate obj 
+
+var coor={};
+var pos={}	//creates empty cell referance
+for (var s=0;s<6;s++) {		//s for sides
+
+
+for (var i=0;i<9;i++) {
+coor[side[s]+i]=document.body.appendChild(document.createElement("div"));
+coor[side[s]+i].setAttribute('class','cell');
+
+coor[side[s]+i].style.backgroundColor=col[s]
+coor[side[s]+i].style.width=cellW+'px'
+coor[side[s]+i].style.height=cellW+'px'
+coor[side[s]+i].style.top=sidePos[2*s]+Math.floor(i/3)*(cellW+cellSpc)+'px'
+coor[side[s]+i].style.left=sidePos[2*s+1]+i%3*(cellW+cellSpc)+'px'
+//coor[side[s]+i].style.transition='top 3s,left 3s'
+//coor[side[s]+i].innerHTML=side[s]+i
+pos[side[s]+i]=[coor[side[s]+i].style.top,coor[side[s]+i].style.left]
+}
+
+}	//end of loop s
+
+
+//creating buttons;
+var button={}
+
+var butName=["L'","L","U'","U","R'","R","D'","D","F","F'","B'","B"]
+var butName2=["M'","M","y'","y","x'","x","E'","E","S","S'","z","z'","^"]
+var fB=[butPos[0],butPos[1],butW+butSpc]
+//placing buttons (y,x ,y,x ,....	fB is the first button coordinate
+var butPos=[fB[0],fB[1], fB[0]-butW-butSpc,fB[1], fB[0]-2*fB[2],fB[1]+butW+butSpc, fB[0]-2*fB[2],fB[1]+2*fB[2] ,fB[0]-butW-butSpc,fB[1]+3*fB[2], fB[0],fB[1]+3*fB[2], fB[0]+fB[2],fB[1]+2*fB[2], fB[0]+fB[2],fB[1]+1*fB[2], fB[0]-fB[2],fB[1]+fB[2], fB[0]-fB[2],fB[1]+2*fB[2], fB[0],fB[1]+fB[2],fB[0],fB[1]+2*fB[2] ,fB[0]+fB[2],fB[1] ]
+
+var butName3=[
+"z","M","","","x'","z'",
+"y'"," ","U'","U"," ","y",
+"","L","F","F'","R'","",
+"","L'","B'","B","R","",
+"E"," ","D","D'"," ","E'",
+"S","M'","","","x","S'"
+]
+
+
+
+var R=['b8','b5','b2','a8','a5','a2','d8','d5','d2','f0','f3','f6','e6','e3','e0','e1','e2','e5','e8','e7']
+var Rd=['f6','f3','f0','d2','d5','d8','a2','a5','a8','b2','b5','b8','e7','e8','e5','e2','e1','e0','e3','e6']
+var U=['e2','e1','e0','a2','a1','a0','c2','c1','c0','f2','f1','f0','d6','d3','d0','d1','d2','d5','d8','d7']
+var Ud=['f0','f1','f2','c0','c1','c2','a0','a1','a2','e0','e1','e2','d7','d8','d5','d2','d1','d0','d3','d6']
+var L=['d0','d3','d6','a0','a3','a6','b0','b3','b6','f8','f5','f2','c6','c3','c0','c1','c2','c5','c8','c7']
+var Ld=['f2','f5','f8','b6','b3','b0','a6','a3','a0','d6','d3','d0','c7','c8','c5','c2','c1','c0','c3','c6']
+var D=['c6','c7','c8','a6','a7','a8','e6','e7','e8','f6','f7','f8','b6','b3','b0','b1','b2','b5','b8','b7']
+var Dd=['f8','f7','f6','e8','e7','e6','a8','a7','a6','c8','c7','c6','b7','b8','b5','b2','b1','b0','b3','b6']
+var F=['b2','b1','b0','c8','c5','c2','d6','d7','d8','e0','e3','e6','a6','a3','a0','a1','a2','a5','a8','a7']
+var Fd=['e6','e3','e0','d8','d7','d6','c2','c5','c8','b0','b1','b2','a7','a8','a5','a2','a1','a0','a3','a6']
+var B=['e8','e5','e2','d2','d1','d0','c0','c3','c6','b6','b7','b8','f6','f3','f0','f1','f2','f5','f8','f7']
+var Bd=['b8','b7','b6','c6','c3','c0','d0','d1','d2','e2','e5','e8','f7','f8','f5','f2','f1','f0','f3','f6']
+var M=['d1','d4','d7','a1','a4','a7','b1','b4','b7','f7','f4','f1']
+var Md=['f1','f4','f7','b7','b4','b1','a7','a4','a1','d7','d4','d1']
+var E=['c3','c4','c5','a3','a4','a5','e3','e4','e5','f3','f4','f5']
+var Ed=['f5','f4','f3','e5','e4','e3','a5','a4','a3','c5','c4','c3']
+var S=['b5','b4','b3','c7','c4','c1','d3','d4','d5','e1','e4','e7']
+var Sd=['e7','e4','e1','d5','d4','d3','c1','c4','c7','b3','b4','b5']
+var xd=[L,M,Rd]
+var x=[Ld,Md,R]
+var yd=[Ud,E,D]
+var y=[U,Ed,Dd]
+var z=[F,S,Bd]
+var zd=[Fd,Sd,B]
+//alert(R')
+//arrCons=['','R']
+
+var skip=[2,3,7,10,12,17,18,23,25,28,32,33]
+for (var k=0;k<6;k++){
+    for (var j=0;j<6;j++){
+//if (i==4){continue;}
+var i=k*6+j
+if (skip.indexOf(i)>-1){continue}
+button['b'+i]=document.body.appendChild(document.createElement("button"));
+button['b'+i].setAttribute('class','button');
+button['b'+i].style.width=butW+'px'
+button['b'+i].style.height=butW+'px'
+button['b'+i].innerHTML=butName3[i];
+button['b'+i].style.top=fB[1]+fB[2]*k+'px'
+button['b'+i].style.left=fB[0]+fB[2]*j+'px'
+button['b'+i].setAttribute('onclick','rotate(eval(this.innerHTML.replace("'+"'"+'","d")))')
+if (i==12) {
+button['b'+i].setAttribute('onclick',"shift()")
+
+}
+}
+
+}
+
+var isShifted=0
+function shift() {
+	for (var i=0;i<12;i++){
+		if (!isShifted){
+			button['b'+i].innerHTML=butName2[i];
+		}else{
+			button['b'+i].innerHTML=butName[i];
+		}
+		
+	} 
+	isShifted=!isShifted
+}
+
+
+
+var moved=[]
+function move(Ca,Cb) {
+coor[Ca].style.top=pos[Cb][0]
+coor[Ca].style.left=pos[Cb][1]
+coor[Ca].style.zIndex=1;
+
+moved.push([coor[Ca],Cb])
+//coor[Cb]=coor[Ca]
+}
+function confirmMove(){
+for (var i=0;i<moved.length;i++){
+coor[moved[i][1]]=moved[i][0]
+
+}
+moved=[];
+}
+
+
+
+function rotate(arrS) {		//arrS consists of all the 21 sqares in a side
+if (arrS.length!=3){
+for (var i=0;i<18;i++){
+if(!arrS[i]){continue}
+if (-1<i&&i<9){
+move(arrS[i],arrS[i+3])
+}
+
+if (11<i){
+move(arrS[i],arrS[i+2])
+}
+
+}
+
+if (arrS[9]){move(arrS[9],arrS[0]);}
+if (arrS[10]){move(arrS[10],arrS[1]);}
+if (arrS[11]){move(arrS[11],arrS[2]);}
+if (arrS[18]){move(arrS[18],arrS[12])}
+if (arrS[19]){move(arrS[19],arrS[13])}
+
+//alert(moved)
+confirmMove()
+}else{
+rotate(arrS[0])
+rotate(arrS[1])
+rotate(arrS[2])
+}
+
+if(isSolved(getCode())&&(interval)){clearInterval(interval);interval=0;}
+
+//if(){alert()}
+}
+interval=0
+function mix(){
+
+for (var i=0;i<30;i++){
+rotate(eval(butName[Math.floor(Math.random()*butName.length)].replace("'","d")))
+}
+ii=0;
+isV=0;
+
+if(!interval){
+interval= setInterval(timer,1000)
+}
+
+}
+var p=document.getElementById('p')
+
+function timer(){
+//if(isV){
+
+ii++
+p.innerHTML=Math.floor(ii/60)+":"+("00"+ii%60).slice(-2)
+
+//p.style.color="#c0c0c0"
+//}else{
+//p.innerHTML=Math.floor(ii/60)+" "+("00"+ii%60).slice(-2)
+//p.style.color="#808080"
+//}
+isV=!isV
+
+
+
+
+}
+
+
+var initCode=getCode()
+
+//var arrSolved=[
+//""
+
+//]
+
+//alert (isSolved(initCode))
+function isSolved(code){
+for (var i=0;i<54;i++){
+if ((i%9)==0){var lookFor=code[i];continue;}
+if (code[i]==lookFor){continue;}else{return 0;}
+
+}
+
+return 1;
+}
+
+
+
+
+function getCode(){
+var out=''
+for (m in coor){
+out+=col.indexOf(coor[m].style.backgroundColor)
+}
+
+return out
+
+}
+
+</script>

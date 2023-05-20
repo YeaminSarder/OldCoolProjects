@@ -1,0 +1,226 @@
+
+<style>
+div {
+background-color:black;
+//display :inline;
+float:left;
+width:20px;
+height :20px;
+border: 1px solid #222;
+box-sizing : border-box;
+}
+div:hover {
+background-color:#aaa;
+}
+button {
+position:absolute;
+
+width:45px;
+background-color : #ddd;
+//float:left;
+bottom :0
+}
+#b5 {
+position:absolute;
+bottom:0;
+left : 200;
+}
+#b1 {
+position:absolute;
+bottom:0;
+left : 0;
+}
+#b2 {
+position:absolute;
+bottom:0;
+left : 50px;
+}
+#b3 {
+position:absolute;
+bottom:0;
+left : 100px;
+color:red;
+}
+#b4 {
+position:absolute;
+bottom:0;
+left : 150px;
+color:blue;
+}
+#b6 {
+position:absolute;
+bottom:0;
+left : 250px;
+color:black;
+}
+#b7 {
+position:fixed;
+bottom:-25px;
+left : 300px;
+color:black;
+}
+</style>
+<button id='b1' onclick='start()' >start</button>
+<button id='b2' onclick='back()' >back</button>
+<button id='b3' onclick='red()' >red</button>
+<button id='b4' onclick='blue()' >blue</button>
+<button id='b5' onclick='setInterval(start,speed)' >auto</button>
+<button id='b6' onclick='randomize()' >rnd</button>
+<input type='range' id='b7' onchange='temp=this.value/100' ></input>
+<!script src='create.js'></script>
+<script>
+var temp=0.05
+var speed=10
+var mode = 'red';
+var rb = 0;
+var xN = Math.floor(window.innerWidth / 20) -1;
+var yN = Math.floor(window.innerHeight / 20) -1;
+var colON = []
+var colON2 = []
+var colBlack = []
+for (j=0;j<yN;j++) {
+
+for (i=0;i<xN;i++) {
+
+
+f = createElement(document.body,'div','',i + 'b'+j)
+
+f.setAttribute('onclick',"this.style.backgroundColor = mode ; colON.push(this.id);")
+
+}
+
+}
+
+
+function start() {
+	var l=colON.length;
+	for (var x=0;x<xN;x++) {
+		for (var y=0;y<yN;y++) {
+			docu = document.getElementById(x+'b'+y);
+			var nei = 0;
+			var blue = 0;
+			var red = 0;
+			for (var i=0;i<l;i++) {
+				var p = colON[i].split('b')
+				
+				if  ( match(p[0],p[1],x,y)==1 ) {
+					nei++
+					red++
+				}
+				if  ( match(p[0],p[1],x,y)==2 ) {
+					nei++
+					blue++
+				}
+			}
+			//if (nei==3) {
+				
+				if (red>blue) {
+				//docu.style.backgroundColor = 'red' ;
+                                if (Math.random()>temp){
+				docu.style.backgroundColor = 'red' ;
+                                }else{
+				docu.style.backgroundColor = 'blue' ;
+                                }
+				}else
+				if (blue>red) {
+                                if (Math.random()>temp){
+				docu.style.backgroundColor = 'blue' ;
+                                }else{
+				docu.style.backgroundColor = 'red' ;
+                                }
+				//docu.style.backgroundColor = 'blue' ;
+				}else
+				if (blue==red) {
+                                //if (Math.random()>.5){
+				//docu.style.backgroundColor = 'blue' ;
+                                //}else{
+				//docu.style.backgroundColor = 'red' ;
+                                //}
+				}
+				
+				colON2.push(docu.id);
+				
+			//}
+			if (nei<=1||nei>=4) {
+				//colBlack.push(docu.id);
+				/////document.getElementById(x+'b'+y).style.backgroundColor = 'black' ;
+			}
+			/*if (nei==2) {
+				if ( colON.indexOf(docu.id) > -1 ) {
+					colON2.push(docu.id);
+				}	
+			} */
+
+		}
+	}
+colON = colON2
+colON2 = [];
+lB = colBlack.length;
+for (var i=0;i<lB;i++) {
+document.getElementById(colBlack[i]).style.backgroundColor = 'black' ;
+
+}
+
+
+colBlack = [];
+
+}
+
+function match(x1,y1,x2,y2) {
+	if ( ((x1>=x2-1&&x1<=x2+1)&&(y1>=y2-1&&y1<=y2+1))&&((x1==x2&&y1==y2)==false) ) {
+		var C = document.getElementById(x1+'b'+y1).style.backgroundColor
+		if (C=='red') {return 1;}
+		if (C=='blue') {return 2;}
+
+	}
+return 0;
+}
+
+function back() {
+document.getElementById(colON[colON.length-1]).style.backgroundColor = 'black';
+colON.pop();
+
+}
+
+
+function red() {
+mode = 'red';
+document.getElementById('b3').style.backgroundColor = '#333'
+document.getElementById('b4').style.backgroundColor = '#ddd'
+}
+
+function blue() {
+mode = 'blue';
+document.getElementById('b4').style.backgroundColor = '#333'
+document.getElementById('b3').style.backgroundColor = '#ddd'
+}
+//createElement(document.body,'div','p','d2')
+
+
+
+function createElement(tg,tag,text,id) {
+var nE = document.createElement(tag);
+nE.appendChild(document.createTextNode(text));
+var e = tg.appendChild(nE);
+e.id = id;
+return e;
+}
+
+
+
+
+function randomize() {
+	for (var x=0;x<xN;x++) {
+		for (var y=0;y<yN;y++) {
+			docu = document.getElementById(x+'b'+y);
+			if (Math.random()>.5){
+				docu.style.backgroundColor = 'blue' ;
+                        }else{
+				docu.style.backgroundColor = 'red' ;
+                        }
+                }
+
+        }
+}
+
+</script>

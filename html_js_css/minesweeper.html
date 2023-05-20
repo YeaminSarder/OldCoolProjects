@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+div {
+margin=0
+
+}
+
+#mfield{
+border:1px solid white;
+position:absolute;
+top:150px;
+//left:50px;
+}
+
+#field {
+height :200px;
+width :200px;
+position :absolute;
+top:50px;
+left:50px;
+//border:1px solid white ;
+//display : none;
+}
+
+.cell {
+background-color:gray;
+//height :25px;
+//width :25px;
+position :absolute;
+top:50px;
+left:50px;
+border:1px solid black ;
+border-radius :5px;
+text-align :center;
+//text-align-vertical:center;
+//padding-top:5px;
+//text-vAlign:center;
+font-type :bold;
+//z-index:1;
+
+}
+
+#ss{
+position:fixed;
+top:0px;
+right:15px;
+color:white;
+z-index:2
+}
+
+</style>
+
+
+    <body onclick='onBodyClick()'>
+<div id='ss'><p id='scorebar'></p></div>
+<div id='mfield'>
+<div id='field'>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+</div>
+    </body>
+<script>
+
+var field=document.getElementById('field');
+var mfield=document.getElementById('mfield');
+var scorebar=document.getElementById('scorebar');
+
+var conE=document.getElementsByClassName('conE');
+var score=0;
+
+//alert(conE[0])
+var cellWidth=20;
+var fieldPadd =cellWidth*2;
+var fieldWidth=2*fieldPadd+cellWidth;
+var fieldHeight=2*fieldPadd+cellWidth;
+//field.style.display ='none';
+//field.style.left =fieldPadd +'px';
+var maxNegX=0;
+var maxNegY=0;
+var maxPosX=0;
+var maxPosY=0;
+var bbombRatio=0;
+var bombRatio=.25;
+var bRin=1;
+var bRinBy=0.00;
+var altRatio=1/150;
+var lowLim=.25;
+var highLim=.30;
+field.style.width=cellWidth +'px';
+field.style.height=cellWidth +'px';
+mfield.style.width=cellWidth*5 +'px';
+mfield.style.height=cellWidth*5 +'px';
+
+
+
+
+
+
+var ccol1='#00c000';
+var ccol2='#008000'
+var ccol3='#dddddd'
+var ccol2U='#00ff00'
+var ccol3U='#ffffff'
+var flagcol='#c00000'
+var flagcolU='#ff0000'
+
+var tcol1 ='indigo'
+var tcol2 ='blue'
+var tcol3 ='skyblue'
+var tcol4 ='green'
+var tcol5 ='yellow'
+var tcol6 ='orange'
+var tcol7 ='red'
+var tcol8 ='black '
+var bgcol ='black '
+
+document.body.style.backgroundColor=bgcol
+
+//var concol=''
+//control.style.backgroundColor=concol;
+//alert(field)
+
+var objList = {};
+					//creating initial view
+new Cell(0,0);	
+new Cell(0,1);
+new Cell(0,-1);
+new Cell(1,1);
+new Cell(1,0);
+new Cell(1,-1);
+new Cell(-1,-1);
+new Cell(-1,1);
+new Cell(-1,0);
+//alert(objList["0c0"])
+document.getElementById('0c0').style.backgroundColor='rgba(255,255,255,0)'
+document.getElementById('0c0').style.border='none'
+
+var xx;
+var yy;
+var clk;
+function Cell(y,x,b) {				//the constructor
+	var elem=field.appendChild(document.createElement('div'))
+	this.elem=elem;
+	elem.setAttribute('class','cell');
+	elem.setAttribute('id',y+'c'+x);
+	objList[y+'c'+x]=this;
+
+	elem.style.left=x*cellWidth+'px';
+	elem.style.top=y*cellWidth+'px';
+	elem.style.width=cellWidth+'px';
+	elem.style.height=cellWidth+'px';
+
+	elem.setAttribute('onclick','isCc=1;ttt=this;');
+	score++
+//else{
+	
+	//}
+	if (Math.random()<altRatio){if(bRin){bRin=0;txt='--';}else{bRin=1;txt='++';}};
+	if (bombRatio<=lowLim){bRin=1;txt='++'}
+	if (bombRatio>=highLim){bRin=0;txt='--'}
+	
+	if (bRin){
+	bombRatio+=bRinBy;
+	}else{
+	bombRatio-=bRinBy;
+	}
+if (clk){
+	scorebar.innerHTML='score: '+score +'</br> Exploring '+(score/clk.reading*1000*60).toFixed(0)+' cells per minute'+'</br>bombRatio: '+bombRatio.toFixed(4)+txt+'</br>';
+}
+	if ((x+y)%2==0){elem.style.backgroundColor=ccol1}else{elem.style.backgroundColor=ccol2}
+	this.id=y+'c'+x;
+	this.isB=0;
+	this.isF=0;
+	this.tMod=0;
+	this.isSweeped=0;
+	this.x=x;
+	this.y=y;
+	if(b){
+		if(Math.random()<b){this.isB=1;}
+	}
+
+
+
+	if (x<maxNegX){
+		maxNegX=x;
+		field.style.left=fieldPadd+Math.abs(maxNegX)*cellWidth+'px';
+		fieldWidth+=cellWidth;
+		mfield.style.width=fieldWidth+'px';
+}
+
+	if (y<maxNegY){
+		maxNegY=y;
+		field.style.top=fieldPadd+Math.abs(maxNegY)*cellWidth+'px';
+	fieldHeight+=cellWidth;
+		mfield.style.height=fieldHeight+'px';
+	}
+
+	if (x>maxPosX){
+		maxPosX=x;
+		//field.style.left=fieldPadd+Math.abs(maxNegX)*cellWidth+'px';
+		fieldWidth+=cellWidth;
+		mfield.style.width=fieldWidth+'px';
+}
+
+	if (y>maxPosY){
+		maxPosY=y;
+		//field.style.top=fieldPadd+Math.abs(maxNegY)*cellWidth+'px';
+	fieldHeight+=cellWidth;
+		mfield.style.height=fieldHeight+'px';
+	}
+if (bbombRatio){
+bombRatio=bbombRatio+((fieldHeight/cellWidth-4)*(fieldWidth/cellWidth-4)-score)*0.01;
+}//alert()
+}
+var cO
+var isCc=0
+var isBc=0
+var cOcol=''
+function onCellClick(t) {
+	if (!clk){
+	clk=new Clock(100)
+	clk.resume();
+	}
+	//isCc=1;
+	//isBc=0;
+	//alert()
+if (cO!=t){	//if clicked on new cell
+if(cO&&cOcol){cO.style.backgroundColor=cOcol;}
+	var tObj=objList[t.id];	
+cOcol=t.style.backgroundColor;
+	if(!tObj.isSweeped&&!tObj.isF){
+	t.style.backgroundColor=ccol2U;
+	}
+	if (tObj.isSweeped){
+	t.style.backgroundColor=ccol3U;
+}
+	if (tObj.isF){
+	t.style.backgroundColor=flagcolU;
+}
+
+
+	
+//alert(cOcol)
+		//show flag optn
+	//if (!tObj.tMod){
+	xx=tObj.x
+	yy=tObj.y
+	tObj.tMod=1;
+	
+	//}else{
+	
+	//tObj.tMod=0;
+	//}
+	}else{	//if clicked the same cell twice
+onSweep(t);	
+
+	}
+	cO=t;
+	
+//alert(cOcol)
+}
+
+
+function onSweep(t) {
+
+var tObj=objList[t.id];
+if (!tObj.isF){		//flagged cell cant be sweeped
+
+if(tObj.isB){alert('BOMB!')}else{
+tObj.isSweeped=1;
+
+
+t.style.backgroundColor=ccol3;
+cOcol=ccol3;
+//var idSp=tObj.id.split('c');
+var y=tObj.y;
+var x=tObj.x;
+var i=y-1; 
+var j=x-1;
+var Tbombs=0
+var Tflags=0
+var Usweeped=0
+for (;i<=1+y;i++) {
+	for (j=x-1;j<=1+x*1;j++) {
+
+		if (objList[i+'c'+j]){
+			if(objList[i+'c'+j].isB){Tbombs++;}
+			
+
+		}else{
+
+			new Cell(i*1,j*1,bombRatio);
+			if(objList[i+'c'+j].isB){Tbombs++}
+		}
+		if (objList[i+'c'+j].isF){Tflags++}
+		if (objList[i+'c'+j].isSweeped==0){Usweeped++}
+	}
+
+}
+t.innerHTML=Tbombs;
+if (Tbombs==Tflags){
+sweepAll(t)
+}
+//alert(Usweeped)
+if (Tbombs==Usweeped){
+flagAll(t)
+}
+switch (Tbombs) {
+case 0:
+t.style.backgroundColor=bgcol;
+t.style.color=bgcol;
+sweepAll(t);
+break;
+
+case 1:
+t.style.color=tcol1;
+break;
+
+case 2:
+t.style.color=tcol2;
+break;
+
+case 3:
+t.style.color=tcol3;
+break;
+
+case 4:
+t.style.color=tcol4;
+break;
+
+case 5:
+t.style.color=tcol5;
+break;
+
+case 6:
+t.style.color=tcol6;
+break;
+
+case 7:
+t.style.color=tcol7;
+break;
+
+case 8:
+t.style.color=tcol8;
+break;
+
+}	//switch ends here
+
+
+
+//if(tObj.isSweeped&&(tFlags==tBombs)){
+//sweepAll(t);
+//}
+
+
+
+
+}	//else ends here;
+
+}	//if ends here
+}	//function onSweep ends here
+var col;
+
+
+function onbflag(t) {
+//var x=t.style.top;
+
+tObj=objList[yy+'c'+xx]
+
+if(!tObj.isF){
+col=cOcol;
+tObj.elem.style.backgroundColor=flagcol;
+cOcol=flagcol;
+tObj.elem.style.borderRadius='0px';
+//tObj.elem.style.border='1px solid '+bgcol;
+tObj.isF=1;
+}else{
+tObj.elem.style.backgroundColor=col;
+cOcol=col;
+tObj.elem.style.borderRadius='5px';
+//tObj.elem.style.border='1px solid '+bgcol;
+tObj.isF=0;
+//alert(col)
+}
+//alert(yy)
+
+//alert();
+}
+
+function onBodyClick() {
+//alert(isCc)
+
+if (isCc==1){
+onCellClick(ttt)
+}
+if(!isCc){
+onbflag(cO);
+//alert('b');
+}
+
+isCc=0;
+
+}
+
+//r(document.body.style)
+
+
+function sweepAll(t) {
+tObj=objList[t.id]
+var y=tObj.y;
+var x=tObj.x;
+var i=y-1; 
+var j=x-1;
+//var Tbombs=0
+for (;i<=1+y;i++) {
+	for (j=x-1;j<=1+x*1;j++) {
+
+		if (objList[i+'c'+j].isSweeped==0){
+			onSweep(objList[i+'c'+j].elem)
+
+		}
+
+
+	}
+
+}
+}
+
+
+
+function flagAll(t) {
+tObj=objList[t.id]
+var y=tObj.y;
+var x=tObj.x;
+var i=y-1; 
+var j=x-1;
+//var Tbombs=0
+for (;i<=1+y;i++) {
+	for (j=x-1;j<=1+x*1;j++) {
+
+		if ((!objList[i+'c'+j].isSweeped&&!objList[i+'c'+j].isF)){
+			yy=i
+			xx=j
+		onbflag(objList[i+'c'+j].elem)
+			
+		}
+
+
+	}
+
+}
+cOcol=ccol3
+}
+
+
+
+
+addCtrl()
+
+function addCtrl () {
+
+
+ss.appendChild(iiii = document.createElement('textarea'));
+ss.appendChild(document.createElement('button')).onclick=doo;;
+
+function doo() {
+eval(iiii.value)
+}
+}
+
+
+
+
+
+function Clock(acuracy,work) {
+if(!acuracy){acuracy=1000}
+if(!work){work=''}
+//var reading=0;
+var t=this
+this.reading=0;
+
+
+this.resume=function () {t.interval=setInterval(this.running,acuracy)};
+this.pause=function () {clearInterval(t.interval)}
+this.reset=function () {t.reading=0;}
+
+this.running =function f() {
+t.reading+=acuracy
+eval(work);
+
+}
+}
+</script>
+
+
+</html>
+

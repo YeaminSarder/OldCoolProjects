@@ -1,0 +1,130 @@
+<style>
+#container {
+width : 450px;
+height : 400px;
+background : yellow ;
+position : relative ;
+}
+#animate, #animate2, #animate3, #animate4  {
+width : 50px;
+height :50px;
+background : #3333ff ;
+position : absolute ;
+top : 200px;
+text-align : center;
+text-halign : center;
+}
+#animate2 {
+left : 350px;
+}
+#animate3 {
+top : 350px;
+}
+#animate4 {
+top : 0px;
+}
+
+</style>
+
+
+<div id='container'>
+<div id='animate'>1</div>
+<div id='animate2'>2</div>
+<div id='animate3'>3</div>
+<div id='animate4'>4</div>
+
+</div>
+<button onclick = 'plus()' >stop/go</button>
+<script>
+var elem = document.getElementById('animate');
+var elem2 = document.getElementById('animate2');
+var elem3 = document.getElementById('animate3');
+var elem4 = document.getElementById('animate4');
+
+var id = setInterval(frame,5);
+var pos1 = 50;
+var pos2 = 0;
+var pos3 = 300;
+var pos4 = 350;
+
+var bool1 = true;
+var bool2 = true;
+var bool3 = true;
+var bool4 = true;
+
+function frame() {
+	if (pos1==0) {
+		bool1 = true;
+	}
+	if (pos1==350) {
+		bool1 = false;
+	}
+	if (bool1) {
+		pos1++;
+	} else {
+		pos1--
+	}
+
+	if (pos2==0) {
+		bool2 = true;
+	}
+	if (pos2==400) {
+		bool2 = false;
+	}
+	if (bool2) {
+		pos2++;
+	} else {
+		pos2--
+	}
+
+	if (pos3==0) {
+		bool3 = true;
+	}
+	if (pos3==350) {
+		bool3 = false;
+	}
+	if (bool3) {
+		pos3++;
+	} else {
+		pos3--
+	}
+
+	if (pos4==0) {
+		bool4 = true;
+	}
+	if (pos4==400) {
+		bool4 = false;
+	}
+	if (bool4) {
+		pos4++;
+	} else {
+		pos4--
+	}
+
+	elem.style.top = pos1 + 'px';
+	elem.style.left = pos2 + 'px';	
+	elem2.style.top = 350-pos1 + 'px';
+	elem2.style.left = 400-pos2 + 'px';	
+	elem3.style.top = pos3 + 'px';
+	elem3.style.left = pos4 + 'px';	
+	elem4.style.top = 350-pos3 + 'px';
+	elem4.style.left = 400-pos4 + 'px';	
+
+
+}	
+var ison = true;
+function plus() {
+if (!ison) {
+id = setInterval(frame,5);
+ison = true;
+} else {
+clearInterval(id);
+ison = false;
+}
+
+}
+
+
+
+
+</script>

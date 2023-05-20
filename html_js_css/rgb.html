@@ -1,0 +1,185 @@
+<body align='right'>
+<style>
+p{
+background-color:#eee;
+border:1px solid gray ;
+width:100; 
+height : 18;
+}
+
+</style>
+<body align=right>
+<table width=100% height =10%>
+<tr align=center><td><p id='p1' align=center >#000000</p></td></tr>
+<tr align=center><td><table><tr><td><p id='p2' align=center  ></p></td><td><button onclick='conv()'>c</button></td></tr></table></td></tr></table>
+
+<table width=100%>
+<tr align=center>
+<td>
+<table>
+<tr>
+
+<td>
+<button id='b1' onclick='w(1)' >1</button>
+</td>
+
+<td>
+<button id='b2' onclick='w(2)'  >2</button>
+</td>
+<td>
+<button id='b3'  onclick='w(3)' >3</button>
+</td>
+<td>
+<button id='b4' onclick='w(4)'  >4</button>
+</td>
+
+<td id='c1'>
+<button onclick='del()' >&lt;X</button>
+</td>
+
+</tr>
+<tr>
+
+<td>
+<button id='b5' onclick='w(5)'  >5</button>
+</td>
+<td>
+<button id='b6'  onclick='w(6)' >6</button>
+</td>
+<td>
+<button id='b7' onclick='w(7)'  >7</button>
+</td>
+<td>
+<button id='b8'  onclick='w(8)' >8</button>
+</td>
+<td>
+<button onclick='rb(1)' >R</button>
+</td>
+
+</tr>
+<tr>
+
+<td>
+<button id='b9'  onclick='w(9)' >9</button>
+</td>
+<td>
+<button id='b0'  onclick='w(0)' >0</button>
+</td>
+<td>
+<button id='ba' onclick='w("A")'  >A</button>
+</td>
+<td>
+<button id='bb' onclick='w("B")'  >B</button>
+</td>
+<td>
+<button onclick='rb(2)' >G</button>
+</td>
+</tr>
+<tr>
+
+<td>
+<button id='bc' onclick='w("C")'  >C</button>
+</td>
+<td>
+<button id='bd' onclick='w("D")'  >D</button>
+</td>
+<td>
+<button id='be'  onclick='w("E")' >E</button>
+</td>
+<td>
+<button id='bf' onclick='w("F")' >F</button>
+</td>
+<td>
+<button onclick='rb(3)' >B</button>
+</td>
+</tr>
+
+
+
+</table>
+
+</td>
+</tr>
+</table>
+
+
+
+<script>
+
+function w(key) {
+    var x = document.getElementById('p2').innerHTML;
+    var l =x.length;
+    if (l<3) {
+        document.getElementById('p2').innerHTML += key;
+    }
+
+}
+
+function del() {
+    var x = document.getElementById('p2').innerHTML;
+    var z = x.length -1
+    var y = x.substr(0,z);
+    document.getElementById('p2').innerHTML = y;
+}
+
+function rb(c) {
+    var t = document.getElementById('p1').innerHTML;
+    var R = t.substr(1,2);
+    var G = t.substr(3,2);
+    var B = t.substr(5,2);
+    if (c==1) {
+        R = document.getElementById('p2').innerHTML
+        if (R.length==1) {
+            R += t.substr(2,1);
+        }
+        if (R.length==3) {
+            R = R.substr(0,2);
+        }
+        if (R.length==0) {
+            R = "00" ;
+        }
+
+
+    }
+    if (c==2) {
+        G = document.getElementById('p2').innerHTML
+        if (G.length==1) {
+        G += t.substr(4,1);
+        }
+        if (G.length==3) {
+        G = G.substr(0,2);
+        }
+        if (G.length==0) {
+        G = "00" ;
+        }
+    }
+    if (c==3) {
+        B = document.getElementById('p2').innerHTML
+        if (B.length==1) {
+            B += t.substr(6,1);
+        }
+        if (B.length==3) {
+            B = B.substr(0,2);
+        }
+        if (B.length==0) {
+            B = "00" ;
+        }
+    }
+    document.getElementById('p2').innerHTML = "" ;
+    var z = document.getElementById('p1').innerHTML = "#" + R + G + B ;
+    document.body.style.backgroundColor = z ;
+}
+
+function  conv() {
+    var t = document.getElementById('p2').innerHTML;
+    var d = parseInt(t);
+    var ha = d.toString(16);
+    var h = ha.toUpperCase();
+    document.getElementById('p2').innerHTML = h
+}
+
+</script>
+
+</body>
+
+

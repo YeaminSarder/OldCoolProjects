@@ -1,0 +1,402 @@
+<style>
+#container {
+width : 450px;
+height : 400px;
+background : yellow ;
+position : relative ;
+}
+
+.sqr {
+width : 50px;
+height :50px;
+background : #3333ff ;
+position : absolute ;
+//top : 200px;
+text-align : center;
+text-halign : center;
+}
+
+#animate, #animate2, #animate3, #animate4  {
+width : 50px;
+height :50px;
+background : #3333ff ;
+position : absolute ;
+top : 200px;
+text-align : center;
+text-halign : center;
+}
+#animate2 {
+left : 350px;
+}
+#animate3 {
+top : 350px;
+}
+#animate4 {
+top : 0px;
+}
+
+</style>
+
+
+<div id='container' style='height:300;width:400'>
+
+
+</div>
+<button onclick = 'plus()' >stop/go</button>
+
+
+
+
+
+
+
+
+<script>
+//-----------vars-----------------------------------
+var con = document.getElementById('container');
+
+
+arr = [];
+//__________________________________________________\
+arr.push(new sqr(5,5,50,50))
+arr.push(new sqr(5,5,60,60))
+//arr.push(new sqr(80,80,Math.random(-t.y+t.obj.style.height.slice(0,-2)*1),150,1))
+//arr.push(new sqr(70,70,300,0,1))
+//arr.push(new sqr(80,80,406,150,1))
+//arr.push(new sqr(70,70,300,78,1))
+
+//level(2);
+
+//rndn(3);
+//_______________________________________________________/
+//_________________LEVELS_________________________________
+//LEVELS
+function level(n) {
+	switch (n) {
+case 1:
+//PILES
+sH(345)
+arr.push(new sqr(60,80,r(0,200),b(90,80),1))
+arr.push(new sqr(60,80,r(0,200),b(0,80),1,1,1))
+arr.push(new sqr(60,80,r(0,200),0,1))
+arr.push(new sqr(60,80,r(0,200),90,1,1,1))
+break;
+case 2:
+//CORNERS
+arr[0].x=175
+arr[0].y=125
+arr.push(new sqr(100,50,r(0,100),0,1))
+arr.push(new sqr(100,50,0,b(0,50),1,1,1))
+arr.push(new sqr(100,50,0,0,1)) 			//ul
+arr.push(new sqr(100,50,r(0,100),b(0,50),1,1,1))	//br
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	}
+}
+//-----------------------------------------
+//arr[0].move()
+//e.sx=0
+//e.sy=0
+//e.sx=false;
+//var f = 
+//arr[1].move()
+var lr;
+//-----------------------------------------------
+
+function sH(h) {
+con.style.height = h
+}
+
+function sW(w) {
+con.style.width = w
+}
+
+
+
+
+function r(x,w) {
+return (con.style.width.slice(0,-2)*1-w-x)
+
+
+}
+
+function b(y,h) {
+return con.style.height.slice(0,-2)*1-h-y
+
+
+}
+
+
+
+
+
+function rndn(n) {
+for (i=0;i<n;i++) {
+rndsq();
+}
+}
+function rndsq() {
+
+var w=mfPickRandom(50,100);
+var h=mfPickRandom(50,100);
+var maxX=con.style.width.slice(0,-2)*1-w
+var maxY=con.style.height.slice(0,-2)*1-h
+var x=mfPickRandom(0,maxX);
+var y=mfPickRandom(0,maxY)
+arr.push(new sqr(h,w,x,y,1))
+
+}
+
+function large(t) {
+t.style.border='3px solid rgba(255,255,255,.5)'
+var tt=t;
+//alert(tt)
+document.onmouseup=rel;
+lr=setInterval(ll,100);
+//alert(arr.indexOf())
+function ll() {
+if(tt.style.height.slice(0,-2)*1<=120) {
+tt.style.height = tt.style.height.slice(0,-2)*1+1;
+tt.style.width=tt.style.width.slice(0,-2)*1+1;
+}
+}
+
+function rel() {
+setTimeout(rel2,250)
+}
+
+
+
+function rel2() {
+clearInterval(lr);
+//alert('onrel')
+//alert ('t')
+t.style.border=''
+}
+}
+document.onmousedown=accelp
+function accelp() {
+accel();
+document.onmousemove =accel;
+}
+document.onmouseup=accelstp
+function accelstp() {
+document.onmousemove=null
+}
+function accel() {
+var e=window.event;
+//alert (e)
+for (var i=0;i<arr.length;i++) {
+var xd=arr[i].x+(arr[i].width/2)-e.clientX;
+var yd=arr[i].y+(arr[i].height/2)-e.clientY;
+var d=Math.sqrt(xd*xd+yd*yd)
+
+if (arr[i].sx>0){var st=1}else{var st=-1}
+
+arr[i].sx+=force/d*xd;
+
+
+arr[i].sy+=force/d*yd;
+
+}
+}
+var fric=.01
+var force=.1
+function sqr(w,h,x,y,c,sx,sy) {
+
+this.obj = document.createElement('div');
+this.sx=0;
+this.sy=0;
+this.c=c;
+con.appendChild(this.obj);
+this.obj.setAttribute('class','sqr');
+this.obj.style.height = h;
+this.obj.style.width = w;
+this.obj.style.left=x;
+this.obj.style.top=y;
+this.y = this.obj.offsetTop;
+this.x = this.obj.offsetLeft;
+this.height=this.obj.style.height.slice(0,-2)*1;
+this.width=this.obj.style.width.slice(0,-2)*1;
+//var k=function (){alert('ji')};
+this.obj.setAttribute('onmousedown','large(this)');
+//this.obj.setAttribute('onmouseup','alert()');
+
+if (c) {
+this.obj.style.backgroundColor = 'red' 
+}else{
+this.obj.style.backgroundColor = 'blue' 
+}
+
+
+
+this.crashWith = function(obj) {
+
+	if (this==obj){return 0}
+	thistop = this.y;
+	thisbottom = this.y+(this.height);
+	thisleft = this.x;
+	thisright = this.x+(this.width);
+	objtop = obj.y;
+	objbottom = obj.y+(obj.height);
+	objleft = obj.x;
+	objright = obj.x+(obj.width);
+
+		return ((thistop<=objbottom&&thisbottom>=objtop)&&(thisleft<=objright&&thisright>=objleft))
+	}
+
+this.move = function () {
+	//alert(this
+	//this.frame();
+	this.int = setInterval(this.frame,5);
+	this.y = this.obj.offsetTop;
+	this.x = this.obj.offsetLeft;
+//alert (this.obj.offsetTop)
+//var sx = true;
+//var sy = true;
+
+//alert (this)
+};
+var t=this;
+this.frame = function () {
+		t.height=t.obj.style.height.slice(0,-2)*1;
+		t.width=t.obj.style.width.slice(0,-2)*1;
+		//alert(t.obj.style.height.slice(0,-2));
+		if (t.y+t.obj.style.height.slice(0,-2)*1>=con.style.height.slice(0,-2)*1) {
+			t.sy = -t.sy;
+		}
+		if (t.x<=0) {
+			t.sx = -t.sx;
+		}
+		if (t.y<=0) {
+			t.sy = -t.sy;
+		}
+		if (t.x+t.obj.style.width.slice(0,-2)*1>=con.style.width.slice(0,-2)*1) {
+		t.sx = -t.sx;
+		}
+		if (t.sx>0) {
+		t.sx-=fric;
+		}
+		if (t.sx<0) {
+		t.sx+=fric;
+		}
+
+		if (t.sy>0) {
+		t.sy-=fric;
+		}
+		if (t.sy<0) {
+		t.sy+=fric;
+		}
+		t.x+=t.sx;
+		t.y+=t.sy;
+		//alert(t)
+		(t.obj).style.top = t.y + 'px';
+		(t.obj).style.left = t.x + 'px';	
+		for (var i=0;i<arr.length;i++) {
+
+
+
+	if (arr[i].crashWith(t)){crWork(t,arr[i])}
+		}
+	};
+
+
+
+
+
+
+
+this.move();
+}
+var d=0
+var lt=Math.pow(arr.length,2);
+//alert (lt);
+function xl() {
+
+var Obj = arr[mfPickRandom(0,arr.length-1)]
+if(Obj.c){
+Obj.obj.style.height = Obj.obj.style.height.slice(0,-2)*1+10;
+Obj.obj.style.width=Obj.obj.style.width.slice(0,-2)*1+10;
+lt=Math.pow(arr.length,2);
+d=0
+
+}else if (lt>0){
+lt--
+xl()
+}
+}
+
+
+
+function crWork(t,k) {
+if (!t.c&&!k.c) {
+d++
+}
+if (d>=10) {
+xl()
+}
+
+
+//alert(t)
+//if(d) {
+t.sx = !t.sx;
+t.sy = !t.sy;
+if (t.obj.style.border&&!t.c&&k.c) {
+t.obj.style.height=50
+t.obj.style.width=50
+}else{
+
+}
+
+
+if ((t.height>=30&&t.width>=30)&&(t.c!=k.c)){
+t.obj.style.height = t.obj.style.height.slice(0,-2)*1-10;
+t.obj.style.width=t.obj.style.width.slice(0,-2)*1-10;
+}
+
+
+if (t.height<=30||t.width<=30) {
+
+t.c=k.c;
+//clearInterval(t.int);
+if (t.c) {
+t.obj.style.backgroundColor = 'red' 
+}else{
+t.obj.style.backgroundColor = 'blue' 
+}
+}
+}
+
+
+function mfPickRandom(a,b) {
+    var r = Math.random()	;
+    var c = b - a + 1	;
+    t = a +Math.floor(c * r);
+    return t
+}
+
+
+</script>

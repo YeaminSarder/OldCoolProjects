@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+
+
+
+<body>
+<style>
+.mysvg {
+position:absolute;
+left:0;
+top:0;
+
+}
+.mypath {
+fill:none;
+stroke:red;
+}
+
+}
+
+</style>
+
+
+
+
+<svg id='svg1' >
+<path id='p1' d='M20 20 v25' stroke-width='5' stroke='#aaa' />
+</svg>
+
+<div id='d1'></div>
+
+<script>
+
+
+var svg1=document.getElementById('svg1')
+var p1=document.getElementById('p1')
+
+
+var r=0.5+Math.sqrt(5)/2
+var d=15
+//alert(r)
+
+//------------------
+var nx=12
+var ny=12
+var w= d*(1+r)
+var h=w
+var tx=10
+var ty=10
+
+var smallO=d*(r/2-.5)
+draw='m '+d*r/2+' '+0+' '+'v'+d*r/2+' '+
+     'm '+0+' '+(-smallO)+' h '+(-d*r/2)+' '+
+     'm '+d*0.5+' '+0+' v '+d*r+' '+
+     'm '+(-0.5*d)+' '+0+' h '+(d*r/2)+' '+
+     'm '+0+' '+0.5*d+' v '+(-d*r/2)+' '+
+     'm '+(-smallO)+' '+0+' h '+(d*r)+' '+
+     'm '+(-smallO)+' '+0+' v '+(d*r/2)+' '+
+     'm '+0+' '+(-0.5*d)+' h '+(d*r/2)+' '+
+     'm '+(-0.5*d)+' '+0+' v '+(-d*r)+' '+
+     'm '+d*0.5+' '+0+' h '+(-d*r/2)+' '+
+     'm '+0+' '+(-0.5*d)+' v '+(d*r/2)+' '+
+     'm '+(smallO)+' '+0+' h '+(-d*r)+' '
+//-------------------
+
+
+
+for (var i=0;i<nx;i++){
+    for (var j=0;j<ny;j++){
+        createSvgPath('M'+i*w+' '+j*h+' m'+tx+' '+ty+' '+draw)
+    }
+}
+
+
+
+
+function createSvgPath(str){
+
+var d1=document.body.appendChild(document.createElement('div'))
+d1.innerHTML="<svg class='mysvg' ><path class='mypath' d='"+str+"' stroke='black' stroke-width=2></path></svg>"
+var svg2=document.getElementById('svg2')
+return document.getElementsByTagName('path')[0]
+
+}
+
+
+
+//----------------
+
+
+//window.addEventListener('mousedown',function (){alert(document.readyState)})
+
+p1.setAttribute('d','M 20 20 h 50')
+
+var svg=document.createElement('svg')
+//svg.setAttribute('width','500')
+//svg.setAttribute('height','500')
+//svg.setAttribute('viewbox','0 0 50 50')
+
+
+/*
+var p2=svg1.appendChild(svg1.createSVGLength())
+
+p2.setAttribute('stroke','blue')
+p2.setAttribute('stroke-width','5')
+p2.setAttribute('d','M 20 20 v 150')
+//var svg=document.body.appendChild(svg)
+//alert(document.readyState)
+*/
+//r(svg1.firstElementChild)
+
+function r(obj) {			//a window that desplays all
+					//properties of an object
+	var m;
+	var txt = '';
+
+	for (m in obj ) {
+
+		txt += m + ':'+ obj[m]+ '</br>'; 
+	}
+
+	var e = document.body.appendChild(document.createElement('div'));
+	var x = document.body.appendChild(document.createElement('button'));
+	x.setAttribute('style','position:absolute;right:18;top:10;color:white;background-color:red')
+	x.innerHTML='X'
+	x.setAttribute('onclick','document.body.removeChild(document.getElementById("lrtBox"));document.body.removeChild(this) ')
+	e.id='lrtBox'
+	e.innerHTML=txt
+	e.setAttribute('style','position:absolute;left:10;top:10;background-color:#dddddd; height:300px;width:600px;overflow:auto;border:1px solid red')
+        
+
+
+
+}
+
+</script>
+
+</body>

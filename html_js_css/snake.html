@@ -1,0 +1,352 @@
+<style>
+#con{
+font-size:100%;
+background-color:#eee;
+position :relative;
+}
+
+.o{
+border :1px solid white  ;
+border-radius:5px;
+position :absolute;
+top:0;
+left:0;
+font-size:100%;
+background-color:rgba(0,0,0,.33)
+}
+
+#ho{
+background-Color:red;
+//border:1px solid;
+border-radius:5px;
+z-Index:5
+
+}
+</style>
+<p></p>
+
+
+<script>
+
+lll=1
+rrr=1
+uuu=1
+ddd=1
+
+
+
+var oH=25;
+var oW=25;
+var c=0;
+var maxl=400;
+var maxt=300
+var con=cE(document.body,'div',maxt,maxl,'con')
+
+var arr = []
+var brr =[]
+
+//---------------------------------------------------making--snake
+for (var i=0;i<3;i++) {
+arr.push(new o('',50,100));
+//arr.push(new o('1',80,70));
+//arr.push(new o('2',80,70));
+}
+
+arr[0].obj.innerHTML=arr.length
+//---------------------------------------------------adding--obj
+brr.push(new o(1,30,30))
+//brr.push(new o(0,30,35))
+//brr.push(new o(1,30,40))
+arr[0].obj.id='ho'; //------------------------------added--id
+
+//align (arr) //---------------------------------------snake straightened
+
+
+
+
+
+
+
+
+
+
+
+//-------------------------------------------snake--controls
+
+var snk=arr
+function left() {
+snk[0].left();
+
+eachmove()
+}
+function right() {
+snk[0].right();
+eachmove()
+}
+function up() {
+snk[0].up();
+eachmove()
+}
+function down() {
+snk[0].down();
+eachmove()
+}
+
+
+
+//--------------------------------------------adding-keyboard
+
+addJoy()
+function addJoy() {
+window.addEventListener('keydown',function (e) {
+//alert(e.keyCode)
+if (e.keyCode==37) {left()};
+if (e.keyCode==39) {right()};
+if (e.keyCode==38) {up()};
+if (e.keyCode==40) {down()};
+})
+}
+
+
+
+
+
+
+
+
+
+//-----------------------------------------------the-constructor
+
+function o(dir,l,t) {
+
+this.obj=cE(con,'div',oH,oW,'',dir,'o');
+this.dir=dir;
+this.innerHTML=dir
+this.t=t;
+this.l=l;
+this.lt=t;
+this.ll=l;
+
+this.st=function (tt) { this.obj.style.top=tt; this.lt=this.t; this.t=tt  };
+this.sl=function (ll) { this.obj.style.left=ll; this.ll=this.l; this.l=ll  };
+//this.obj.style.top=t
+this.st(t)
+this.sl(l)
+this.follow= this;
+this.advance=function () {
+this.st(this.follow.lt);
+this.sl(this.follow.ll);
+}
+
+this.left= function () {   //-----------------------controllers
+if (lll) {
+
+if (this.l>0) {
+this.sl(this.l-oW);
+this.st(this.t);
+}else{
+this.up();
+}
+
+lll=1
+rrr=0
+uuu=1
+ddd=1
+adv(snk);
+}
+
+}
+this.right= function () {
+if (rrr) {
+
+if (this.l<=maxl-2*oW) {
+this.sl(this.l+oW);
+this.st(this.t);
+}else{
+this.down()
+}
+
+lll=0
+rrr=1
+uuu=1
+ddd=1
+adv(snk);
+}
+
+
+}
+this.up= function () {
+if (uuu) {
+
+if (this.t>0) {
+this.st(this.t-oH);
+this.sl(this.l);
+}else{
+right();
+}
+
+lll=1
+rrr=1
+uuu=1
+ddd=0
+adv(snk);
+}
+
+
+}
+this.down= function () {
+if (ddd) {
+
+if (this.t<=maxt-2*oH) {
+this.st(this.t+oH);
+this.sl(this.l);
+}else{
+this.left()
+}
+
+lll=1
+rrr=1
+uuu=0
+ddd=1
+adv(snk);
+}
+
+}
+this.forward = function () {
+if (this.t>this.lt) {
+this.down()
+//this.st(this.lt+2*oH);
+}
+ if (this.t<this.lt) {
+this.up();
+}
+
+if (this.l>this.ll) {
+this.right();
+}
+if (this.l<this.ll) {
+this.left()
+}
+//this.sl(this.ll);
+//alert()
+//adv(snk);
+}
+
+this.crashWith = function(obj) {   //-------------------crash--cheker
+//this.cr=0;
+	if (this==obj){return 0}
+	thistop = this.t;
+	thisbottom = this.t+(oH);
+	thisleft = this.l;
+	thisright = this.l+(oW);
+	objtop = obj.t;
+	objbottom = obj.t+(oH);
+	objleft = obj.l;
+	objright = obj.l+(oW);
+	var outp= ((thistop<=objbottom&&thisbottom>=objtop)&&(thisleft<=objright&&thisright>=objleft))
+	return (outp);
+
+}
+
+}
+function align(arr) {		//--------------------------strightener
+for (var i=1;i<arr.length;i++) {
+arr[i].st(arr[i-1].t);
+//alert (arr[i-1].st)
+arr[i].sl(arr[i-1].l-oW);
+arr[i].follow=arr[i-1];
+
+}
+
+}
+
+for (var i=1;i<arr.length;i++) {
+arr[i].follow=arr[i-1]
+//arr[i].advance();
+
+}
+
+
+function adv(arr) { 	//---------------------non--head--follows--head
+for (var i=1;i<arr.length;i++) {
+//arr[i].follow=arr[i-1]
+arr[i].advance();
+
+}
+}
+
+//----------------------------------------------crash---check
+function crch() {
+var len=brr.length
+for (var i=0;i<len;i++) {
+	if (arr[0].crashWith(brr[i])) {
+		var d=brr[i]
+		var k=0
+		for (var j=0;j<brr[i].dir;j++) {
+			setTimeout(function() {
+			arr[arr.length] =new o('',0,0);
+			arr[arr.length-1].follow=arr[arr.length-2];
+			arr[0].forward()
+			//adv(arr)
+			
+			},k)
+			k+=10
+		}
+
+		con.removeChild(brr[i].obj);
+		brr.splice(brr.indexOf(brr[i]),1);
+
+		arr[0].obj.innerHTML=arr.length
+		brr.push(new o(rnd(1,9),rnd(0,maxl-2*oW),rnd(0,maxt-2*oH)))
+	}
+}
+len=arr.length
+for (var i=3;i<len;i++) {
+	if (arr[0].crashWith(arr[i])) {arr[i].left()}
+}
+
+
+}
+
+
+
+function eachmove() {
+crch()
+}
+
+
+
+//Random
+function rnd(a,b) {
+    return  a +Math.floor((b - a + 1) * Math.random());
+}
+
+
+
+
+
+
+
+//---------------------------------------------element--crator
+function cE(tg,tag,h,w,id,text,Class) {
+if (text==undefined) {text=''}
+
+
+var nE = document.createElement(tag);
+nE.appendChild(document.createTextNode(text));
+var e = tg.appendChild(nE);
+e.id = id;
+e.setAttribute('class',Class);
+e.style.width=w;
+e.style.height=h;
+return e;
+}
+
+
+function forward () {
+
+arr[0].forward()
+eachmove()
+}
+setInterval(forward,500)
+</script>

@@ -1,0 +1,123 @@
+<p id='p' style='font-size:300%'></p>
+<script>
+
+//var sub = ['I','He','It','They']
+var verb = ['',['move ',[['','left ','right '],'leg'],'hand','head']]
+var face = 
+[
+	'',
+	[
+		'blink ',
+		'both eyes',
+		[
+			[
+				'',
+				'left ',
+				'right '
+			],
+			'eye'
+		]
+	],
+	[
+		'',
+		[
+			'brathe ',
+			'in',
+			'out'
+		],
+		'hold breathe',
+		'clence nose'
+	],
+	[
+		'clence ',
+		[
+			'mouth ',
+			[
+				'to ',
+				'left',
+				'right'
+			]
+		]
+	]
+
+
+]
+
+
+
+
+var run =
+[
+ '',
+ [
+  '',
+  'jump',
+  'up',
+  'roll',
+  'down'
+ ],
+
+ 
+]
+
+var ah=
+[
+ '',
+ 'i',
+ '!',
+ //'!',
+ //'Please'
+]
+
+var p = document.getElementById('p')
+
+
+setInterval(timer,100);
+
+function timer() {
+if (Math.random()<.9) {
+blink();
+}
+}
+
+
+
+function blink() {
+
+p.innerHTML=ch(ah)+'</br>';
+setTimeout('p.innerHTML=""',Math.random()*300)
+}
+
+
+
+
+
+
+
+rep('p.innerHTML+=ch(run)+"</br>"',6)
+
+
+function rep(code,n) {
+for (var i=0;i<n;i++) {
+
+eval(code)
+} 
+}
+
+
+
+function ch(arr) {
+	//var arr=[];
+	//arr=arrs;
+	if (arr.constructor===Array) {
+		var y=arr.shift()
+		var x = arr[Math.floor(Math.random()*arr.length)];
+		arr.splice(0,0,y);
+		return ch(y)+ch(x);
+	} else {
+		return arr;
+	}
+}
+
+
+</script>
