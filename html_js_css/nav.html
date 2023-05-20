@@ -1,0 +1,73 @@
+<p id='des'></p>
+<p id='err'></p>
+<button id='b' style='background-color:#eee' onclick='act()' >run</button>
+
+<style>
+
+.con {
+	display : inline-block;
+	list-style: none ;
+	
+	padding-left : 5px;
+	
+	border-left-style :solid;
+	border-color : red;
+}
+.con:last-child{
+	
+	list-style: none  ;
+	
+	padding-left : 5px;
+	
+	border-style : none solid ;
+	border-color :red;
+}
+body {
+position:relative;
+}
+
+
+ul  {
+position : absolute ;
+right :0%;
+padding: 0px 0;
+left: 30%;
+}
+
+</style>
+
+
+<div class='con'>
+<ul>
+<li id='g'>ghh</li>
+<li>ghh</li>
+<li>ghhh</li>
+
+</ul>
+
+</div>
+
+<script>
+
+
+
+function act() {
+	try {
+//----------------------------------------------------------------------------
+
+
+
+
+
+//----------------------------------------------------------------------------
+	}
+
+
+	catch(err) {
+		var x = err.message;
+		document.getElementById("err").innerHTML = err ;
+	}
+}
+</script>
+
+<script src='mf.js'></script>

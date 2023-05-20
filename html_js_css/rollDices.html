@@ -1,0 +1,195 @@
+
+<style>
+div {
+border:1px solid red;
+position:absolute;
+top:0;
+left:5px;
+}
+button {
+font-size:60px;
+//position:absolute;
+//right:0;
+//bottom:0;
+//width:10px
+}
+
+
+
+</style>
+<p></p>
+
+
+
+
+<script>
+var d=[
+"C:/Users/Yeamin/Documents/pics/Alea_1.png",
+"C:/Users/Yeamin/Documents/pics/Alea_2.png",
+"C:/Users/Yeamin/Documents/pics/Alea_3.png",
+"C:/Users/Yeamin/Documents/pics/Alea_4.png",
+"C:/Users/Yeamin/Documents/pics/Alea_5.png",
+"C:/Users/Yeamin/Documents/pics/Alea_6.png"
+]
+
+var n=0;
+var e=[]
+
+
+var min=new Button('-','fMin()')
+var roll=new Button('roll','fRoll()')
+var plus=new Button('+','fPlus()')
+
+for (var i=0;i<n;i++){
+e.push(document.body.appendChild(document.createElement('img')))
+}
+fPlus()
+
+
+function fRoll(){
+    for (var i=0;i<n;i++){
+        e[i].src=d[Math.floor(Math.random()*6)];
+    }
+}
+function fPlus(){
+n++;
+e.push(document.body.appendChild(document.createElement('img')))
+fRoll()
+}
+function fMin(){
+if (n>0){
+n--;
+document.body.removeChild(e.pop())
+fRoll()
+}
+}
+
+
+function Button(name,script,x,y,w,h) {
+    this.obj=document.body.appendChild(document.createElement('button'))
+    var e=this.obj;
+    e.innerHTML=name;
+    if (w&&h){
+        e.style.width=w+'px';
+        e.style.height=h+'px';
+    }else{
+        if (w){
+            e.style.width=w+'px';
+        }
+        if (h){
+            e.style.height=h+'px';
+        }
+    }
+    if (x){e.style.left=x}else{x=0}
+    if (y){e.style.top=y}else{y=0}
+
+    
+    
+
+    if (!script){var script="alert('No script')"}
+    e.setAttribute('onclick',script)
+
+
+//var t=this
+    Object.defineProperty(this,'w',{
+    set:function (w){
+    this.obj.style.width=w+'px'
+            this.W=w
+        }
+    })
+    Object.defineProperty(this,'h',{
+        set:function (h){
+            this.obj.style.height=h+'px'
+            this.H=h
+        }
+    })
+    Object.defineProperty(this,'x',{
+        set:function (x){
+            this.obj.style.left=x+'px'
+            this.X=x
+        }
+    })
+    Object.defineProperty(this,'y',{
+        set:function (y){
+            this.obj.style.top=y+'px'
+            this.Y=y
+        }
+    })
+    Object.defineProperty(this,'name',{
+        set:function (name){
+            this.obj.innerHTML=name
+            this.Name=name
+        }
+    })
+    Object.defineProperty(this,'script',{
+        set:function (script){
+            this.obj.setAttribute('onclick',script)
+            this.Script=script
+        }
+    })
+    this.Name=name
+    this.W=w
+    this.H=h
+    this.X=x
+    this.Y=y
+    this.Script=script
+    
+
+    
+}
+
+
+/*
+
+
+
+var defx=0
+var defy=0
+var defw=50
+var defh=50
+var defm=5
+var deftype='obj'
+
+new Cons(5,5,7,8)
+
+this.obj=document.body.appendChild(document.createElement('div'))
+
+
+this.upVars=function (){
+this.obj.style.width=w+'px';
+this.obj.style.height=h+'px'
+this.obj.style.left=this.x+'px'
+this.obj.style.top=this.y+'px'
+}
+this.upVars();
+
+
+
+this.toSide=function (obj,S) {
+//alert(obj.x)
+if (S%3==1){
+t.x=obj.x-t.w;
+}else
+if (S%3==2){
+t.x=obj.x
+}else
+if (S%3==0){
+t.x=obj.x+obj.w
+}
+
+if (Math.floor((S-1)/3)==0){
+t.y=obj.y-t.h;
+}else
+if (Math.floor((S-1)/3)==1){
+t.y=obj.y
+}else
+if (Math.floor((S-1)/3)==2){
+t.y=obj.y+obj.h
+}
+//t.y=obj.y
+t.upVars()
+}
+
+
+}*/
+</script>

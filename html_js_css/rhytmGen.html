@@ -1,0 +1,82 @@
+
+<input id='i1' type='text'></input>
+<button id='b1' onclick='pi=genRhy(i1.value).toUpperCase()+"</br>"+pi;p1.innerHTML=pi'>Rhythm</button>
+<textArea id='t1'></textArea>
+<button id='b2'></button>
+<p id='p1'>p</p>
+<script>
+
+var i1=document.getElementById('i1')
+var p1=document.getElementById('p1')
+
+var pi=''
+
+
+var ch = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+var c = ['b','c','d','f','g','h','j','k','l','m','n','p','q','r','s','t','v','w','x','y','z']
+var v=['a','e','i','o','u','y','w']
+var h=['h','l','n','r']
+function pickFrom(arr){
+return arr[Math.floor(Math.random()*arr.length)]
+}
+//var Txt='yEAMIN'
+
+function genRhy(oTxt){
+var Txt=oTxt;
+
+//Txt=Txt.replace(/"/g,'')
+var OTxt=''
+//for (;/[bcdfghjklmnpqrstvwxyz]/.test(oTxt);)
+oTxt=oTxt.replace(/[bcdfghjklmnpqrstvxz][hlnr]/g,'c~')
+oTxt=oTxt.replace(/[bcdfghjklmnpqrstvxz]/g,'c')
+oTxt=oTxt.replace(/[aeiouwy]/g,'v')
+oTxt=oTxt.replace(/\s/g,'s')
+
+oTxt=oTxt.replace(/[ABCDEFGHIJKLMNOPQRSTUVWXYZ]/g,'r')
+oTxt=oTxt.replace(/\d/g,'d')
+
+for (var i=0;i<oTxt.length;i++){
+if (oTxt.charAt(i)=='c'){
+OTxt+=pickFrom(c);
+}else
+if (oTxt.charAt(i)=='v'){
+OTxt+=pickFrom(v);
+}else
+if (oTxt.charAt(i)=='s'){
+OTxt+=' ';
+}else
+if (oTxt.charAt(i)=='r'){
+OTxt+=(Txt.charAt(i)).toLowerCase();
+}else
+if (oTxt.charAt(i)=='~'){
+OTxt+=pickFrom(h);
+}else
+if (oTxt.charAt(i)=='d'){
+OTxt+=(OTxt.charAt(Txt.charAt(i))).toLowerCase();
+}else
+OTxt+=(Txt.charAt(i)).toLowerCase();
+}
+
+
+
+return OTxt;
+
+}
+
+
+
+
+addCtrl()
+
+function addCtrl () {
+
+
+var iiii= document.getElementById('t1');
+document.getElementById('b2').onclick=doo;;
+
+function doo() {
+eval(iiii.value)
+}
+}
+
+</script>

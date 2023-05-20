@@ -1,0 +1,144 @@
+<style>
+#con {
+	height : 300px;
+	width : 300px;
+	
+	position : relative ;
+	left : 200px;
+}
+
+#item {
+	height : 50px;
+	width : 50px;
+	background : black;
+	position : absolute ;
+	left : 125px;
+	top : 125px;
+}
+
+#ctrl {
+	position : relative  ;
+	left :520px;
+	top : -150px;
+	border : 1px solid black;
+	height : 150px;
+	width : 150px;
+}
+
+#up {
+	position : absolute ;
+	left : 50px;
+	height : 50px;
+	width : 50px;
+}
+#left {
+	position : absolute ;
+	top : 50px;
+	height : 50px;
+	width : 50px;
+}
+#right {
+	position : absolute ;
+	left : 100px;
+	top : 50px;
+	height : 50px;
+	width : 50px;
+}
+#down {
+	position : absolute ;
+	left : 50px;
+	top : 100px;
+	height : 50px;
+	width : 50px;
+}
+#tg {
+	position : absolute ;
+	top:0px;
+	left:0px;
+	height : 75px ;
+	width : 75px ;
+	border : 1px solid black;
+}
+
+</style>
+<div id='con'>
+	<div id='item'>
+	</div>
+	<div id='tg'>
+	</div>
+</div>
+
+<div id='ctrl'>
+
+<button id='up' onclick='u = setInterval(up,5);clearInterval(d);'>/\</button>
+<button id='left' onclick='l = setInterval(left2,5);clearInterval(r);'>&lt;</button>
+<button id='right' onclick='r = setInterval(right,5);clearInterval(l);'>&gt;</button>
+<button id='down' onclick='d = setInterval(down,5);clearInterval(u);'>\/</button>
+
+</div>
+
+<script>
+var item = document.getElementById('item');
+var tg = document.getElementById('tg');
+var top = 125;
+var left = 125;
+var top1
+var left1
+var score = 0 ;
+var time = 1000;
+var gameover = false;
+setTG();
+function up() {
+top--;
+item.style.top = top + 'px';
+if (checkTG()) {
+setTG();	
+}
+}
+function left2() {
+left-- ;
+item.style.left = left + 'px';
+if (checkTG()) {
+setTG();	
+}
+}
+function right() {
+left++;
+item.style.left = left + 'px';
+if (checkTG()) {
+setTG();	
+}
+}
+function down() {
+top++;
+item.style.top = top + 'px';
+if (checkTG()) {
+setTG();	
+}
+}
+function checkTG() {
+	if (!gameover) {
+	time--
+	tg.innerHTML = score +' '+ time ;
+	if (time<=0) {
+	gameover = true ;
+	tg.innerHTML = score + '<br> GAME<br>OVER';
+	tg.style.backgroundColor = 'red';
+	score = 0;
+	}
+	
+	return top > top1 && top < top1 + 25 && left > left1 && left < left1 + 25  ;
+}
+}
+
+function setTG() {
+top1 = Math.floor(Math.random()*300);
+left1 = Math.floor(Math.random()*300);
+tg.style.top = top1;
+tg.style.left = left1;
+score++
+time = 1000;
+tg.innerHTML = score +' '+ time;
+document.reload;
+}
+</script>

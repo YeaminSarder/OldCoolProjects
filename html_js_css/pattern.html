@@ -1,0 +1,179 @@
+
+<style>
+input {
+box-sizing : border-box;
+//border:1px solid black;
+width:25px;
+height : 25px;
+float:left;
+}
+
+div {
+box-sizing : border-box;
+//border:1px solid black;
+width:20px;
+height : 5px;
+float:left;
+}
+
+
+.hor {
+width:20px;
+height:5px;
+}
+.var {
+width:5px;
+height:20px;
+position : relative;
+margin-top:5px;
+//margin-left:5px;
+}
+#1h1 {
+background-color:black;
+}
+#d1 {
+width:75%;
+height :75%;
+position:absolute;
+background-color:rgba(0,0,0,0);
+//border: 1px solid white ;
+top:10%;
+left:12.5%;
+}
+</style>
+
+<button id = 'd1' onclick='rnd()'></button>
+
+
+
+
+<script>
+var last = 0;
+var xN = Math.floor(window.innerWidth / 25) -1;
+var yN = Math.floor(window.innerHeight / 25) -0;
+//alert(yN)
+for(var j = 0;j<yN;j++) {
+
+
+for(var i = 0;i<xN;i++) {
+
+var x = createElement(document.body,'div','',i+'h'+j)
+x.setAttribute('class', 'hor pix');
+x = createElement(document.body,'div','',i+'v'+j)
+x.setAttribute('class', 'var pix');
+
+}
+}
+for (var i=0;i<yN;i++){
+var f = document.getElementById('0h'+i)
+
+f.setAttribute('onclick','th(this);')
+
+
+}
+for (var j=0;j<xN;j++){
+var f = document.getElementById(j+'v'+(yN-1))
+
+f.setAttribute('onclick','tv(this)')
+
+
+}
+
+function rnd() {
+for(var i=0;i<Math.floor(yN/2);i++) {
+	var re = document.getElementById('0h' + i);
+	var rf = document.getElementById('0h' + (yN-i));
+	//th(re);
+	if (mfPickRandom(0,1)) {
+		th(re);
+                th(rf);
+	}
+}
+
+for(var i=0;i<Math.floor(xN/2);i++) {
+	var re = document.getElementById(i +'v' + (yN-1));
+	var rf = document.getElementById(yN-i +'v' + (yN-1));
+	//tv(re);
+	if (mfPickRandom(0,1)) {
+		tv(re);
+                tv(rf);
+	}
+}
+
+}
+
+
+
+for(var i=0;i<yN;i++) {
+	var re = document.getElementById('0h' + i);
+	th(re);
+	th(re);
+}
+
+for(var i=0;i<xN;i++) {
+	var re = document.getElementById(i +'v' + (yN-1));
+	tv(re);
+	tv(re);
+}
+
+
+
+function th(obj) {
+	if (obj.style.backgroundColor == "black"){
+		obj.style.backgroundColor = "white"
+	}else{
+		obj.style.backgroundColor = "black"
+	}
+	var idC = obj.id.split('h');
+	var bool = obj.style.backgroundColor == "black"
+	for (var i=0;i<xN;i++) {
+		var obj2 = document.getElementById(i+'h'+idC[1]);
+		if (bool) {
+			obj2.style.backgroundColor = 'black';
+		}else{
+			obj2.style.backgroundColor = 'white';
+		}
+		bool = !bool;
+	}
+}
+
+
+function tv(obj) {
+	if (obj.style.backgroundColor == "black"){
+		obj.style.backgroundColor = "white"
+	}else{
+		obj.style.backgroundColor = "black"
+	}
+	var idC = obj.id.split('v');
+	var bool = obj.style.backgroundColor == "black"
+	for (var i=yN-1;i>-1;i--) {
+		var obj2 = document.getElementById(idC[0]+'v'+i);
+		if (bool) {
+			obj2.style.backgroundColor = 'black';
+		}else{
+			obj2.style.backgroundColor = 'white';
+		}
+		bool = !bool;
+	}
+}
+
+
+
+
+function createElement(tg,tag,text,id) {
+var nE = document.createElement(tag);
+nE.appendChild(document.createTextNode(text));
+var e = tg.appendChild(nE);
+e.id = id;
+return e;
+}
+
+function mfPickRandom(a,b) {
+    var r = Math.random()	;
+    var c = b - a + 1	;
+    t = a +Math.floor(c * r);
+    return t
+}
+
+
+</script>

@@ -1,0 +1,376 @@
+
+
+<head>
+<style>
+div {
+border:1px solid red;
+position:absolute;
+height:50px;
+width:50px;
+left:0px;
+top:0px;
+z-index:0
+}
+.cubeCon{
+  width: 400px;
+  height: 400px;
+  border: 2px solid black;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  perspective: 800px;
+  perspective-origin: top right;
+
+}
+
+
+
+.cube {
+position:relative;
+left:200px;
+perspective:500px;
+transform:rotateY(0deg);
+transform-style:  preserve-3d;
+//perspective-origin:150px
+}
+
+.side {
+transform:rotateY(-30deg)
+}
+
+</style>
+</head>
+
+<div id='o'></div>
+
+<script>
+initStyle()
+
+var div=document.getElementById('o')
+
+var R=new Response(div)
+
+
+R.enableDrag()
+
+
+
+
+//var s=setTimeout(function (){alert()},500)
+
+//clearTimeout(s)
+
+var cubeCon=document.body.appendChild(document.createElement('div'))
+cubeCon.setAttribute('class','cubeCon')
+
+var c1= new CreateCube(cubeCon, [300,200,100], ["red","green","blue","yellow","orange","gray"])
+
+
+function CreateCube(target, arrDim, color, opacity) {
+
+this.target=target;
+this.arrDim=arrDim;
+this.color=color;
+this.opacity=opacity;
+
+this.cube=target.appendChild(document.createElement('div'))
+this.cube.setAttribute('class','cube')
+//this.cube.style.perspective='500px'
+//this.cube.style.transformStyle="preserve-3d"
+this.cube.style.width=arrDim[0]
+this.cube.style.height=arrDim[1]
+
+
+var sideL=this.cube.appendChild(document.createElement('div'))
+this.sideL=sideL;
+sideL.setAttribute('class','side')
+sideL.style.position="absolute"
+sideL.style.width=arrDim[2]
+sideL.style.height=arrDim[1]
+sideL.style.backgroundColor=color[0]
+sideL.style.transform="translateX("+-arrDim[2]/2+"px) translateZ("+0+"px) rotateY(90deg)"
+
+var sideR=this.cube.appendChild(document.createElement('div'))
+this.sideR=sideR
+sideR.setAttribute('class','side')
+sideR.style.position="absolute"
+sideR.style.width=arrDim[2]
+sideR.style.height=arrDim[1]
+sideR.style.transform="translateX("+(arrDim[0]-arrDim[2]/2)+"px) translateZ("+0+"px) rotateY(90deg)"
+sideR.style.backgroundColor=color[1]
+
+var sideU=this.cube.appendChild(document.createElement('div'))
+this.sideU=sideU
+sideU.setAttribute('class','side')
+sideU.style.position="absolute"
+sideU.style.width=arrDim[0]
+sideU.style.height=arrDim[2]
+sideU.style.backgroundColor=color[2]
+sideU.style.transform="translateY("+-arrDim[2]/2+"px) translateZ("+0+"px) rotateX(90deg)"
+
+var sideD=this.cube.appendChild(document.createElement('div'))
+this.sideD=sideD
+sideD.setAttribute('class','side')
+sideD.style.position="absolute"
+sideD.style.width=arrDim[0]
+sideD.style.height=arrDim[2]
+sideD.style.backgroundColor=color[3]
+sideD.style.transform="translateY("+(arrDim[1]-arrDim[2]/2)+"px) translateZ("+0+"px) rotateX(90deg)"
+
+
+
+var sideB=this.cube.appendChild(document.createElement('div'))
+this.sideB=sideB;
+sideB.setAttribute('class','side')
+sideB.style.position="absolute"
+sideB.style.width=arrDim[0]
+sideB.style.height=arrDim[1]
+sideB.style.backgroundColor=color[5]
+sideB.style.transform="translateZ("+-arrDim[2]/2+"px)"
+
+
+var sideF=this.cube.appendChild(document.createElement('div'))
+this.sideF=sideF;
+sideF.setAttribute('class','side')
+sideF.style.position="absolute"
+sideF.style.width=arrDim[0]
+sideF.style.height=arrDim[1]
+sideF.style.backgroundColor=color[4]
+sideF.style.transform="translateZ("+arrDim[2]/2+"px)"
+sideF.style.opacity=".5"
+
+//alert()
+this.rotate = function (deg) {
+
+var transObj={
+translateX:0,
+translateY:0,
+translateZ:0,
+rotateX:0,
+rotateY:0,
+rotateZ:0
+}
+
+
+
+var trans=this.sideL.style.transform.split(' ').map(function (v,i,a){return v.replace(/px\)|deg\)/g,"").split('(')})
+
+trans.forEach(function (v,i,a){
+transObj[v[0]]=v[1]
+})
+alert(transObj.rotateZ)
+
+    }
+
+}
+
+c1.rotate()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function Response(elem) {
+    var t=this
+    this.elem = elem
+    
+    var vec0 = [0,0]
+    var fnull=function (){}
+      //returns the middle position of elem
+    Object.defineProperty(this,"vecMid",{get: function (){return [this.elem.style.width.slice(0,-2)*0.5,this.elem.style.height.slice(0,-2)*0.5]}})
+      //defines cursor position while dragging
+    this.vecRelCursor=[0,0]
+    Object.defineProperty(this,"vecDrag",{get: function (){return eval(this.vecDragSet)}})
+    this.vecDragSet="this.vecRelCursor"
+   //this.vecDrag=this.vecRelCursor;
+
+    
+    
+ 
+
+      //sets elem position as the pointer position
+    this.moveWithPointer=function (e) {
+        x=e.x;
+        y=e.y;
+        this.elem.style.left=e.x-this.vecDrag[0]+'px';
+        this.elem.style.top=e.y-this.vecDrag[1]+'px';
+    }
+
+    this.onDrag=this.moveWithPointer;
+    this.onDragStart=fnull;
+    this.onDragStop=fnull;
+    this.onNClick=[];
+    //this.onDoubleClick=function (){alert()}
+
+
+//alert(this.onDrag)
+    this.clickdure=450	//clicks are delayed that many time for triggering bigger trigers
+    this.nClick=0	//number of repeated clicks
+    var T=0
+    var isMousedown=0;
+    this.elem.addEventListener('mousedown',function (){
+        if (t.onNClick.length==0){t.clickdure=0}
+        isMousedown=1;
+        setTimeout(function (){isMousedown=0;},t.clickdure)
+    })
+    this.elem.addEventListener('mouseup',function (){
+        if (isMousedown){
+            t.nClick+=1;
+            //t.elem.innerHTML=t.nClick
+            if (T){
+                clearTimeout(T)
+            }
+            T=setTimeout(function (){
+                
+                if (t.nClick){
+                    if(t.onNClick[t.nClick]){
+                        t.onNClick[t.nClick]()
+                    }
+                }
+                t.nClick=0;
+                //t.elem.innerHTML=t.nClick
+            },t.clickdure)
+        }
+        isMousedown=0;
+    }) 
+
+
+    
+      
+    this.enableDrag = function (){
+        
+        var od=(t.onDrag).bind(t)
+        this.elem.addEventListener('mousedown',function (e){
+            t.vecRelCursor=[e.x-t.elem.style.left.slice(0,-2)*1,e.y-t.elem.style.top.slice(0,-2)*1]
+            t.onDragStart(e)
+            
+            window.addEventListener('mousemove',od)
+            
+        })
+        this.elem.addEventListener('mouseup',function (e){
+            t.onDragStop(e)
+            window.removeEventListener('mousemove',od)
+        })
+    }
+}
+
+
+
+
+function Dynamic(obj){
+             //velocity [x,y] vector
+    this.vel=[0,0]
+    this.MS=250
+    Object.defineProperty(this,'ms',{
+        set:function (v){
+            this.MS=v
+            clearInterval(this.interv)
+            this.interv=setInterval(this.engine,this.MS)
+        }
+    })
+
+    this.x=obj.style.width.slice(0,-2)*1;
+    this.y=obj.style.top.slice(0,-2)*1;
+    if (!this.x){this.x=0}
+    if (!this.y){this.y=0}
+    var t=this
+
+    this.uFunc=function (){}		//user defined function;runs in engine;
+
+
+    this.time=0;
+    this.engine=function (){
+        //alert(t.x)
+        t.x+=t.vel[0];
+        obj.style.left=t.x+'px'
+        t.y+=t.vel[1];
+        obj.style.top=t.y+'px'
+        t.uFunc()
+        t.time++
+    }
+    this.interv=setInterval(this.engine,this.MS)
+    
+
+
+}
+
+
+
+
+
+
+
+function Dice(){
+    this.faces=[1,2,3,4,5,6]	
+               //----returns one of these	
+    Object.defineProperty(this,'autoFace',{
+        set:function (arr){	
+               //----of the format [start,end,step],sets face
+            if (!arr[2]){arr[2]=1}
+            this.faces=[]
+            for (var i=arr[0];i<(arr[1]+1);i+=arr[2]){
+                 this.faces.push(i);
+            }
+        }
+
+
+    })
+
+    Object.defineProperty(this,'roll',{
+                    //----get random output from the arr faces
+        get:function (){
+            return this.faces[Math.floor(Math.random()*this.faces.length)]        
+        }
+    })
+
+
+}
+
+
+
+
+
+function getStyle(){
+    //get style.innerHTML, remove all newlines, split by { and then }
+    var style=document.getElementsByTagName("style")[0].innerHTML.replace(/\n/g,"").split("}").map(function(v,i,a){return v.split("{")})
+    style.pop()
+    //iterate though style to form json string outp
+    var outp='{'
+    style.forEach(function (v,i,a){
+        outp+='"'+v[0]+'"'+':'+('{"'+(style[0][1].replace(/:/g,'":"')).replace(/;/g,'","')+'"}')
+        if (i!=a.length-1){
+            outp+=','
+        }else{
+            outp+='}'
+        }
+    })
+    //return the style object with style properties subObjects
+    return JSON.parse(outp)
+}
+
+
+function initStyle(){
+    var style=getStyle();
+    for (t in style) {
+        var e=document.getElementsByTagName(t.trim())
+        for (n in style[t]){
+            var l=e.length
+            for (var i=0;i<l;i++){
+                e[i]["style"][n.trim()]=style[t][n]
+            }
+        }
+    }
+}
+
+
+</script>

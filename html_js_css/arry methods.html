@@ -1,0 +1,27 @@
+<p id='p1'></p>
+<button onclick='n()' >click</button>
+
+
+
+<script>
+function n() {
+var txt = null
+var n = [ 1,2,3,4,8,3,7];
+var o = n.map(function(a) {return a*a});
+var p = n.filter(function(a) {return a>3});
+var q = n.reduceRight(function(b,a) {return b-a});
+var r = n.lastIndexOf(3);
+var t = n.findIndex(function(a) {return a>3});
+//n.forEach(m);
+
+function m(value,index,array) {
+/* txt += array;
+   txt += '<br>'; */
+return value*value
+
+
+   }
+
+document.getElementById('p1').innerHTML = t ;
+}
+</script>

@@ -1,0 +1,83 @@
+<style>
+div {
+position:absolute;
+height :50px;
+width :50px;
+background-color:black;
+top:200px;
+left:200px;
+//border-radius:25px;
+border:0px solid black;
+transition: width 2s; 
+}
+#d1{
+transition: top 2.0s , left 2.0s;
+background-color:#eee;
+}
+#d2{
+transition: top 1.05s , left 2.06s;
+background-color:#000;
+z-index:0;
+}
+body {
+//background-color:#000;
+}
+
+</style>
+
+
+
+<body  onclick='tPos(event)'>
+<div id='d1'>
+</div>
+<!div id='d2'>
+</div>
+
+
+
+</body>
+<script>
+var d1 = document.getElementById('d1');
+var d2 = document.getElementById('d2');
+var range = 30;
+var b = 1;
+//var xd = 300;
+//var yd = 300;
+function tPos(event) {
+	var x = event.clientX;
+	var y = event.clientY;
+	//d1.style.left = 200 + 'px';	
+	var xd = d1.style.left.slice(0,-2);
+	alert(xd)
+	
+	if ( x<xd && x>xd-range) {
+	d1.style.left = xd+100 + 'px';	
+	} else {
+		//xd = xd-100;
+	}
+
+	var yd = d1.style.top.slice(0,-2);
+	//alert(xd)
+	
+	if ( y<yd && y>yd-range) {
+		yu = yd+100;
+	} else {
+		//yd = yd-100;
+	}
+
+	d1.style.top  = yu + 'px';
+	//d1.style.left = xu + 'px';
+	//d2.style.left = xd + 'px';
+	//d2.style.top= yd + 'px';
+	b = !b;
+	setTimeout(flip,600);
+	function flip() {
+		if(b) {;
+			d1.style.zIndex = 1;
+		}else{
+			d1.style.zIndex = -1;
+		}
+	}
+}
+
+</script>

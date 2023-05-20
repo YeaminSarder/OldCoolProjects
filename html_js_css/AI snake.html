@@ -1,0 +1,248 @@
+<p>
+</p>
+
+
+<style>
+div {
+margin=0
+
+}
+
+#mfield{
+border:1px solid white;
+position:absolute;
+//top:150px;
+
+}
+
+#field {
+//border:1px solid blue;
+height :200px;
+width :200px;
+position :absolute;
+top:50px;
+left:50px;
+
+
+}
+
+.cell {
+background-color:gray;
+
+position :absolute;
+top:50px;
+left:50px;
+border:1px solid black ;
+border-radius :5px;
+text-align :center;
+
+font-type :bold;
+
+
+}
+
+#ss{
+position:fixed;
+top:0px;
+right:15px;
+color:white;
+z-index:2
+}
+
+#controls {
+display:none;
+border:1px solid red;
+position:absolute;
+bottom:0;
+height:20%;
+width:100%
+}
+//#controls{
+//height:100%;
+//}
+#b1, #ta{
+height:50px;
+}
+
+#t1 {
+//position:absolute
+border-collapse:collapse;
+}
+</style>
+<body>
+
+<div id='ss'><p id='scorebar'></p></div>
+<div id='mfield'>
+<div id='field'>
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+</div>
+
+
+<div id='controls'>
+
+<table id='t1'>
+<tr><td><textArea id='ta'>
+</textArea></td><td>
+<button id='b1'></button></td></tr>
+</table>
+
+</div>
+
+<script>
+//1115-1320
+
+var field=document.getElementById('field');
+var mfield=document.getElementById('mfield');
+var scorebar=document.getElementById('scorebar');
+
+var conE=document.getElementsByClassName('conE');
+var score=0;
+
+
+var cellWidth=20;
+var fieldPadd =cellWidth*2;
+var fieldWidth=2*fieldPadd+cellWidth;
+var fieldHeight=2*fieldPadd+cellWidth;
+
+var maxNegX=0;
+var maxNegY=0;
+var maxPosX=0;
+var maxPosY=0;
+
+field.style.width=cellWidth +'px';
+field.style.height=cellWidth +'px';
+mfield.style.width=cellWidth*7 +'px';
+mfield.style.height=cellWidth*7 +'px';
+
+
+
+
+
+
+var ccol1='#00c000';
+var ccol2='#008000'
+var ccol3='#dddddd'
+var ccol2U='#00ff00'
+var ccol3U='#ffffff'
+var flagcol='#c00000'
+var flagcolU='#ff0000'
+
+var tcol1 ='indigo'
+var tcol2 ='blue'
+var tcol3 ='skyblue'
+var tcol4 ='green'
+var tcol5 ='yellow'
+var tcol6 ='orange'
+var tcol7 ='red'
+var tcol8 ='black '
+var bgcol ='black '
+
+document.body.style.backgroundColor=bgcol
+
+
+
+var objList = {};
+					//creating initial view
+/*new Cell(0,0);	
+new Cell(0,1);
+new Cell(0,-1);
+new Cell(1,1);
+new Cell(1,0);
+new Cell(1,-1);
+new Cell(-1,-1);
+new Cell(-1,1);
+new Cell(-1,0);
+*/
+
+new Cell(0,0);
+//new Cell(1,0);
+//document.getElementById('0c0').style.backgroundColor='rgba(255,255,255,0)'
+//document.getElementById('0c0').style.border='none'
+
+var xx;
+var yy;
+var clk;
+function Cell(y,x,b) {				//the constructor
+	var elem=field.appendChild(document.createElement('div'))
+	this.elem=elem;
+	elem.setAttribute('class','cell');
+	elem.setAttribute('id',y+'c'+x);
+	objList[y+'c'+x]=this;
+
+	elem.style.left=x*cellWidth+'px';
+	elem.style.top=y*cellWidth+'px';
+	elem.style.width=cellWidth+'px';
+	elem.style.height=cellWidth+'px';
+
+	elem.setAttribute('onclick','isCc=1;ttt=this;');
+
+	this.x=x;
+	this.y=y;
+/*
+
+
+	if (x<maxNegX){
+		maxNegX=x;
+		field.style.left=fieldPadd+Math.abs(maxNegX)*cellWidth+'px';
+		fieldWidth+=cellWidth;
+		mfield.style.width=fieldWidth+'px';
+}
+
+	if (y<maxNegY){
+		maxNegY=y;
+		field.style.top=fieldPadd+Math.abs(maxNegY)*cellWidth+'px';
+	fieldHeight+=cellWidth;
+		mfield.style.height=fieldHeight+'px';
+	}
+
+	if (x>maxPosX){
+		maxPosX=x;
+		field.style.left=fieldPadd+Math.abs(maxNegX)*cellWidth+'px';
+		fieldWidth+=cellWidth;
+		mfield.style.width=fieldWidth+'px';
+}
+
+	if (y>maxPosY){
+		maxPosY=y;
+		field.style.top=fieldPadd+Math.abs(maxNegY)*cellWidth+'px';
+	fieldHeight+=cellWidth;
+		mfield.style.height=fieldHeight+'px';
+	}
+*/
+//var xy=x+y
+if ((x%2-y%2)==0){elem.style.backgroundColor=ccol1}else{elem.style.backgroundColor=ccol2}
+
+}
+window.addEventListener('click',function (e) {Oclick(e)})
+
+
+function Oclick(e) {
+//alert(e.x+'"'+e.x/cellWidth)
+var y=((e.y-70)/cellWidth).toFixed(0)
+var x=((e.x-70)/cellWidth).toFixed(0)
+if(objList[y+'c'+x]){
+document.removeChild(objList['0c0'].elem)
+
+}
+//var c=new Cell(((e.y-70)/cellWidth).toFixed(0),((e.x-70)/cellWidth).toFixed(0));
+//alert((c.y + c.x)%2)
+
+
+}
+
+
+</script>
+</body>

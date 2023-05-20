@@ -1,0 +1,130 @@
+<style>
+div {
+position : absolute ;
+//border : 1px solid black ;
+height :2px ;
+width : 2px ;
+background-color:black;
+//opacity:.1;
+}
+</style>
+<body>
+<p id='des'>e</p>
+</body>
+<script src='create.js'></script>
+
+<script src='ani.js'></script>
+<script>
+//alert (t)
+//document.body.removeChild(document.getElementsByTagName("p")[0]);
+
+
+var l1=new Line(100,200,'red',3)
+//var l2=new Line(50,100,'green')
+//var l3=new Line(50,100,'blue')
+//var l4=new Line(50,100,'black')
+//l2.ms=10
+
+
+
+
+
+function Line(maxCount,counter2,col,ch) {
+	////maxCount is max move, counter2 is max length
+    if (!col){this.col='black'}else{this.col=col}    
+    if (!ch){this.ch=1}else{this.ch=ch}  
+    this.e=[];
+		////contains elements of the line
+
+    this.counter = Math.floor(Math.random()*(maxCount+1));
+		////reqired for 
+    this.maxCount=maxCount
+    this.counter2=counter2
+    this.dir=[Math.floor(Math.random()*3)-1,Math.floor(Math.random()*3)-1]
+		////direction vector
+    this.max = [window.innerWidth - 10,window.innerHeight -10]
+		////line remains in box [width,height]
+    this.pos = [this.max[0]/2,this.max[1]/2]
+		////starting position [x,y]
+    this.MS=5
+    Object.defineProperty(this,'ms',{
+        set:function (v){
+            this.MS=v
+            clearInterval(this.interval)
+            this.interval=setInterval(move,this.MS)
+        }
+    })
+
+
+    var t=this
+		//interval time in ms
+    this.interval=setInterval(move,this.MS);
+
+ 
+    function move() {
+	t.counter--
+	t.counter2--
+		//ensuring length
+        if (t.counter2<0) {
+            t.e.push(t.e[0])
+            t.e.splice(0,1)
+        }else{
+            t.e.push(document.body.appendChild(document.createElement('div')));
+            t.e[t.e.length-1].style.backgroundColor=t.col
+        }
+
+		//getting new dir and move when last move is over
+	if (t.counter<=0) {
+	    t.dir=[mfPickRandom(-t.ch,t.ch),mfPickRandom(-t.ch,t.ch)]
+	    t.counter = mfPickRandom(0,t.maxCount);
+	}	
+	
+		//getting new pos
+	t.pos = [t.pos[0] + t.dir[0],t.pos[1] + t.dir[1]]
+
+		//keeping in box
+	if (t.pos[0] < 10 ) {
+	    t.pos[0]++
+	    t.dir[0] = -t.dir[0];		
+	}
+
+	if (t.pos[0] > t.max[0]) {
+	    t.pos[0]--
+	    t.dir[0] = -t.dir[0];		
+	}
+
+	if (t.pos[1] < 10 ) {
+	    t.pos[1]++	
+	    t.dir[1] = -t.dir[1];	
+	}
+
+	if (t.pos[1] > t.max[1] ) {
+	    t.pos[1]--	
+	    t.dir[1] = -t.dir[1]	
+	}
+		//applying at new pos
+	t.e[t.e.length-1].style.left = t.pos[0] + 'px';
+	t.e[t.e.length-1].style.top = t.pos[1] + 'px';
+    }
+}
+
+//alert (mfPickRandom(-1,1));
+function mfPickRandom(a,b) {
+    return a +Math.floor((b - a + 1) * Math.random());
+}
+
+
+addCtrl()
+function addCtrl () {			//a input box to run scripts
+iiii = document.createElement('input');
+var j = document.createElement('button');
+document.body.appendChild(iiii);
+document.body.appendChild(j);
+j.onclick=doo;
+function doo() {
+eval(iiii.value)
+}
+}
+
+</script>
+

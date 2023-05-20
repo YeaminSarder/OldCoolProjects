@@ -1,0 +1,29 @@
+<input type='number' id='inpt'></input>
+<button onclick='trig()'>Enter</button>
+<button onclick='rn()'>Random</button>
+<p id='outpt'></p>
+<script>
+var inpt = document.getElementById('inpt');
+var outpt = document.getElementById('outpt');
+function trig() {
+	var iv = inpt.value
+	if (iv<10000000) {
+	var txt = '';
+	for (var i=2;i<iv;i++) {
+		if (iv%i==0) {
+			txt+= i + '</br>';
+		}
+	}
+	
+
+outpt.innerHTML = txt;
+	}else{ 
+	alert('Too Large Input')
+	}
+}
+
+function rn() {
+//alert ();
+inpt.value = Math.floor(Math.random()*1000)
+}
+</script>

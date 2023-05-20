@@ -1,0 +1,74 @@
+
+
+<div></div>
+<script>
+var p0=document.body.appendChild(document.createElement('p'))
+var i1=document.body.appendChild(document.createElement('input'))
+var d1=document.body.appendChild(document.createElement('button'))
+var p1=document.body.appendChild(document.createElement('p'))
+var p2=document.body.appendChild(document.createElement('p'))
+p2.innerHTML='match:'
+p0.innerHTML='score: 0'
+d1.innerHTML='ok'
+d1.setAttribute('onclick','dd1()')
+var score=0
+var fx=[]
+var tg
+
+
+var Xrange=10;
+var Srange=100
+var order=4;
+
+
+
+
+var cList=[
+"a1+"+x(),
+"a1-"+x(),
+"a1*"+x(),
+"(function(a1){ if(a1%"+x()+"==0){return Math.floor(a1/"+x()+")}else{return a1} })(a1)",
+""
+]
+
+
+alert(("klp").)
+
+
+
+
+
+//alert(cList[0])
+setFx()
+function setFx(){
+fx=[]
+for (var i=0;i<order;i++){
+fx.push(cList[Math.floor(Math.random()*cList.length)])
+}
+
+tg=ch(Math.floor(Math.random()*Srange))
+p2.innerHTML='match: '+tg
+
+}
+function dd1(){
+
+var a1=ch(i1.value*1);
+p1.innerHTML=a1
+
+if (tg==a1){order+=1;p0.innerHTML='order: '+order;setFx();}
+//alert(i1.value)
+
+}
+
+
+function ch(a1){
+for (i=0;i<order;i++){
+a1=eval(fx[i])
+}
+return a1
+}
+function x() {
+return Math.floor(Math.random()*Xrange)
+}
+
+</script>

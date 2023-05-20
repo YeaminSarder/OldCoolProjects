@@ -1,0 +1,391 @@
+
+
+<head>
+<style>
+div {
+border:1px solid red;
+position:absolute;
+height:5000px;
+width:5000px;
+left:50px;
+top:0px;
+z-index:0
+}
+</style>
+</head>
+
+<div id='o'></div>
+
+
+<script>
+//startup
+var dTarget=document.body
+var mX=window.innerWidth
+var mY=window.innerHeight
+var pi=Math.PI
+
+
+var arrCanMove=[]
+var arrCantMove=[]
+var arrDelList=[]
+initStyle()
+
+
+
+
+//usr
+
+var accuracy=1
+var burn=50	//if greater force applied object is burned
+var ret=4000
+var retvel=2
+
+
+
+
+
+//syn
+var mid=[mX/2,mY/2]
+
+
+//crft
+//new grav([.5,0.52],0,500,[1300,1100])
+//new grav(0,0,100,[1150,1150])
+//new grav([0,1],1,160,[1200,1200],1)
+//for (var i=0;i<7000;i++){
+//Math.PI
+//}
+//new grav([-1,-1],1,100,[1200,1100],1)
+//new grav([1,1],1,100,[1100,1200],1)
+new grav([1,1],1,100,[1100,1100],1)
+new grav([-1,-1],1,100,[1200,1200],1)
+
+
+
+
+
+
+
+
+
+
+function grav(canMove,isSolid,m,pos,row,target) {
+    var t=this
+    if (!target){var target= dTarget}
+    if (!row){var row=1}
+
+    this.m= m;
+    this.canMove= canMove;
+    this.pos= pos;
+    this.isSolid= isSolid
+    this.target= target
+    this.row= row
+
+    if (this.canMove){arrCanMove.push(this)}else{arrCantMove.push(this)}
+    if (this.isSolid){arrCantMove.push(this)}
+
+    this.e=target.appendChild(document.createElement('div'))
+    var e= this.e;
+    var r=Math.sqrt((Math.abs(this.m)/this.row)/pi)
+    e.style.left=pos[0]-r+'px';
+    e.style.top=pos[1]-r+'px';
+    e.style.width=2*r+'px'
+    e.style.height=2*r+'px'
+    e.style.borderRadius=r+'px'
+    //alert(2*Math.sqrt((this.m/this.row)/pi)+'px')
+
+    
+    this.x=pos[0]-r
+    this.y=pos[1]-r
+    Object.defineProperty(this,"setX",{set: function (v){this.e.style.left=v+'px';this.x=v}})
+    Object.defineProperty(this,"setY",{set: function (v){this.e.style.top=v+'px';this.y=v}})
+
+
+
+    
+
+//Math.atan(1)/pi*180
+
+    this.pull = function (t2){
+        //for (var i=0;i<arrCanMove.length;i++){
+            //var t2=arrCanMove[i]
+            //if (t2==t){continue}
+            //var p=[t.e.style.left.slice(0,-2)*1+t.e.style.width.slice(0,-2)/2,t.e.style.top.slice(0,-2)*1+t.e.style.height.slice(0,-2)/2]
+            //var p2=[t2.e.style.left.slice(0,-2)*1+t2.e.style.width.slice(0,-2)/2,t2.e.style.top.slice(0,-2)*1+t2.e.style.height.slice(0,-2)/2]
+            var dir=[]
+            var theta=Math.atan(Math.abs((t.y-t2.y)/(t.x-t2.x)))
+            //if (theta<0){theta=-theta}
+            if (t.x>t2.x){dir.push(1)}else{dir.push(-1)}
+            if (t.y>t2.y){dir.push(1)}else{dir.push(-1)}
+            var F=t.m/(Math.pow(t2.x-t.x,2)+Math.pow(t2.y-t.y,2))
+            var Fx=t2.canMove[0]+dir[0]*F*Math.cos(theta)
+            var Fy=t2.canMove[1]+dir[1]*F*Math.sin(theta)
+            var Tx=t2.x+Fx
+            var Ty=t2.y+Fy
+            
+            var dir2=[];
+            if (t.x>Tx){dir2.push(1)}else{dir2.push(-1)}
+            if (t.y>Ty){dir2.push(1)}else{dir2.push(-1)}
+
+ 
+            
+            if ((dir2[0]!=dir[0])&&(dir2[1]!=dir[1])){
+                t2.setX=t2.x+2*(t.x-t2.x)
+                Fx=t2.canMove[0]
+            //}
+            //if (dir2[1]!=dir[1]){
+                t2.setY=t2.y+2*(t.y-t2.y)
+                Fy=t2.canMove[1]
+            } 
+            //if (t2
+
+            t2.canMove=[Fx,Fy]
+	    if (Math.abs(t2.x-t.x)>ret){t2.canMove[0]=dir[0]*retvel;t2.e.style.left=t.x-dir[0]*(ret-10)+'px'}
+            if (Math.abs(t2.y-t.y)>ret){t2.canMove[1]=dir[1]*retvel;t2.e.style.top=t.y-dir[1]*(ret-10)+'px'}
+  
+            //}
+        //}
+    }
+
+
+    this.move=function (){
+     
+     
+   
+             t.setX=t.x+t.canMove[0]
+             
+        
+ 
+             t.setY=t.y+t.canMove[1]
+             
+        
+
+
+   for (var i=0;i<arrCantMove.length;i++){
+            if (arrCantMove[i]==t){continue}
+            arrCantMove[i].pull(t)
+            //arrCantMove[i].e.innerHTML=t.canMove
+        }
+
+
+        //alert('t1'+t.canMove)
+
+
+    }
+
+
+
+
+    //if ((!this.canMove)||this.isSolid){setInterval(this.pull.bind(this),accuracy)}
+    if (this.canMove){setInterval(this.move,accuracy)}
+//this.pull()
+}
+
+
+
+
+
+
+
+
+//var s=setTimeout(function (){alert()},500)
+
+//clearTimeout(s)
+
+
+//if ([0,0]){alert()}
+//alert(arrCantMove)
+function Response(elem) {
+    var t=this
+    this.elem = elem
+    
+    var vec0 = [0,0]
+    var fnull=function (){}
+      //returns the middle position of elem
+    Object.defineProperty(this,"vecMid",{get: function (){return [this.elem.style.width.slice(0,-2)*0.5,this.elem.style.height.slice(0,-2)*0.5]}})
+      //defines cursor position while dragging
+    this.vecRelCursor=[0,0]
+    Object.defineProperty(this,"vecDrag",{get: function (){return eval(this.vecDragSet)}})
+    this.vecDragSet="this.vecRelCursor"
+   //this.vecDrag=this.vecRelCursor;
+
+    
+    
+ 
+
+      //sets elem position as the pointer position
+    this.moveWithPointer=function (e) {
+        x=e.x;
+        y=e.y;
+        this.elem.style.left=e.x-this.vecDrag[0]+'px';
+        this.elem.style.top=e.y-this.vecDrag[1]+'px';
+    }
+
+    this.onDrag=this.moveWithPointer;
+    this.onDragStart=fnull;
+    this.onDragStop=fnull;
+    this.onNClick=[];
+    //this.onDoubleClick=function (){alert()}
+
+
+//alert(this.onDrag)
+    this.clickdure=450	//clicks are delayed that many time for triggering bigger trigers
+    this.nClick=0	//number of repeated clicks
+    var T=0
+    var isMousedown=0;
+    this.elem.addEventListener('mousedown',function (){
+        if (t.onNClick.length==0){t.clickdure=0}
+        isMousedown=1;
+        setTimeout(function (){isMousedown=0;},t.clickdure)
+    })
+    this.elem.addEventListener('mouseup',function (){
+        if (isMousedown){
+            t.nClick+=1;
+            //t.elem.innerHTML=t.nClick
+            if (T){
+                clearTimeout(T)
+            }
+            T=setTimeout(function (){
+                
+                if (t.nClick){
+                    if(t.onNClick[t.nClick]){
+                        t.onNClick[t.nClick]()
+                    }
+                }
+                t.nClick=0;
+                //t.elem.innerHTML=t.nClick
+            },t.clickdure)
+        }
+        isMousedown=0;
+    }) 
+
+
+    
+      
+    this.enableDrag = function (){
+        
+        var od=(t.onDrag).bind(t)
+        this.elem.addEventListener('mousedown',function (e){
+            t.vecRelCursor=[e.x-t.elem.style.left.slice(0,-2)*1,e.y-t.elem.style.top.slice(0,-2)*1]
+            t.onDragStart(e)
+            
+            window.addEventListener('mousemove',od)
+            
+        })
+        this.elem.addEventListener('mouseup',function (e){
+            t.onDragStop(e)
+            window.removeEventListener('mousemove',od)
+        })
+    }
+}
+
+
+
+
+function Dynamic(obj){
+             //velocity [x,y] vector
+    this.vel=[0,0]
+    this.MS=250
+    Object.defineProperty(this,'ms',{
+        set:function (v){
+            this.MS=v
+            clearInterval(this.interv)
+            this.interv=setInterval(this.engine,this.MS)
+        }
+    })
+
+    this.x=obj.style.width.slice(0,-2)*1;
+    this.y=obj.style.top.slice(0,-2)*1;
+    if (!this.x){this.x=0}
+    if (!this.y){this.y=0}
+    var t=this
+
+    this.uFunc=function (){}		//user defined function;runs in engine;
+
+
+    this.time=0;
+    this.engine=function (){
+        //alert(t.x)
+        t.x+=t.vel[0];
+        obj.style.left=t.x+'px'
+        t.y+=t.vel[1];
+        obj.style.top=t.y+'px'
+        t.uFunc()
+        t.time++
+    }
+    this.interv=setInterval(this.engine,this.MS)
+    
+
+
+}
+
+
+
+
+
+
+
+function Dice(){
+    this.faces=[1,2,3,4,5,6]	
+               //----returns one of these	
+    Object.defineProperty(this,'autoFace',{
+        set:function (arr){	
+               //----of the format [start,end,step],sets face
+            if (!arr[2]){arr[2]=1}
+            this.faces=[]
+            for (var i=arr[0];i<(arr[1]+1);i+=arr[2]){
+                 this.faces.push(i);
+            }
+        }
+
+
+    })
+
+    Object.defineProperty(this,'roll',{
+                    //----get random output from the arr faces
+        get:function (){
+            return this.faces[Math.floor(Math.random()*this.faces.length)]        
+        }
+    })
+
+
+}
+
+
+
+
+
+function getStyle(){
+    //get style.innerHTML, remove all newlines, split by { and then }
+    var style=document.getElementsByTagName("style")[0].innerHTML.replace(/\n/g,"").split("}").map(function(v,i,a){return v.split("{")})
+    style.pop()
+    //iterate though style to form json string outp
+    var outp='{'
+    style.forEach(function (v,i,a){
+        outp+='"'+v[0]+'"'+':'+('{"'+(style[0][1].replace(/:/g,'":"')).replace(/;/g,'","')+'"}')
+        if (i!=a.length-1){
+            outp+=','
+        }else{
+            outp+='}'
+        }
+    })
+    //return the style object with style properties subObjects
+    return JSON.parse(outp)
+}
+
+
+function initStyle(){
+    var style=getStyle();
+    for (t in style) {
+        var e=document.getElementsByTagName(t.trim())
+        for (n in style[t]){
+            var l=e.length
+            for (var i=0;i<l;i++){
+                e[i]["style"][n.trim()]=style[t][n]
+            }
+        }
+    }
+}
+
+
+</script>

@@ -1,0 +1,121 @@
+
+
+<head>
+<style>
+div {
+position:absolute;
+height:50px;
+width:50px;
+left:50px;
+top:0px
+}
+</style>
+</head>
+
+<div id='o'></div>
+
+
+<script>
+
+
+
+import ease.js
+
+
+
+
+
+function Dynamic(obj){
+             //velocity [x,y] vector
+    this.vel=[0,0]
+    this.MS=250
+    Object.defineProperty(this,'ms',{
+        set:function (v){
+            this.MS=v
+            clearInterval(this.interv)
+            this.interv=setInterval(this.engine,this.MS)
+        }
+    })
+
+    this.x=obj.style.width.slice(0,-2)*1;
+    this.y=obj.style.top.slice(0,-2)*1;
+    if (!this.x){this.x=0}
+    if (!this.y){this.y=0}
+    var t=this
+
+    this.uFunc=function (){}		//user defined function;runs in engine;
+
+
+    this.time=0;
+    this.engine=function (){
+        //alert(t.x)
+        t.x+=t.vel[0];
+        obj.style.left=t.x+'px'
+        t.y+=t.vel[1];
+        obj.style.top=t.y+'px'
+        t.uFunc()
+        t.time++
+    }
+    this.interv=setInterval(this.engine,this.MS)
+    
+
+
+}
+
+
+
+
+
+
+
+function Dice(){
+    this.faces=[1,2,3,4,5,6]	
+               //----returns one of these	
+    Object.defineProperty(this,'autoFace',{
+        set:function (arr){	
+               //----of the format [start,end,step],sets face
+            if (!arr[2]){arr[2]=1}
+            this.faces=[]
+            for (var i=arr[0];i<(arr[1]+1);i+=arr[2]){
+                 this.faces.push(i);
+            }
+        }
+
+
+    })
+
+    Object.defineProperty(this,'roll',{
+                    //----get random output from the arr faces
+        get:function (){
+            return this.faces[Math.floor(Math.random()*this.faces.length)]        
+        }
+    })
+
+
+}
+
+
+
+
+
+function getStyle(){
+    //get style.innerHTML, remove all newlines, split by { and then }
+    var style=document.getElementsByTagName("style")[0].innerHTML.replace(/\n/g,"").split("}").map(function(v,i,a){return v.split("{")})
+    style.pop()
+    //iterate though style to form json string outp
+    var outp='{'
+    style.forEach(function (v,i,a){
+        outp+='"'+v[0]+'"'+':'+('{"'+(style[0][1].replace(/:/g,'":"')).replace(/;/g,'","')+'"}')
+        if (i!=a.length-1){
+            outp+=','
+        }else{
+            outp+='}'
+        }
+    })
+    //return the style object with style properties subObjects
+    return JSON.parse(outp)
+}
+
+
+
+</script>

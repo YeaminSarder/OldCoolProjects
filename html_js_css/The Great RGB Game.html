@@ -1,0 +1,154 @@
+<style>
+.square {
+font-size:333%;
+font-family :courier;
+text-align : center;
+color:#ff2211;
+//$h:300%;
+//line-height : $h;
+border:1px solid #d3d3d3;
+width:33%;
+height:33%;
+float:left;
+background-color:white;
+display : invisible  ;
+}
+
+.control {
+position :relative;
+width:99%;
+height:33%;
+background-color:#d3d3d3; 
+border-bottom:5px solid white ;
+text-align : center;
+font-family :courier;
+}
+
+#quest {
+font-size:250%;
+//border:1px solid black ;
+color:white;
+}
+
+#result {
+font-size:250%;
+}
+
+#score {
+position:absolute ;
+left:0 ;
+top:0;
+}
+
+#hscore {
+position:absolute ;
+right :0 ;
+top:0;
+}
+</style>
+
+
+
+
+
+
+<b>
+<div class='control'>
+<div id='quest'>rgb(123,456,789)</div>
+<div id='result'></div>
+<div id='score'><span>Score: </span><span id='s'>0</span></div>
+<div id='hscore'><span>High Score: </span><span id='hs'>0</span></div>
+
+
+</div>
+</b>
+<div class='square'></div>
+
+<div class='square'></div>
+
+<div class='square'></div>
+
+<div class='square'></div>
+
+<div class='square'></div>
+
+<div class='square'></div>
+
+
+
+
+
+
+
+<script>
+
+//variables
+
+
+var slot = document.getElementsByClassName('square')
+var rslt = document.getElementById('result')
+var score = document.getElementById('s')
+var hscore = document.getElementById('hs')
+var s = 0;
+var hs = 0;
+var re = [['RIGHT','green'],['Oyeah','orange'],['Genious','blue']];
+
+next();
+
+
+
+
+function next() {
+	for (var i=0;i<slot.length;i++){
+		slot[i].setAttribute('onclick',"check("+i+")");
+		slot[i].style.backgroundColor = rndColor();
+		slot[i].innerHTML = '';
+	}
+
+	q = document.getElementById('quest')
+	ans= rndColor();
+	q.innerHTML = ans;
+	ansSlot=mfPickRandom(0,5)
+	slot[ansSlot].style.backgroundColor = ans;
+}
+
+
+function rndColor() {
+	var r = mfPickRandom(0,255);
+	var g = mfPickRandom(0,255);
+	var b = mfPickRandom(0,255);
+	return "rgb("+ r +","+ g +","+ b +")";
+}
+
+
+function pickArry(arr) {
+	return arr[mfPickRandom(0,arr.length-1)];
+}
+
+
+function check(c) {
+	if (c==ansSlot) {
+		var r = pickArry(re);
+		rslt.innerHTML= r[0]
+		rslt.style.color = r[1];
+		s++;
+		score.innerHTML = s;
+		if (s>hs) {
+			hs = s;
+			hscore.innerHTML = hs;
+		}
+		next();
+	}else{
+		slot[c].innerHTML  = 'wrong!';
+		s=0;
+		score.innerHTML = s;
+	}
+}
+
+function mfPickRandom(a,b) {
+    var r = Math.random()	;
+    var c = b - a + 1	;
+    t = a +Math.floor(c * r);
+    return t
+}
+</script>

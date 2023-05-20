@@ -1,0 +1,56 @@
+<style>
+#d{
+height :100;
+width:100;
+position :absolute;
+top:200px;
+left:200px;
+background-color:rgba(0,0,0,.5);
+border:1px solid black;
+transform : matrix3d(0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+//transform:rotate3d(1,1,1,180deg)  perspective(37px)
+}
+
+p {
+//height :50;
+//width:50;
+//background-color;
+border:1px solid black;
+}
+input{width:500px}
+</style>
+
+<div id='d'>
+
+<p>g</p>
+
+
+
+</div>
+<input id='po'></input>
+<button onclick="setM()" style="z-index:5">RND</button>
+<button onclick="d.style.transform=p.value" style="z-index:5">SET</button>
+<script>
+
+
+
+
+var d=document.getElementById('d');
+var p=document.getElementById('po');
+
+d.style.transform='matrix3d('
++'	1	,0	,0	,0	,'
++'	0	,1	,0	,0	,'
++'	0	,0	,3	,0	,'
++'	0	,0	,0	,1	 '
++'					)'
+//d.style.
+//alert (d)
+function setM() {
+var sty= 'matrix3d('+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+','+rnd()+')'
+
+d.style.transform = sty
+p.value=sty
+}
+function rnd() {return Math.floor(Math.random()*10)}
+</script>

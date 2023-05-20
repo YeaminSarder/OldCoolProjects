@@ -1,0 +1,320 @@
+
+
+<head>
+<style>
+div {
+border:1px solid red;
+position:absolute;
+height:50px;
+width:50px;
+left:50px;
+top:0px;
+z-index:0
+}
+</style>
+</head>
+
+<div id='o'></div>
+
+
+<input type='range' id='r' max='255' onChange='onCh()'>R</input><br>
+<input type='range' id='g'  max='255' onChange='onCh()'>G</input><br>
+<input type='range' id='b'  max='255' onChange='onCh()'>B</input><br>
+<input type='range' id='add' min=-255 max=255 onChange='onAdd()'>+</input><br>
+<input type='range' id='mult' min=10 max=200 value=100 onChange='onMult()'>X</input><br>
+
+
+<script>
+initStyle()
+
+var div=document.getElementById('o')
+
+//var R=new Response(div)
+
+
+//R.enableDrag()
+
+
+
+
+
+var r=document.getElementById('r')
+var g=document.getElementById('g')
+var b=document.getElementById('b')
+var add=document.getElementById('add')
+var mult=document.getElementById('mult')
+//var r=document.getElementById('r')
+
+
+var R
+var G
+var B
+
+
+
+function onCh() {
+
+
+R=r.value
+G=g.value
+B=b.value
+
+add.min=-Math.min(R,G,B)
+add.max=256-Math.max(R,G,B)
+add.value=0
+
+//mult.min=-Math.min(R,G,B)
+if (mult.max!=256/Math.max(R,G,B)*100){
+mult.value=100
+mult.max=256/Math.max(R,G,B)*100
+}
+
+
+
+
+
+document.body.style.backgroundColor='#'+('0'+(r.value*1).toString(16)).slice(-2)+('0'+(g.value*1).toString(16)).slice(-2)+('0'+(b.value*1).toString(16)).slice(-2)
+}
+
+var addAm=add.value
+function onAdd() {
+
+//if (((b.value*1+add.value*1-addAm*1>-1)&&(b.value*1+add.value*1-addAm*1<256))&&((g.value*1+add.value*1-addAm*1>-1)&&(g.value*1+add.value*1-addAm*1<256))&&((r.value*1+add.value*1-addAm*1>-1)&&(r.value*1+add.value*1-addAm*1<256))) {
+r.value=r.value*1+add.value*1-addAm*1
+g.value=g.value*1+add.value*1-addAm*1
+b.value=b.value*1+add.value*1-addAm*1
+addAm=add.value
+
+//R=r.value
+//G=g.value
+//B=b.value
+
+document.body.style.backgroundColor='#'+('0'+(r.value*1).toString(16)).slice(-2)+('0'+(g.value*1).toString(16)).slice(-2)+('0'+(b.value*1).toString(16)).slice(-2)
+
+
+
+}
+
+
+var multAm=mult.value
+function onMult() {
+
+//if (((b.value*1+add.value*1-addAm*1>-1)&&(b.value*1+add.value*1-addAm*1<256))&&((g.value*1+add.value*1-addAm*1>-1)&&(g.value*1+add.value*1-addAm*1<256))&&((r.value*1+add.value*1-addAm*1>-1)&&(r.value*1+add.value*1-addAm*1<256))) {
+r.value=r.value*mult.value/multAm
+g.value=g.value*mult.value/multAm
+b.value=b.value*mult.value/multAm
+multAm=mult.value
+
+R=r.value
+G=g.value
+B=b.value
+
+document.body.style.backgroundColor='#'+('0'+(r.value*1).toString(16)).slice(-2)+('0'+(g.value*1).toString(16)).slice(-2)+('0'+(b.value*1).toString(16)).slice(-2)
+
+
+
+}
+
+
+
+//var s=setTimeout(function (){alert()},500)
+
+//clearTimeout(s)
+
+
+
+
+function Response(elem) {
+    var t=this
+    this.elem = elem
+    
+    var vec0 = [0,0]
+    var fnull=function (){}
+      //returns the middle position of elem
+    Object.defineProperty(this,"vecMid",{get: function (){return [this.elem.style.width.slice(0,-2)*0.5,this.elem.style.height.slice(0,-2)*0.5]}})
+      //defines cursor position while dragging
+    this.vecRelCursor=[0,0]
+    Object.defineProperty(this,"vecDrag",{get: function (){return eval(this.vecDragSet)}})
+    this.vecDragSet="this.vecRelCursor"
+   //this.vecDrag=this.vecRelCursor;
+
+    
+    
+ 
+
+      //sets elem position as the pointer position
+    this.moveWithPointer=function (e) {
+        x=e.x;
+        y=e.y;
+        this.elem.style.left=e.x-this.vecDrag[0]+'px';
+        this.elem.style.top=e.y-this.vecDrag[1]+'px';
+    }
+
+    this.onDrag=this.moveWithPointer;
+    this.onDragStart=fnull;
+    this.onDragStop=fnull;
+    this.onNClick=[];
+    //this.onDoubleClick=function (){alert()}
+
+
+//alert(this.onDrag)
+    this.clickdure=450	//clicks are delayed that many time for triggering bigger trigers
+    this.nClick=0	//number of repeated clicks
+    var T=0
+    var isMousedown=0;
+    this.elem.addEventListener('mousedown',function (){
+        if (t.onNClick.length==0){t.clickdure=0}
+        isMousedown=1;
+        setTimeout(function (){isMousedown=0;},t.clickdure)
+    })
+    this.elem.addEventListener('mouseup',function (){
+        if (isMousedown){
+            t.nClick+=1;
+            //t.elem.innerHTML=t.nClick
+            if (T){
+                clearTimeout(T)
+            }
+            T=setTimeout(function (){
+                
+                if (t.nClick){
+                    if(t.onNClick[t.nClick]){
+                        t.onNClick[t.nClick]()
+                    }
+                }
+                t.nClick=0;
+                //t.elem.innerHTML=t.nClick
+            },t.clickdure)
+        }
+        isMousedown=0;
+    }) 
+
+
+    
+      
+    this.enableDrag = function (){
+        
+        var od=(t.onDrag).bind(t)
+        this.elem.addEventListener('mousedown',function (e){
+            t.vecRelCursor=[e.x-t.elem.style.left.slice(0,-2)*1,e.y-t.elem.style.top.slice(0,-2)*1]
+            t.onDragStart(e)
+            
+            window.addEventListener('mousemove',od)
+            
+        })
+        this.elem.addEventListener('mouseup',function (e){
+            t.onDragStop(e)
+            window.removeEventListener('mousemove',od)
+        })
+    }
+}
+
+
+
+
+function Dynamic(obj){
+             //velocity [x,y] vector
+    this.vel=[0,0]
+    this.MS=250
+    Object.defineProperty(this,'ms',{
+        set:function (v){
+            this.MS=v
+            clearInterval(this.interv)
+            this.interv=setInterval(this.engine,this.MS)
+        }
+    })
+
+    this.x=obj.style.width.slice(0,-2)*1;
+    this.y=obj.style.top.slice(0,-2)*1;
+    if (!this.x){this.x=0}
+    if (!this.y){this.y=0}
+    var t=this
+
+    this.uFunc=function (){}		//user defined function;runs in engine;
+
+
+    this.time=0;
+    this.engine=function (){
+        //alert(t.x)
+        t.x+=t.vel[0];
+        obj.style.left=t.x+'px'
+        t.y+=t.vel[1];
+        obj.style.top=t.y+'px'
+        t.uFunc()
+        t.time++
+    }
+    this.interv=setInterval(this.engine,this.MS)
+    
+
+
+}
+
+
+
+
+
+
+
+function Dice(){
+    this.faces=[1,2,3,4,5,6]	
+               //----returns one of these	
+    Object.defineProperty(this,'autoFace',{
+        set:function (arr){	
+               //----of the format [start,end,step],sets face
+            if (!arr[2]){arr[2]=1}
+            this.faces=[]
+            for (var i=arr[0];i<(arr[1]+1);i+=arr[2]){
+                 this.faces.push(i);
+            }
+        }
+
+
+    })
+
+    Object.defineProperty(this,'roll',{
+                    //----get random output from the arr faces
+        get:function (){
+            return this.faces[Math.floor(Math.random()*this.faces.length)]        
+        }
+    })
+
+
+}
+
+
+
+
+
+function getStyle(){
+    //get style.innerHTML, remove all newlines, split by { and then }
+    var style=document.getElementsByTagName("style")[0].innerHTML.replace(/\n/g,"").split("}").map(function(v,i,a){return v.split("{")})
+    style.pop()
+    //iterate though style to form json string outp
+    var outp='{'
+    style.forEach(function (v,i,a){
+        outp+='"'+v[0]+'"'+':'+('{"'+(style[0][1].replace(/:/g,'":"')).replace(/;/g,'","')+'"}')
+        if (i!=a.length-1){
+            outp+=','
+        }else{
+            outp+='}'
+        }
+    })
+    //return the style object with style properties subObjects
+    return JSON.parse(outp)
+}
+
+
+function initStyle(){
+    var style=getStyle();
+    for (t in style) {
+        var e=document.getElementsByTagName(t.trim())
+        for (n in style[t]){
+            var l=e.length
+            for (var i=0;i<l;i++){
+                e[i]["style"][n.trim()]=style[t][n]
+            }
+        }
+    }
+}
+
+
+</script>

@@ -1,0 +1,345 @@
+
+<style>
+div {
+position:absolute;
+background-color:black;
+//display :flex;
+float:left;
+width:20px;
+height :20px;
+//border: 1px solid #222;
+box-sizing : border-box;
+}
+div:hover {
+background-color:#aaa;
+}
+button {
+position:absolute;
+
+width:45px;
+background-color : #ddd;
+//float:left;
+bottom :0
+}
+#b5 {
+position:absolute;
+bottom:0;
+left : 200;
+}
+#b1 {
+position:absolute;
+bottom:0;
+left : 0;
+}
+#b2 {
+position:absolute;
+bottom:0;
+left : 50px;
+}
+#b3 {
+position:absolute;
+bottom:0;
+left : 100px;
+color:red;
+}
+#b4 {
+position:absolute;
+bottom:0;
+left : 150px;
+color:blue;
+}
+#b6 {
+position:absolute;
+bottom:0;
+left : 250px;
+color:black;
+}
+#b7 {
+position:fixed;
+bottom:-25px;
+left : 300px;
+color:black;
+}
+#drop1 {
+position:fixed;
+zIndex:2
+}
+</style>
+<button id='b1' onclick='start()' >start</button>
+<button id='b2' onclick='back()' >back</button>
+<button id='b3' onclick='red()' >red</button>
+<button id='b4' onclick='blue()' >blue</button>
+<button id='b5' onclick='setInterval(start,speed)' >auto</button>
+<button id='b6' onclick='randomize()' >rnd</button>
+<input type='range' id='b7' onchange='temp=this.value/100' ></input>
+<select id='drop1' onChange='mode=drop1.selectedIndex'>
+</select>
+
+
+<!script src='create.js'></script>
+<script>
+var temp=0.05
+var speed=10
+var w=10
+var h=w
+//var arr=[5,6,7]
+//alert(Math.max.apply(null,arr))
+
+var mode = 'red';
+var rb = 0;
+var xN = Math.floor(window.innerWidth / w) -2;
+var yN = Math.floor(window.innerHeight / h) -2;
+var colON = []
+var colON2 = []
+var colBlack = []
+
+var p=document.body.appendChild(document.createElement('p'))
+p.style.position='absolute'
+/*
+var drop1=document.getElementById('drop1')
+for (m in drop1){
+drop1.add("m+': '+drop1[m]")
+//alert(m+': '+drop1[m])
+}*/
+
+
+
+
+
+
+//xN=6
+//yN=6
+var n=(xN+2)*(yN+2)
+var arrCol=['black','red','orange','yellow','green','indigo','blue','violet']
+var arrCell=[]		//contains object references of cells
+var arrCellCol=[]	//contains index of arrCol of cells
+
+
+for (var i=0;i<arrCol.length;i++){
+var op=document.createElement('option')
+op.innerHTML=arrCol[i]
+drop1.add(op)
+}
+//r(drop1.options[0])
+
+
+for (var i=0;i<n;i++){
+var y=Math.floor(i/(xN+2))
+var x=i%(xN+2)
+
+
+//if (i%(xN+2)==0&&i!=0){document.body.appendChild(document.createElement('br'))}
+
+
+if (y==0||y==yN+1||x==0||x==xN+1){arrCellCol.push(0);arrCell.push(0);continue;}
+
+
+
+
+
+f = document.body.appendChild(document.createElement('div'))
+f.style.width=w
+f.style.height=h
+f.style.left=w*(i%(xN+2))
+f.style.top=h*(Math.floor(i/(xN+2)))
+f.setAttribute('onclick',"this.style.backgroundColor = arrCol[mode] ; arrCellCol["+i+"]=mode;")
+arrCell.push(f)
+arrCellCol.push(0)
+}
+
+//alert(arrCell)
+
+var arrCellCol2
+function start() {
+	//var l=colON.length;
+
+	arrCellCol2=arrCellCol.map(function (v,i,a){return v})
+	for (var i=0;i<n;i++){
+		var y=Math.floor(i/(xN+2))
+		var x=i%(xN+2)
+		if (y==0||y==yN+1||x==0||x==xN+1){continue;}
+                var count=arrCol.map(function (v,i,a){return 0})
+		for (var j=-1;j<2;j++){
+			for (var k=-1;k<2;k++){
+				
+				count[arrCellCol[i+j*(xN+2)+k]]+=1
+			}
+		}
+		var max=Math.max.apply(null,count)
+		var maxInd=[]
+		count.forEach(function (v,index,a){
+			//if (index==0){continue;}
+			if (v==max&&index!=0){
+				maxInd.push(index);
+			}
+		})
+		
+		if(maxInd.length!=0){
+			arrCellCol2[i]=maxInd[Math.floor(Math.random()*maxInd.length)]
+		}
+		//if (count[1]>count[2]){arrCellCol2[i]=1}else if (count[1]<count[2]){arrCellCol2[i]=2}
+	}
+//alert(arrCellCol==arrCellCol2)
+	arrCellCol=arrCellCol2
+	for (var i=0;i<n;i++){
+		var y=Math.floor(i/(xN+2))
+		var x=i%(xN+2)
+		if (y==0||y==yN+1||x==0||x==xN+1){continue;}
+		arrCell[i].style.backgroundColor=arrCol[arrCellCol[i]]
+	}
+
+
+/*
+		docu = document.getElementById(x+'b'+y);
+			var nei = 0;
+			var blue = 0;
+			var red = 0;
+			for (var i=0;i<l;i++) {
+				var p = colON[i].split('b')
+				
+				if  ( match(p[0],p[1],x,y)==1 ) {
+					nei++
+					red++
+				}
+				if  ( match(p[0],p[1],x,y)==2 ) {
+					nei++
+					blue++
+				}
+			}
+			//if (nei==3) {
+				
+				if (red>blue) {
+				//docu.style.backgroundColor = 'red' ;
+                                if (Math.random()>temp){
+				docu.style.backgroundColor = 'red' ;
+                                }else{
+				docu.style.backgroundColor = 'blue' ;
+                                }
+				}else
+				if (blue>red) {
+                                if (Math.random()>temp){
+				docu.style.backgroundColor = 'blue' ;
+                                }else{
+				docu.style.backgroundColor = 'red' ;
+                                }
+				//docu.style.backgroundColor = 'blue' ;
+				}else
+				if (blue==red) {
+                                //if (Math.random()>.5){
+				//docu.style.backgroundColor = 'blue' ;
+                                //}else{
+				//docu.style.backgroundColor = 'red' ;
+                                //}
+				}
+				
+				colON2.push(docu.id);
+				
+			//}
+			if (nei<=1||nei>=4) {
+				//colBlack.push(docu.id);
+				/////document.getElementById(x+'b'+y).style.backgroundColor = 'black' ;
+			}
+			//*if (nei==2) {
+				if ( colON.indexOf(docu.id) > -1 ) {
+					colON2.push(docu.id);
+				}	
+			//} 
+*/
+	
+	
+colON = colON2
+colON2 = [];
+lB = colBlack.length;
+for (var i=0;i<lB;i++) {
+document.getElementById(colBlack[i]).style.backgroundColor = 'black' ;
+
+}
+
+
+colBlack = [];
+
+}
+
+function match(x1,y1,x2,y2) {
+	if ( ((x1>=x2-1&&x1<=x2+1)&&(y1>=y2-1&&y1<=y2+1))&&((x1==x2&&y1==y2)==false) ) {
+		var C = document.getElementById(x1+'b'+y1).style.backgroundColor
+		if (C=='red') {return 1;}
+		if (C=='blue') {return 2;}
+
+	}
+return 0;
+}
+
+function back() {
+document.getElementById(colON[colON.length-1]).style.backgroundColor = 'black';
+colON.pop();
+
+}
+
+
+function red() {
+mode = 'red';
+document.getElementById('b3').style.backgroundColor = '#333'
+document.getElementById('b4').style.backgroundColor = '#ddd'
+}
+
+function blue() {
+mode = 'blue';
+document.getElementById('b4').style.backgroundColor = '#333'
+document.getElementById('b3').style.backgroundColor = '#ddd'
+}
+//createElement(document.body,'div','p','d2')
+
+
+
+function createElement(tg,tag,text,id) {
+var nE = document.createElement(tag);
+nE.appendChild(document.createTextNode(text));
+var e = tg.appendChild(nE);
+e.id = id;
+return e;
+}
+
+
+
+
+function randomize() {
+	for (var i=0;i<n;i++){
+		var y=Math.floor(i/(xN+2))
+		var x=i%(xN+2)
+		if (y==0||y==yN+1||x==0||x==xN+1){continue;}
+		var rnd=Math.floor(Math.random()*(arrCol.length-1))+1
+		
+			arrCell[i].style.backgroundColor = arrCol[rnd] ;
+                        arrCellCol[i]=rnd
+                
+         }
+
+}
+
+
+//r(drop1)
+function r(obj) {			//a window that desplays all
+					//properties of an object
+	var m;
+	var txt = '';
+//var e
+	for (m in obj ) {
+
+		txt += m + ':'+ obj[m]+ '</br>'; 
+	}
+
+	var e = document.body.appendChild(document.createElement('div'));
+	var x = document.body.appendChild(document.createElement('button'));
+	x.setAttribute('style','position:absolute;right:18;top:10;width:50px;height:25px;color:white;background-color:red')
+	x.innerHTML='X'
+	x.setAttribute('onclick','document.body.removeChild(document.getElementById("lrtBox"));document.body.removeChild(this) ')
+	e.id='lrtBox'
+	e.innerHTML=txt
+	e.setAttribute('style','position:absolute;left:10;top:10;background-color:#dddddd; height:300px;width:600px;overflow:auto;border:1px solid red')
+        e.style.zIndex=10;
+        x.style.zIndex=10;
+
+
+}
+</script>

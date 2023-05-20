@@ -1,0 +1,33 @@
+
+
+
+<p>p</p>
+
+<script src='create.js' > </script>
+<script>
+
+x = new obj(10,300,5,6,'h');
+//alert(x);
+x.update();
+alert(x.obj)
+x.obj.style.backgroundColor = 'red';
+function obj(height,width,top,left,id) {
+	
+
+	this.height = height;
+	this.width = width;
+	this.top = top;
+	this.left = left;
+	//this.update();
+	//this.obj = function() { createElement(document.body,'div','',id);	}
+	this.update = function () {
+		var x = createElement(document.body,'div','',id);				
+		x.style.height = height + 'px';
+		x.style.width = width + 'px';	
+		x.style.border = "1px solid black";
+		this.obj = x;
+
+	}
+	
+}
+</script>

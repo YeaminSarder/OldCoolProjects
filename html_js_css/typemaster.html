@@ -1,0 +1,123 @@
+<button onclick='alert(c.reading)'>yyy</button>
+<p id='charshow'></p>
+<p id='statshow'></p>
+<p id='rngshow'></p>
+<script>
+var Char="abcdefghijklmnopqrstuvwxyz"
+
+var chshow=document.getElementById('charshow');
+var statshow=document.getElementById('statshow');
+var rngshow=document.getElementById('rngshow');
+
+var c= new Clock(10);
+c.resume();
+
+var c2= new Clock(10);
+c2.resume();
+//chshow.innerHTML=c.reading
+
+//alert(chshow)
+uchar();
+function uchar() {
+rndchar=Char[Math.floor(Math.random()*26)]
+chshow.innerHTML=rndchar
+}
+//alert(Char[8]);
+var n=0;
+var lc2=0;
+var w=0;
+
+window.addEventListener('keydown',function (e) {
+if(e.key==rndchar){
+n++;
+if(n!=1){
+if ((c2.reading/n)<lc2){statshow.style.color='green'}else{statshow.style.color='red'}
+var txt='speed: ' + (60000/(c.reading*5)).toFixed(2) +'wpm</br>'
++ 'avr: ' + (60000*(n-1)/(c2.reading*5)).toFixed(2) +'wpm\n';
+statshow.innerHTML= txt;
+
+lc2=c2.reading/n;
+c.reset();
+
+}
+else{
+c2.reset();
+c.reset();
+}
+
+uchar();
+rngshow.innerHTML='accuracy: ' +(n/(w+n)*100).toFixed(2)+'%';
+rngshow.style.color='green'
+}else{
+w++
+//alert(w)
+//if(n/n+w
+rngshow.innerHTML='accuracy: ' +(n/(n+w)*100).toFixed(2)+'%';
+rngshow.style.color='red'
+}
+
+
+})
+
+function t(event) {
+//r (event);
+}
+
+//r(document)
+	
+//a=setInterval(uchar,1000)
+
+
+
+
+
+
+function Clock(acuracy,work) {
+if(!acuracy){acuracy=1000}
+if(!work){work=''}
+//var reading=0;
+var t=this
+this.reading=0;
+
+
+this.resume=function () {t.interval=setInterval(this.running,acuracy)};
+this.pause=function () {clearInterval(t.interval)}
+this.reset=function () {t.reading=0;}
+
+this.running =function f() {
+t.reading+=acuracy
+eval(work);
+
+}
+}
+
+
+
+
+
+
+			
+function r(obj) {
+
+	var m;
+	var txt = '';
+
+	for (m in obj ) {
+
+		txt += m + ':'+ obj[m]+ '</br>'; 
+	}
+
+	var e = document.body.appendChild(document.createElement('div'));
+	var x = document.body.appendChild(document.createElement('button'));
+	x.setAttribute('style','position:absolute;right:18px;top:10px;color:white;background-color:red')
+	x.innerHTML='X'
+	x.setAttribute('onclick','document.body.removeChild(document.getElementById("lrtBox"));document.body.removeChild(this) ')
+	e.id='lrtBox'
+	e.innerHTML=txt
+	e.setAttribute('style','position:relative;left:10;top:100;background-color:#dddddd; height:300px;overflow:auto;border:1px solid red')
+
+
+
+
+}
+</script>

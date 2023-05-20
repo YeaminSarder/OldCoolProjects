@@ -1,0 +1,178 @@
+<!--
+this is a constructor.
+creates a div that shifts COLOR following a sine WAVE.
+The html element is returned via 'obj' property.
+
+
+-->
+
+
+<style>
+div {
+//border:1px solid red;
+position:absolute;
+//height:50px;
+//width:50px;
+//left:50px;
+//top:0px;
+z-index:0
+}
+</style>
+
+
+<div id='o'></div>
+
+
+<script>
+
+
+
+
+
+
+
+
+var n=1
+var X=0;
+var Y=0;
+var Gratio = (Math.sqrt(5)+1)/2
+var w=window.innerHeight/Gratio;
+var h=window.innerHeight;
+var s=0;
+var base=40
+var isDown=0;
+
+var dur=Math.floor(Gratio*2000/180);
+
+var seq=[4,6,2,3,1,5]
+var code=[0,2,1,3,4,6,5,7]
+
+arrPoints= [] 
+
+
+for (var i=0;i<n;i++){
+//arrPoints[i]= new Point(i*(w+s),base,i)
+
+}
+
+
+
+
+//alert ()
+
+
+
+
+
+
+(new Point(0,0,window.innerWidth,window.innerHeight))
+
+
+
+
+
+
+
+
+
+
+//--------------------------------------------------copy from here----
+
+function Point(x,y,w,h,th,dur,seq,code,i) {	
+	//Constructor, creates a div that shifts color following a sine wave. the html element is returned via 'obj' property.
+if (!x){var x=0}
+if (!y){var y=0}
+if (!w){var w=40}
+if (!h){var h=40}
+if (!th){var th=0}			//theta, specifies phase of color
+if (!i){var i=0}
+if (!dur){var dur=25}
+if (!seq){var seq=[4,6,2,3,1,5]}	//colorcodes in arr code will be played in this sequence
+if (!code){var code=[0,2,1,3,4,6,5,7]}	//simplified colorcodes 0-7
+
+
+
+
+var e1 = document.body.appendChild(document.createElement('div'))
+//e1.style.backgroundColor = getColor(toHex(code[seq[i]]))
+e1.style.width = w +'px'
+e1.style.height = h + 'px'
+e1.style.left = x +'px'
+e1.style.top = y
+
+
+this.obj=e1
+
+
+
+this.interval= setInterval(function() {
+        th++        
+        e1.style.backgroundColor=getColor(toHex(th))
+        //e1.innerHTML=getColor(toHex(th))
+    
+},dur)
+
+
+
+
+
+
+
+	//outputs colorcode in decimal format based on current phase, th
+function toHex(th){
+var i=code[seq[Math.floor(th/180)%seq.length]]      //current color (simple colors only 0-7)
+var j=code[seq[(Math.floor(th/180)+1)%seq.length]]  //next color
+
+var ii=(Math.sin(((th%180)-90)*Math.PI/180)+1)/2*256	//if you want sine wave (0-255)
+//var ii=(Math.asin((th%180)/180*2-1)/Math.PI+0.5)*256	//if you want asine wave
+//var ii=(th%180)/180*256				//if you want linear
+
+
+
+
+//calculating colorcode for this phase
+
+var plus=0
+
+if(((Xor(i,j)&4)==4)){
+if((j&4)==4){
+plus+=Math.floor(ii)*256*256
+}else{
+plus+=-Math.floor(ii)*256*256
+}
+}
+
+if(((Xor(i,j)&2)==2)){
+if((j&2)==2){
+plus+=Math.floor(ii)*256
+}else{
+plus+=-Math.floor(ii)*256
+}
+}
+
+if(((Xor(i,j)&1)==1)){
+if((j&1)==1){
+plus+=Math.floor(ii)
+}else{
+plus+=-Math.floor(ii)
+}
+}
+
+return ((i&4)==4)*255*256*256+((i&2)==2)*255*256+((i&1)==1)*255 + plus
+	//returning simple color + plus
+
+}
+
+	//converts decimal colorcode to standerd hexadecimal colorcode
+function getColor(bin){
+return (bin+Math.pow(256,3)).toString(16).substr(1,6)
+}
+
+function Xor(a,b){return (a&~b)|(~a&b)}
+
+}	//end of constructor
+
+
+
+//-----------------------------------------copy till here----
+</script>

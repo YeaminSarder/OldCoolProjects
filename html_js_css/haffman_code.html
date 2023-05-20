@@ -1,0 +1,167 @@
+<style>
+div {
+border-left:1px solid red;
+position:absolute;
+top:0;
+left:5
+}
+
+</style>
+
+
+<input id='i1' type='text'></input><button onclick='run(i1.value)'>run</button>
+<script>
+var i1=document.getElementById('i1')
+
+var char=("abcdefghijklmnopqrstuvwxyz").split('')
+
+var wet=[]
+
+
+function run(t){
+wet=[]
+for (var i=0;i<char.length;i++){
+wet.push([0,char[i],'b']);
+}
+
+var codeL=("00000000000000000000000000").split('')
+var total=0;
+var T=t.split('')
+
+for (i=0;i<T.length;i++) {
+if (char.indexOf(T[i])>-1){wet[char.indexOf(T[i])][0]=wet[char.indexOf(T[i])][0]*1+1;total++}
+}
+for (i=0;i<wet.length;i++) {
+wet[i][0]=wet[i][0]/total
+}
+
+
+while (wet.length>1){
+	var pop=[]
+	var min1=1000000
+	var min2=1000000
+	var min1i=-1
+	var min2i=-1
+
+	for (i=0;i<wet.length;i++) {
+		if(wet[i][0]==0){pop.push(i);continue}
+		if (min1>wet[i][0]){min1=wet[i][0];min1i=i;}
+	}
+	for (i=0;i<wet.length;i++) {
+		if(wet[i][0]==0||(min1i==i)){continue}
+		if (min2>wet[i][0]){min2=wet[i][0];min2i=i;}
+	}
+//	codeL[min1i]=10;
+//	codeL[min2i]=10;
+	wet.push([min1+min2,wet[min1i],wet[min2i]]);
+
+		wet.splice(min1i,1,'p1')	//trouble shooting purpose
+		wet.splice(min2i,1,'p2')
+
+//alert(wet)
+for (var i=pop.length-1;i>-1;i--){
+wet.splice(pop[i],1);
+}
+wet.splice(wet.indexOf('p1'),1);
+wet.splice(wet.indexOf('p2'),1);
+
+
+
+var tg = document.body.appendChild(document.createElement('div'))
+tg.style.height='200px'
+tg.style.top='200px';
+//alert (wet)
+//
+}//eo while
+getLevel(wet[0],0)
+printTree(wet,tg)
+getCode(bcode)
+//alert(bcode)
+//document.body.removeChild(i1)
+}//eo function
+
+
+
+
+
+
+function printTree(tree,tg){
+
+
+
+
+
+
+
+if (tree.constructor===Array){
+var h=0;
+for (var i=0;i<tree.length;i++){
+var TG=tg.appendChild(document.createElement('div'))
+
+TG.style.top=h+'px'
+TG.style.left=tg.style.left+10;
+TG.style.width='500px';
+h+=printTree(tree[i],TG)
+}
+tg.style.height=h+'px';
+return h;
+}else{
+tg.innerHTML=tree;
+tg.style.height='20px';
+return 20;
+}
+
+
+
+}
+
+//alert(0<<1)
+var bcode=[]
+function getLevel(tree,lv){
+
+if (tree.constructor===Array){
+
+if (tree[1].constructor===Array){
+
+
+
+
+getLevel(tree[1],lv+1);
+getLevel(tree[2],lv+1);
+}else{
+
+
+
+bcode.push([tree[1],lv])
+
+
+
+
+}
+}
+}
+
+
+function getCode(len){
+var outp=[]
+var code=0;
+len.sort(function(a, b){return a[1]-b[1]})
+for (i=0;i<len.length;i++){
+
+var sc=code.toString(2)
+while (sc.length<len[i][1]){
+sc='0'+sc;
+}
+
+outp.push([len[i][0]],sc);
+
+code+=1
+if (len[i+1]) {
+code=code<<(len[i+1][1]-len[i][1])
+}
+}
+
+alert (outp)
+}
+
+</script>

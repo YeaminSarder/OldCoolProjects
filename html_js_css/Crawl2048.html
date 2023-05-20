@@ -1,0 +1,185 @@
+
+
+<head>
+<style>
+div {
+border:1px solid;
+position:absolute;
+height:50px;
+width:50px;
+left:50px;
+top:0px
+}
+</style>
+</head>
+
+<div id='o'></div>
+
+
+<script>
+
+
+//alert(document.getElementsByTagName('style')[0].innerHTML)
+
+var s=new Style()
+s.add('div',
+"width:50px;"+
+"height:50px"
+)
+
+
+var scr=document.body.appendChild(document.createElement('div'))
+
+//alert(screen)
+
+
+//r(screen)
+
+scr.style.width='980px';
+scr.style.height='434px';
+
+
+var o=document.getElementById('o')
+o.style.border='1px solid'
+
+document.body.ondragstart="alert()"
+
+//r(document.body)
+function r(obj) {			//a window that desplays all
+					//properties of an object
+	var m;
+	var txt = '';
+
+	for (m in obj ) {
+
+		txt += m + ':'+ obj[m]+ '</br>'; 
+	}
+
+	var e = document.body.appendChild(document.createElement('div'));
+	var x = document.body.appendChild(document.createElement('button'));
+	x.setAttribute('style','position:absolute;right:18;top:10;color:white;background-color:red')
+	x.innerHTML='X'
+	x.setAttribute('onclick','document.body.removeChild(document.getElementById("lrtBox"));document.body.removeChild(this) ')
+	e.id='lrtBox'
+	e.innerHTML=txt
+	e.setAttribute('style','position:absolute;left:10;top:10;background-color:#dddddd; height:300px;width:600px;overflow:auto;border:1px solid red')
+        
+
+
+
+}
+
+
+
+
+
+function Dynamic(obj){
+             //velocity [x,y] vector
+    this.vel=[0,0]
+    this.MS=250
+    Object.defineProperty(this,'ms',{
+        set:function (v){
+            this.MS=v
+            clearInterval(this.interv)
+            this.interv=setInterval(this.engine,this.MS)
+        }
+    })
+
+    this.x=obj.style.width.slice(0,-2)*1;
+    this.y=obj.style.top.slice(0,-2)*1;
+    if (!this.x){this.x=0}
+    if (!this.y){this.y=0}
+    var t=this
+
+    this.uFunc=function (){}		//user defined function;runs in engine;
+
+
+    this.time=0;
+    this.engine=function (){
+        //alert(t.x)
+        t.x+=t.vel[0];
+        obj.style.left=t.x+'px'
+        t.y+=t.vel[1];
+        obj.style.top=t.y+'px'
+        t.uFunc()
+        t.time++
+    }
+    this.interv=setInterval(this.engine,this.MS)
+    
+
+
+}
+
+
+
+
+
+
+
+function Dice(){
+    this.faces=[1,2,3,4,5,6]	
+               //----returns one of these	
+    Object.defineProperty(this,'autoFace',{
+        set:function (arr){	
+               //----of the format [start,end,step],sets face
+            if (!arr[2]){arr[2]=1}
+            this.faces=[]
+            for (var i=arr[0];i<(arr[1]+1);i+=arr[2]){
+                 this.faces.push(i);
+            }
+        }
+
+
+    })
+
+    Object.defineProperty(this,'roll',{
+                    //----get random output from the arr faces
+        get:function (){
+            return this.faces[Math.floor(Math.random()*this.faces.length)]        
+        }
+    })
+
+
+}
+
+
+
+
+function Style(){
+
+        //applys styl to tag
+        //example:
+
+        //var s=new Style()
+        //s.add('div',"width:5px;height:400px")
+
+
+
+
+    this.add=function (tag,styl){
+        var arr=document.getElementsByTagName(tag)
+        
+        var objStyl={}
+        var pairList=styl.split(';')
+        pairList.forEach(function (v,i,a){
+            var pair=v.split(':')
+            objStyl[pair[0]]=pair[1]
+        })
+        
+        var l=arr.length
+
+        for(var i=0;i<l;i++){
+            for (m in objStyl){
+
+                arr[i].style[m]=objStyl[m]
+            }
+
+
+        }
+    }
+
+}
+
+
+
+</script>

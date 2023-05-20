@@ -1,0 +1,157 @@
+
+<style>
+div {
+border:1px solid red;
+position:absolute;
+top:0;
+left:5px;
+}
+
+</style>
+<p></p>
+<script>
+var defx=0
+var defy=0
+var defw=50
+var defh=50
+var defm=5
+var deftype='obj'
+
+var o=[]
+o=[new Cons(90,100,'','',10),new Cons(180,100,'','',10),new Cons(300,55,300,'',25),new Cons('','',300,'',1000000000000000),new Cons(600,'',300,'',10000000000000000)]
+o.push(new Cons(50,0,50,300,100000000000000000000))
+//o[0].setVel([1,0])
+//for (i=0;i<2;i++){
+//o[i].addForce([3*o[i].mass/50,0])
+//}
+
+o[0].addForce([3,0])
+o[0].setVel([2,-2])
+o[1].addForce([0,0])
+o[2].addForce([0,0])
+//alert(o1.addForce([2,0]))
+
+function Cons(x,y,h,w,m,type){
+if (!x){var x=defx}
+if (!y){var y=defy}
+if (!h){var h=defw}
+if (!w){var w=defh}
+if (!m){var m=defm}
+if (!type){var type=deftype}
+
+
+
+
+this.obj=document.body.appendChild(document.createElement('div'))
+this.obj.style.width=w+'px';
+this.obj.style.height=h+'px'
+//t.obj.style.left=0;
+
+this.mass=m
+this.Aforce=[]
+this.vel=[0,0];
+this.acc=[0,0];
+this.x=x;
+this.y=y;
+this.h=h;
+this.w=w;
+this.cooldown=0;
+this.setVel= function (arr) {
+t.vel=arr;
+}
+
+this.setForce= function (arr) {
+t.Aforce=arr;
+}
+
+
+
+this.addForce= function (arr,pos) {
+if (pos!=0) {
+if (((!pos)||pos>t.length)||pos<0){
+pos=t.Aforce.length
+}
+}
+t.Aforce.splice(pos,1,arr)
+return pos
+}
+
+this.force=[0,0]
+this.act=function () {
+t.force=addVect(t.Aforce)
+t.acc=[t.force[0]/t.mass,t.force[1]/t.mass]
+t.vel[0]+=t.acc[0]
+t.vel[1]+=t.acc[1]
+t.x+=t.vel[0]
+t.y+=t.vel[1]
+
+
+t.obj.style.left=t.x+'px'
+t.obj.style.top=t.y+'px'
+//t.cooldown=0;
+var c=crashW(t)
+if (t.cooldown>0){t.cooldown--}
+//alert (c)
+if(c&&t.cooldown<1){
+
+
+//var f=[c.force[0],0]
+if (o.indexOf(c)<o.indexOf(t)){
+var cvel=c.vel
+c.x=c.x-c.vel[0]
+t.x=t.x-t.vel[0]
+c.y=c.y-c.vel[1]
+t.y=t.y-t.vel[1]
+c.vel=[(c.mass-t.mass)/(c.mass+t.mass)*c.vel[0]+(2*t.mass/(c.mass+t.mass))*t.vel[0],(c.mass-t.mass)/(c.mass+t.mass)*c.vel[1]+(2*t.mass/(c.mass+t.mass))*t.vel[1]]
+t.vel=[(t.mass-c.mass)/(t.mass+c.mass)*t.vel[0]+(2*c.mass/(t.mass+c.mass))*cvel[0],(t.mass-c.mass)/(t.mass+c.mass)*t.vel[1]+(2*c.mass/(t.mass+c.mass))*cvel[1]]
+
+//c.addForce([t.force[0]-c.force[0],0])
+//t.setForce([[-c.force[0],0]])
+t.cooldown=0
+}
+
+}
+//alert(this)
+
+
+}	//eo interval
+var t=this
+setInterval(this.act,15)
+
+
+//this.x +=this.vel;
+//this.obj.style.left=this.x+'px';
+
+
+}
+
+//act(o1)
+function addVect (arrV){
+var l=arrV.length;
+var v0=0, v1=0
+for (var i=0;i<l;i++){
+v0+=arrV[i][0]
+v1+=arrV[i][1]
+}
+return [v0,v1]
+}
+
+function crashW(t){
+
+var l=o.length;
+var e=o.indexOf(t)
+//alert(e)
+var x=t.x
+var y=t.y
+var xp=x+t.w
+var yp=y+t.h
+
+for (var i=0;i<l;i++){
+if (i==e){continue}
+if ((o[i].x<xp&&(o[i].x+o[i].w)>x)&&(o[i].y<yp&&(o[i].y+o[i].h)>y)){return o[i]}
+}
+
+return 0;
+}
+
+</script>

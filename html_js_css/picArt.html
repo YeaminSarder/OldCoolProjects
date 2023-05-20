@@ -1,0 +1,67 @@
+<table>
+<tr>
+<td colspan="3">
+<img id="demo" style='opacity:.5' src="C:\Users\Yeamin\Pictures\s2.JPG" alt="error" width="240" height="180" /><br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<button type='button' onclick='changePic("C:/Users/Yeamin/Pictures/s1.JPG")'  > s1</button>
+</td>
+<td>
+</td>
+<td align="right">
+<button type='button' onclick='changePic("C:/Users/Yeamin/Pictures/s2.JPG")'  > y1</button>
+</td>
+</table>
+
+
+
+
+<script>
+
+arrpics=[
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 1 (6-16-2020 6-08 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 2 (6-16-2020 6-11 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 3 (6-16-2020 6-13 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 4 (6-16-2020 6-14 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 5 (6-16-2020 6-16 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 6 (6-16-2020 6-17 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 7 (6-16-2020 6-17 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 8 (6-16-2020 6-18 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 9 (6-16-2020 6-19 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 10 (6-16-2020 6-20 PM).png",
+"C:/Users/Yeamin/Roaming/Intel/Wireless/ppop/Snapshot 11 (6-16-2020 6-23 PM).png"
+]
+/*
+arrpics=[]
+for (var i=0;i<arrpics2.length;i++){
+arrpics.push(arrpics2[i].replace(/[/]/g,'/'))
+}
+*/
+
+
+
+alert(arrpics)
+var i=0
+var j=arrpics.length-1
+
+setInterval(cp,10)
+
+function changePic(x) {
+document.getElementsByTagName('img')[0].src=x;
+//alert(x)
+}
+
+function cp (){
+document.getElementsByTagName('img')[0].src=arrpics[i];
+i++
+if (i>j){
+i=0;
+}
+}
+
+
+
+</script>

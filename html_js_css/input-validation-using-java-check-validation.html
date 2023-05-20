@@ -1,0 +1,37 @@
+<p id='des'></p>
+<p id='err'></p>
+<button id='b' style='background-color:#eee' onclick='act()' >click</button>
+
+name: <input id='inpt' type='number' name='fname' max=10 min=2 required>
+ 
+<script>
+function validateForm() {
+	var x = document.forms.myForm.fname.value;
+	if(x=='') {
+		alert('invalid input!');
+		return false;
+	}
+}
+
+
+
+function act() {
+	try {
+		var inpt = document.getElementById("inpt");
+		if (!inpt.checkValidity()) {
+			
+		document.getElementById("des").innerHTML = inpt.validationMessage;  ;
+		  
+        
+
+	}
+
+
+	catch(err) {
+		var x = err.message;
+		document.getElementById("err").innerHTML = err ;
+	}
+}
+</script>
+
+<script src='mf.js'></script>

@@ -1,0 +1,87 @@
+<style>
+#box {
+position :absolute;
+bottom :0;
+left :0;
+width :100%;
+height :10%;
+//background-color:black;
+border : .1px solid blue;
+}
+#box [id] {
+position :relative;
+top:5%;
+float :right ;
+height:90%;
+//width:30%
+}
+div[id^='p'] {
+position :absolute;
+top:0;
+left:0;
+border:.1px solid red;
+height :90%;
+width:100%;
+//opacity : .5;
+//background-color: red
+}
+
+#c1 {
+width:90%;
+
+}
+#mix {
+width:10%
+}
+
+
+
+
+
+</style>
+
+
+<div id='box'>
+
+<button id='mix' onclick="trig()">Mix</button>
+<input id='c1' value='red+yellow'></input>
+</div>
+
+
+<script src='create.js'></script>
+<script>
+var c1 =document.getElementById("c1")
+var mix =document.getElementById("mix")
+var p1 =document.getElementById("p1")
+var p2=document.getElementById("p2")
+
+
+//createElement(document.body,'div','fu','p3')
+
+
+function trig() {
+var arr = c1.value.split('+');
+var arr2 = [];
+for (var i=0;i<arr.length;i++) {
+
+arr2[arr2.length] = createElement(document.body,'div','','p'+i)
+arr2[i].style.backgroundColor = arr[i];
+arr2[i].style.opacity = 1/arr.length;
+arr2[i].style.height = 90 - i*10 + '%'
+}
+
+
+
+
+
+//alert(arr[1])
+/*
+p1.style.backgroundColor = c1.value;
+p2.style.backgroundColor = c2.value;
+c1.style.backgroundColor = c1.value;
+c2.style.backgroundColor = c2.value;
+*/
+}
+
+
+</script>

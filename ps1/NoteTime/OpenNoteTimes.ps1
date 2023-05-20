@@ -1,0 +1,1 @@
+notepad "C:\Users\Yeamin\Documents\Scripts\Ps1\NoteTime\noteTime.txt"

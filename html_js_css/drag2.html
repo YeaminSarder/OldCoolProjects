@@ -1,0 +1,73 @@
+<style>
+#dd {
+width:100px;
+height :100px;
+position :absolute;
+background-color:black;
+draggable:true;
+//cursor :move  ;
+left:20;
+}
+#ddhdr {
+cursor :move;
+background-color:grey
+}
+
+</style>
+
+<div id='dd' >
+<div id='ddhdr'> 
+t
+</div>
+</div>
+
+<script>
+enableDrag(document.getElementById('dd'))
+
+
+
+function enableDrag(elem) {
+	var p1=0,p2=0,p3=0,p4=0;
+
+	if (document.getElementById(elem.id+'hdr')) {
+		document.getElementById(elem.id+'hdr').onmousedown = dragStart;
+	}else{
+		elem.onmousedown = dragStart ;
+	}
+
+
+
+
+function dragStart(e) {
+e=window.event;
+e.preventDefault();
+p3=e.clientX;
+p4=e.clientY;
+document.onmouseup = dragOver;
+document.onmousemove = Drag;
+//alert (elem)
+}
+
+function Drag(e) {
+e=window.event;
+e.preventDefault();
+p1=p3-e.clientX;
+p2=p4-e.clientY;
+p3=e.clientX;
+p4=e.clientY;
+
+elem.style.top = (elem.offsetTop - p2) + 'px';
+elem.style.left = (elem.offsetLeft - p1) + 'px';
+
+}
+
+function dragOver() {
+
+document.onmouseup = null;
+document.onmousemove = null;
+}
+
+
+}
+
+</script>

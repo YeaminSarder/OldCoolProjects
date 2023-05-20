@@ -1,0 +1,58 @@
+<style>
+input {
+width :30;
+}
+
+</style>
+
+
+<div></div>
+<script src='create.js'></script>
+<script>
+createElement( document.body , 'span','m1')
+var m1 = createElement( document.body , 'input')
+createElement( document.body , 'span','m2')
+var m2 = createElement( document.body , 'input')
+createElement( document.body , 'br')
+createElement( document.body , 'br')
+createElement( document.body , 'span','u1')
+var u1 = createElement( document.body , 'input')
+createElement( document.body , 'br')
+createElement( document.body , 'span','u2')
+var u2 = createElement( document.body , 'input')
+createElement( document.body , 'br')
+createElement( document.body , 'br')
+var calc = createElement( document.body , 'button','calc')
+createElement( document.body , 'br')
+createElement( document.body , 'br')
+var v1 = createElement( document.body , 'p','v1=')
+var v2 = createElement( document.body , 'p','v2=')
+m1.setAttribute('type','number');
+m2.setAttribute('type','number');
+u1.setAttribute('type','number');
+u2.setAttribute('type','number');
+m1.setAttribute('value',20);
+m2.setAttribute('value',20);
+u1.setAttribute('value',0);
+u2.setAttribute('value',20);
+
+
+
+calc.setAttribute('onclick','Calc()');
+
+function Calc() {
+var M1 = m1.value;
+var M2 = m2.value;
+var U1 = u1.value;
+var U2 = u2.value;
+
+var V1 = ((2*M2*U2 + (M1-M2)*U1)/(M1*1+1*M2));
+var V2 = ((2*M1*U1 + (M2-M1)*U2)/(M1*1+1*M2));
+//alert ((M1*1+1*M2))
+v1.innerHTML = 'v1= ' + V1;
+v2.innerHTML = 'v2= ' + V2;
+}
+
+
+
+</script>

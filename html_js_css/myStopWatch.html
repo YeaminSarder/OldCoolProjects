@@ -1,0 +1,33 @@
+
+<button onclick='c.resume()'>start</button>
+<button onclick='c.pause()'>stop</button>
+<button onclick='c.reset()'>reset</button>
+<p id='s'>0</p>
+
+<script>
+var s = document.getElementById('s');
+
+var c = new Clock(100,'s.innerHTML=c.reading')
+//c.start()
+
+
+
+function Clock(acuracy,work) {
+if(!acuracy){acuracy=1000}
+if(!work){work=''}
+//var reading=0;
+var t=this
+this.reading=0;
+
+
+this.resume=function () {t.interval=setInterval(this.running,acuracy)};
+this.pause=function () {clearInterval(t.interval)}
+this.reset=function () {t.reading=0;}
+
+this.running =function f() {
+t.reading+=acuracy
+eval(work);
+
+}
+}
+</script>

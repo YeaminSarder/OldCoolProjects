@@ -1,0 +1,48 @@
+<style>
+:root{
+//--x:60px;
+
+}
+
+
+
+.d {
+
+background-color:black;
+height:60;
+width:60;
+position:absolute;
+top:1;
+left:0;
+}
+</style>
+
+
+
+<div></div>
+<script src='create.js'></script>
+<script>
+var d1 = createElement( document.body , 'Div','','d1','d')
+var d2 = createElement( document.body , 'Div','','d1','d')
+var top = [];
+var left = [];
+var int = [];
+move(d1,1,1,1000)
+top[2] = 80;
+move(d2,2,3,1000)
+
+
+function move(obj,m,vel,n) {
+//top[m] = 0;
+left[m] = 0;
+var int[m] = setInterval(mv,n)
+function mv() {
+left[m] += vel;
+obj.style.left = left[m];
+obj.style.top = top[m];
+}
+
+}
+
+
+</script>

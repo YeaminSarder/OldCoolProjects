@@ -1,0 +1,685 @@
+<style>
+
+.button{
+position:absolute;
+}
+body {
+background-color:black
+}
+p {
+position:absolute;
+right:5;
+top:5;
+color:white;
+}
+
+.cell {
+position:absolute;
+//border:1px solid;
+border-radius:5px;
+top:0;
+left:500;
+transform:rotateZ(0deg);
+//transition:top .4s,left .4s, transform 5s linear;
+}
+</style>
+
+
+
+
+<body>
+<p id='p'></p>
+<button onClick='mix()'>Mix</button>
+<input></input>
+</body>
+
+<script>
+
+//declaring variables-------------------
+
+	//preferances
+
+
+//----------------------------------------------------------\
+var cellW=34;		//width of each cell
+var cellSpc=2;		//space between two cells
+var blockSpc=1;	//space between two blocks(group of 9 cells)
+var sideA=[109,109]	//position of the middle block
+var butPos=[400,20]	//bosition of the button z
+var contPos=[100,100]	//bosition of the cube
+var butW=40;		//width of button
+var butSpc=5;		//space between 2 button
+var pers=10000;		//perspective
+var speed=.3;
+//----------------------------------------------------------/
+
+
+var contW=cellW*3+2*cellSpc+2*blockSpc
+
+
+//var sidePos=[100,100, 200,100, 100,5, 5,100, 100,200, 100,400]	//for arranging sides, 6pairs of x and y co-ordinate
+
+
+
+var side=['c','a','e','f','d','b']
+
+
+var cont=document.body.appendChild(document.createElement("div"));
+
+cont.setAttribute('class','cont')
+cont.style.perspective=pers*Math.sqrt(2)+'px'
+cont.style.perspectiveOrigin=contW/2+'px '+-pers+'px'
+cont.style.tranformStyle="preserve-3d"
+cont.style.width=contW+'px'
+cont.style.height=contW+'px'
+cont.style.border='1px solid red'
+cont.style.position='absolute'
+cont.style.left=contPos[0]+'px'
+cont.style.top=contPos[1]+'px'
+//side1.style.height='50px'
+
+
+
+
+
+
+//alert(cont.class)
+document.getElementsByTagName('button')[0].style.left='90px'
+//document.getElementsByTagName('button')[0].style.transform='rotateZ(45deg) rotateX(90deg)'
+//side[1].style.left='50px'
+
+var sP=[sideA[0],sideA[1],cellW*3+2*cellSpc,blockSpc]	//side a pos,blockW,blockSpc
+
+
+var sidePos=[sP[0],sP[1], sP[0]+sP[3]+sP[2],sP[1], sP[0],sP[1]-sP[3]-sP[2], sP[0]-sP[3]-sP[2],sP[1], sP[0],sP[1]+sP[3]+sP[2], sP[0],sP[1]+2*sP[3]+2*sP[2]]
+//var sidePos=[,]
+
+
+
+
+
+
+
+
+	//colors for the sides
+var col=[
+"red",
+"yellow",
+"green",
+"white",
+"blue",
+"orange"
+]
+
+
+	//arrays
+
+
+var XYZ=[['Z','Y','X',-1,1,1],['X','Y','Z',1,1,1],['Z','Y','X',1,1,-1],['X','Y','Z',-1,1,-1],['X','Z','Y',1,-1,1],['X','Z','Y',1,1,-1]]
+//var XYZ=[['Z','Y','X',-1,1,1],['X','Y','Z',1,1,1],['Z','Y','X',1,1,-1],['X','Y','Z',-1,1,-1],['X','Z','Y',1,1,1],['X','Z','Y',1,-1,-1]]
+
+//defining coordinate obj 
+
+var coor={};
+var pos={}	//creates empty cell referance
+for (var s=0;s<6;s++) {		//s for sides
+
+for (var i=0;i<9;i++) {
+
+coor[side[s]+i]=cont.appendChild(document.createElement("div"));
+coor[side[s]+i].setAttribute('class','cell')
+coor[side[s]+i].style.backgroundColor=col[s]
+coor[side[s]+i].style.transition="transform "+speed+"s"
+coor[side[s]+i].style.width=cellW+'px'
+coor[side[s]+i].style.height=cellW+'px'
+coor[side[s]+i].style.position='absolute'
+coor[side[s]+i].style.left=(contW-cellW)/2+'px'
+coor[side[s]+i].style.top=(contW-cellW)/2+'px'
+
+if (s==1||s==2){
+//coor[side[s]+i].style.display='visible'
+coor[side[s]+i].style.zIndex=2
+}
+if (s==0||s==3){
+coor[side[s]+i].style.zIndex=-2
+//coor[side[s]+i].style.display='none'
+}
+if (s==4){
+coor[side[s]+i].style.zIndex=2
+//coor[side[s]+i].style.display='none'
+}
+if (s==5){
+coor[side[s]+i].style.zIndex=-2
+//coor[side[s]+i].style.display='none'
+}
+
+if (s<4){
+coor[side[s]+i].style.transform="rotateY("+(-135+s*90)+"deg) rotateX(0deg) rotateZ(0deg)  translateX("+((cellW+cellSpc)*((i%3)-1))+"px) translateY("+(cellW+cellSpc)*(Math.floor(i/3)-1)+"px) translateZ("+contW/2+"px)"
+}
+if (s==4){
+coor[side[s]+i].style.transform="rotateY(-45deg) rotateX(90deg) rotateZ(0deg)  translateX("+((cellW+cellSpc)*((i%3)-1))+"px) translateY("+(cellW+cellSpc)*(Math.floor(i/3)-1)+"px) translateZ("+contW/2+"px)"
+}
+if (s==5){
+coor[side[s]+i].style.transform="rotateY(-45deg) rotateX(-90deg) rotateZ(0deg)  translateX("+((cellW+cellSpc)*((i%3)-1))+"px) translateY("+(cellW+cellSpc)*(Math.floor(i/3)-1)+"px) translateZ("+(contW/2)+"px)"
+}
+
+
+
+
+
+
+
+//coor[side[s]+i].style.top=sidePos[2*s]+Math.floor(i/3)*(cellW+cellSpc)+'px'
+//coor[side[s]+i].style.left=sidePos[2*s+1]+i%3*(cellW+cellSpc)+'px'
+//coor[side[s]+i].style.transition='top 3s,left 3s'
+//coor[side[s]+i].innerHTML=side[s]+i
+pos[side[s]+i]=[XYZ[s],coor[side[s]+i].style.zIndex]
+}
+
+}	//end of loop s
+
+
+//creating buttons;
+var button={}
+
+var butName=["L'","L","U'","U","R'","R","D'","D","F","F'","B'","B"]
+var butName2=["M'","M","y'","y","x'","x","E'","E","S","S'","z","z'","^"]
+var fB=[butPos[0],butPos[1],butW+butSpc]
+//placing buttons (y,x ,y,x ,....	fB is the first button coordinate
+var butPos=[fB[0],fB[1], fB[0]-butW-butSpc,fB[1], fB[0]-2*fB[2],fB[1]+butW+butSpc, fB[0]-2*fB[2],fB[1]+2*fB[2] ,fB[0]-butW-butSpc,fB[1]+3*fB[2], fB[0],fB[1]+3*fB[2], fB[0]+fB[2],fB[1]+2*fB[2], fB[0]+fB[2],fB[1]+1*fB[2], fB[0]-fB[2],fB[1]+fB[2], fB[0]-fB[2],fB[1]+2*fB[2], fB[0],fB[1]+fB[2],fB[0],fB[1]+2*fB[2] ,fB[0]+fB[2],fB[1] ]
+
+var butName3=[
+"z","M","","","x'","z'",
+"y'"," ","U'","U"," ","y",
+"","L","F","F'","R'","",
+"","L'","B'","B","R","",
+"E"," ","D","D'"," ","E'",
+"S","M'","","","x","S'"
+]
+
+
+
+var R=['b8','b5','b2','a8','a5','a2','d8','d5','d2','f0','f3','f6','e6','e3','e0','e1','e2','e5','e8','e7','e4',[0,1]]
+var Rd=['f6','f3','f0','d2','d5','d8','a2','a5','a8','b2','b5','b8','e7','e8','e5','e2','e1','e0','e3','e6','e4',[0,-1]]
+var U=['e2','e1','e0','a2','a1','a0','c2','c1','c0','f2','f1','f0','d6','d3','d0','d1','d2','d5','d8','d7','d4',[1,-1]]
+var Ud=['f0','f1','f2','c0','c1','c2','a0','a1','a2','e0','e1','e2','d7','d8','d5','d2','d1','d0','d3','d6','d4',[1,1]]
+var L=['d0','d3','d6','a0','a3','a6','b0','b3','b6','f8','f5','f2','c6','c3','c0','c1','c2','c5','c8','c7','c4',[0,-1]]
+var Ld=['f2','f5','f8','b6','b3','b0','a6','a3','a0','d6','d3','d0','c7','c8','c5','c2','c1','c0','c3','c6','c4',[0,1]]
+var D=['c6','c7','c8','a6','a7','a8','e6','e7','e8','f6','f7','f8','b6','b3','b0','b1','b2','b5','b8','b7','b4',[1,1]]
+var Dd=['f8','f7','f6','e8','e7','e6','a8','a7','a6','c8','c7','c6','b7','b8','b5','b2','b1','b0','b3','b6','b4',[1,-1]]
+var F=['b2','b1','b0','c8','c5','c2','d6','d7','d8','e0','e3','e6','a6','a3','a0','a1','a2','a5','a8','a7','a4',[2,1]]
+var Fd=['e6','e3','e0','d8','d7','d6','c2','c5','c8','b0','b1','b2','a7','a8','a5','a2','a1','a0','a3','a6','a4',[2,-1]]
+var B=['e8','e5','e2','d2','d1','d0','c0','c3','c6','b6','b7','b8','f6','f3','f0','f1','f2','f5','f8','f7','f4',[2,-1]]
+var Bd=['b8','b7','b6','c6','c3','c0','d0','d1','d2','e2','e5','e8','f7','f8','f5','f2','f1','f0','f3','f6','f4',[2,1]]
+var M=['d1','d4','d7','a1','a4','a7','b1','b4','b7','f7','f4','f1',0,0,0,0,0,0,0,0,0,[0,-1]]
+var Md=['f1','f4','f7','b7','b4','b1','a7','a4','a1','d7','d4','d1',0,0,0,0,0,0,0,0,0,[0,1]]
+var E=['c3','c4','c5','a3','a4','a5','e3','e4','e5','f3','f4','f5',0,0,0,0,0,0,0,0,0,[1,1]]
+var Ed=['f5','f4','f3','e5','e4','e3','a5','a4','a3','c5','c4','c3',0,0,0,0,0,0,0,0,0,[1,-1]]
+var S=['b5','b4','b3','c7','c4','c1','d3','d4','d5','e1','e4','e7',0,0,0,0,0,0,0,0,0,[2,1]]
+var Sd=['e7','e4','e1','d5','d4','d3','c1','c4','c7','b3','b4','b5',0,0,0,0,0,0,0,0,0,[2,-1]]
+var xd=[L,M,Rd]
+var x=[Ld,Md,R]
+var yd=[Ud,E,D]
+var y=[U,Ed,Dd]
+var z=[F,S,Bd]
+var zd=[Fd,Sd,B]
+//alert(R')
+//arrCons=['','R']
+
+var skip=[2,3,7,10,12,17,18,23,25,28,32,33]
+for (var k=0;k<6;k++){
+    for (var j=0;j<6;j++){
+//if (i==4){continue;}
+var i=k*6+j
+if (skip.indexOf(i)>-1){continue}
+button['b'+i]=document.body.appendChild(document.createElement("button"));
+button['b'+i].setAttribute('class','button');
+button['b'+i].style.width=butW+'px'
+button['b'+i].style.height=butW+'px'
+button['b'+i].innerHTML=butName3[i];
+button['b'+i].style.top=fB[1]+fB[2]*k+'px'
+button['b'+i].style.left=fB[0]+fB[2]*j+'px'
+button['b'+i].setAttribute('onclick','rotate(eval(this.innerHTML.replace("'+"'"+'","d")))')
+if (i==12) {
+button['b'+i].setAttribute('onclick',"shift()")
+
+}
+}
+
+}
+
+var isShifted=0
+function shift() {
+	for (var i=0;i<12;i++){
+		if (!isShifted){
+			button['b'+i].innerHTML=butName2[i];
+		}else{
+			button['b'+i].innerHTML=butName[i];
+		}
+		
+	} 
+	isShifted=!isShifted
+}
+
+
+//Keyboard
+
+window.addEventListener('keydown',function (e){
+
+switch (e.key) {
+
+case 'j':
+rotate(R)
+break;
+
+case 'i':
+rotate(Rd)
+break;
+
+case 'f':
+rotate(Ld)
+break;
+
+case 't':
+rotate(L)
+break;
+
+case '6':
+rotate(Ud)
+break;
+
+case '7':
+rotate(U)
+break;
+
+case 'v':
+rotate(D)
+break;
+
+case 'b':
+rotate(Dd)
+break;
+
+
+case 'y':
+rotate(F)
+break;
+
+case 'u':
+rotate(Fd)
+break;
+
+case 'g':
+rotate(Bd)
+break;
+
+case 'h':
+rotate(B)
+break;
+
+case '5':
+rotate(yd)
+break;
+
+case '8':
+rotate(y)
+break;
+
+case 'c':
+rotate(E)
+break;
+
+case 'n':
+rotate(Ed)
+break;
+
+case 'o':
+rotate(xd)
+break;
+
+case 'k':
+rotate(x)
+break;
+
+case 'r':
+rotate(M)
+break;
+
+case 'd':
+rotate(Md)
+break;
+
+
+case '3':
+rotate(z)
+break;
+
+case '4':
+rotate(zd)
+break;
+
+case '9':
+rotate(S)
+break;
+
+case '0':
+rotate(Sd)
+break;
+
+case 'e':
+mix()
+break;
+
+
+
+}
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var moved=[]
+//var coorM=[]
+
+function move(Ca,Cb,rot) {
+//coor[Ca].style.transform=pos[Cb][0]
+var rot2
+/*
+if (pos[Ca][0][rot[0]]=='X'){
+rot2=0
+} else if (pos[Ca][0][rot[0]]=='Y'){
+rot2=1
+} else if (pos[Ca][0][rot[0]]=='Z'){
+rot2=2
+}
+*/
+rot2=rot[0]
+
+if (rot2==0){
+var n=[pos[Ca][0][0],pos[Ca][0][2],pos[Ca][0][1],pos[Ca][0][3],pos[Ca][0][5]*rot[1]*(-1),pos[Ca][0][4]*rot[1]]
+}
+if (rot2==1){
+var n=[pos[Ca][0][2],pos[Ca][0][1],pos[Ca][0][0],pos[Ca][0][5]*rot[1]*(1),pos[Ca][0][4],pos[Ca][0][3]*rot[1]*(-1)]
+}
+if (rot2==2){
+var n=[pos[Ca][0][1],pos[Ca][0][0],pos[Ca][0][2],pos[Ca][0][4]*rot[1]*(-1),pos[Ca][0][3]*rot[1],pos[Ca][0][5]]
+}
+
+moved.push([coor[Ca],Cb,n])
+//coor[Cb]=coor[Ca]
+}
+function confirmMove(){
+//alert(moved)
+for (var i=0;i<moved.length;i++){
+
+
+
+pos[moved[i][1]][0]=moved[i][2]
+coor[moved[i][1]]=moved[i][0]
+
+}
+moved=[];
+}
+
+var IndexList=[]
+
+function rotate(arrS) {		//arrS consists of all the 21 sqares in a side
+
+
+function getTransArr(id) {
+//var id='a0'
+var temp=cutBefore(coor[id].style.transform,' translateX(')  //has 2 sections
+
+temp[0]=[temp[0].slice(0,-temp[0].split(' ')[temp[0].split(' ').length-1].length),temp[0].split(' ')[temp[0].split(' ').length-1]]
+
+//-temp[0].split(' ')[temp[0].split(' ').length-1].length()		//temp = [[,],'']
+temp[0][1]=[temp[0][1][6],temp[0][1].slice(8,-4)]
+
+//alert(temp[0])
+
+return [temp[0][0],temp[0][1][0],temp[0][1][1],temp[1]]
+}
+
+
+function cutBefore(str,str2) {
+str=str.split(str2)
+return [str[0],str2+str[1]]
+
+}
+
+
+ if (arrS.length!=3){
+      IndexList.forEach(function(v,i,a){
+          coor[v].style.zIndex=2
+      })
+      IndexList=[];
+
+
+
+    for (var i=0;i<21;i++){
+      if(!arrS[i]){continue}
+
+        if (i<9){
+          move(arrS[i],arrS[i+3],arrS[21])
+
+          if (pos[arrS[i+3]][1]==2) {
+            IndexList[IndexList.length]=arrS[i+3]
+          }else {
+            coor[arrS[i]].style.zIndex=-2
+          }
+        }else if (i<12){
+          move(arrS[i],arrS[i-9],arrS[21])
+
+          if (pos[arrS[i-9]][1]==2) {
+            IndexList[IndexList.length]=arrS[i-9] 
+          }else {
+            coor[arrS[i]].style.zIndex=-2
+          }
+        } else if (i<18) {
+          move(arrS[i],arrS[i+2],arrS[21])
+        }else if (i<20){
+          move(arrS[i],arrS[i-6],arrS[21])
+        }else if (i<21){
+          move(arrS[i],arrS[i],arrS[21])
+        }
+
+        var transObj={
+          translateX:0,
+          translateY:0,
+          translateZ:0,
+          rotateX:0,
+          rotateY:0,
+          rotateZ:0
+        }
+        var trans=coor[arrS[i]].style.transform.split(' ').map(function (v,i,a){return v.replace(/px\)|deg\)/g,"").split('(')})
+        trans.forEach(function (v,i,a){
+        transObj[v[0]]=v[1]
+        })
+
+
+
+/*
+        if (arrS[21][1]){
+	if ((Math.round(transObj.rotateY))%360==-45||(Math.round(transObj.rotateY))%360==315) {
+	transObj.rotateX=transObj.rotateX*1+arrS[21][0]*1
+        }else
+        if ((Math.round(transObj.rotateY))%360==135||(Math.round(transObj.rotateY))%360==-225) {
+        transObj.rotateX=transObj.rotateX*1-arrS[21][0]*1
+        }//else{alert(transObj.rotateY)}
+        }else{
+        transObj.rotateY=transObj.rotateY*1-arrS[21][0]*1
+        //transObj.rotateY=transObj.rotateY*1-arrS[21][0]*1
+        //coor[arrS[i]].style.transform="rotateY("+transObj.rotateY+"deg) rotateX("+transObj.rotateX+"deg) rotateX("+(-90)+"deg) rotateZ("+transObj.rotateZ+"deg) translateX("+transObj.translateX+"px) translateY("+transObj.translateY+"px) translateZ("+transObj.translateZ+"px)"
+        }
+        //transObj.rotateZ=transObj.rotateZ*1+45
+	coor[arrS[i]].style.transform="rotateY("+transObj.rotateY+"deg) rotateX("+transObj.rotateX+"deg) rotateZ("+transObj.rotateZ+"deg) translateX("+transObj.translateX+"px) translateY("+transObj.translateY+"px) translateZ("+transObj.translateZ+"px)"
+
+*/
+
+      
+
+        var tA=getTransArr(arrS[i])
+if(i==0){
+//coor[arrS[i]].style.transform="rotateX(90deg) rotateX(90deg) rotateX(90deg) rotateX(90deg)"
+//alert(tA)
+//alert (pos[arrS[i]][0])
+ //alert(tA[0]+'rotate'+tA[1]+'('+tA[2]+'deg) rotate'+pos[arrS[i]][0][arrS[21][0]]+"("+90*arrS[21][1]+"deg)"+tA[3])
+}
+ if (pos[arrS[i]][0][arrS[21][0]]==tA[1]) {
+        coor[arrS[i]].style.transform=tA[0]+'rotate'+tA[1]+'('+(tA[2]*1+90*pos[arrS[i]][0][arrS[21][0]+3]*arrS[21][1])+'deg)'+tA[3]
+ 
+ }else{
+
+        coor[arrS[i]].style.transform=tA[0]+'rotate'+tA[1]+'('+tA[2]+'deg) rotate'+pos[arrS[i]][0][arrS[21][0]]+"("+90*pos[arrS[i]][0][arrS[21][0]+3]*arrS[21][1]+"deg)"+tA[3]
+ }
+
+
+
+/*
+      if (11<i){
+
+        
+        var transObj={
+          translateX:0,
+          translateY:0,
+          translateZ:0,
+          rotateX:0,
+          rotateY:0,
+          rotateZ:0
+        }
+        var trans=coor[arrS[i]].style.transform.split(' ').map(function (v,i,a){return v.replace(/px\)|deg\)/g,"").split('(')})
+        trans.forEach(function (v,i,a){
+        transObj[v[0]]=v[1]
+        })
+
+	transObj.rotateZ=transObj.rotateZ*1+arrS[21][0]*arrS[21][2]
+        
+	coor[arrS[i]].style.transform="rotateY("+transObj.rotateY+"deg) rotateX("+transObj.rotateX+"deg) rotateZ("+transObj.rotateZ+"deg) translateX("+transObj.translateX+"px) translateY("+transObj.translateY+"px) translateZ("+transObj.translateZ+"px)"
+      }
+*/
+
+
+
+    }
+
+
+//alert(moved)
+
+    setTimeout(function (){
+      IndexList.forEach(function(v,i,a){
+          coor[v].style.zIndex=2
+      })
+      IndexList=[];
+      
+    },speed*333)
+    confirmMove()
+
+
+  }else{
+    rotate(arrS[0])
+    rotate(arrS[1])
+    rotate(arrS[2])
+  }
+
+  if(isSolved(getCode())&&(interval)){clearInterval(interval);interval=0;}
+
+//if(){alert()}
+}
+interval=0
+function mix(){
+
+for (var i=0;i<30;i++){
+rotate(eval(butName[Math.floor(Math.random()*butName.length)].replace("'","d")))
+}
+ii=0;
+isV=0;
+
+if(!interval){
+interval= setInterval(timer,1000)
+}
+
+}
+var p=document.getElementById('p')
+
+function timer(){
+//if(isV){
+
+ii++
+p.innerHTML=Math.floor(ii/60)+":"+("00"+ii%60).slice(-2)
+
+//p.style.color="#c0c0c0"
+//}else{
+//p.innerHTML=Math.floor(ii/60)+" "+("00"+ii%60).slice(-2)
+//p.style.color="#808080"
+//}
+isV=!isV
+
+
+
+
+}
+
+
+var initCode=getCode()
+
+//var arrSolved=[
+//""
+
+//]
+
+//alert (isSolved(initCode))
+function isSolved(code){
+for (var i=0;i<54;i++){
+if ((i%9)==0){var lookFor=code[i];continue;}
+if (code[i]==lookFor){continue;}else{return 0;}
+
+}
+
+return 1;
+}
+
+
+
+
+function getCode(){
+var out=''
+for (m in coor){
+out+=col.indexOf(coor[m].style.backgroundColor)
+}
+
+return out
+
+}
+
+
+
+//
+
+
+//alert((-585)%360)
+
+
+</script>

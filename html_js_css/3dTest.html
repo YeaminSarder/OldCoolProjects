@@ -1,0 +1,54 @@
+<style>
+
+
+.cont {
+left:500px;
+//perspective:500px;
+position:absolute;
+transform:rotateY(135deg);
+
+transform-style:preserve-3d;
+}
+
+
+.side {
+overflow:hidden;
+perspective:50px;
+}
+
+
+
+.side:first-child {
+//perspective:50px;
+position:absolute;
+transform:rotateY(0deg);
+background-color:#aa0000;
+width : 100px;
+height:100px;
+transform-style:preserve-3d;
+backface-visibility:hidden;
+}
+
+.side:last-child {
+
+position:absolute;
+transform:rotateY(180deg);
+background-color:#00aa00;
+width : 100px;
+height:100px;
+backface-visibility:hidden;
+transform-style:preserve-3d;
+}
+
+</style>
+
+
+<div class='cont'>
+<div class='side'>
+ui
+</div>
+
+<div class='side'>
+ui
+</div>
+</div>

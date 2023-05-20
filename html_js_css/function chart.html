@@ -1,0 +1,75 @@
+<style> 
+#vari, #val {
+width:1.5em;
+border:none;
+background-color:#f1f1ff;
+}
+svg {
+position:absolute ;
+left:350;
+top:500;
+}
+
+</style>
+
+
+
+<span>Type expression here:</span>
+<input type='text'  id='inp'></input>
+<button onclick='evaluate()'>=</button>
+<span id='otpt'></span>
+<br><span>Variable </span>
+<input type='text' value='' id='vari'></input>
+<span>=</span>
+<input type='text' value='' id='val'></input>
+<br>
+
+<svg height='200' width='500'>
+<polyline id='pol' points = '0,40 .5,43 1,48 40,60' style='fill:none;stroke:black;stroke-width:3' />
+</svg>
+
+
+
+<script>
+var inp = document.getElementById('inp');
+var otpt = document.getElementById('otpt');
+var vari = document.getElementById('vari');
+var val = document.getElementById('val');
+var pol = document.getElementById('pol');
+function evaluate() {
+var str = inp.value;
+var txt='';
+//alert();
+for (var i=window.innerWidth/-2-10;i<window.innerWidth/2-10;i++) {
+txt+=i+','+eval(str)+' ';
+
+}
+pol.setAttribute('points',txt);
+
+
+
+
+
+
+//alert(str.search('X'))
+//vr = vari.value;
+//vl = val.value
+if (vari.value&&val.value) {
+for (;str.search(vari.value)>-1;) {
+str = str.replace(vari.value,val.value);
+}
+}
+
+
+
+otpt.innerHTML = eval(str);
+
+//alert(txt)
+
+}
+
+
+
+
+
+</script>

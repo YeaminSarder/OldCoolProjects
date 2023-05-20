@@ -1,0 +1,101 @@
+<style>
+div{
+dragable:yes;
+width:50px;
+height:50px;
+border:1px solid;
+position:absolute
+}
+
+p{
+dragable:yes;
+width:50px;
+height:50px;
+border:1px solid;
+position:absolute
+
+}
+</style>
+
+
+
+
+
+
+<div ondragstart='alert()'>x</div>
+
+
+
+
+
+
+<script src='create.js'></script>
+
+<script>
+var div = createElement(document.body,'div','p','')
+//var b0 = createElement(document.body,'button','p','')
+//var p0 = createElement(document.body,'p','p','')
+//var txt = '';
+//var obj = {a:'A',b:'B'}
+//inp.value=0;
+//alert ()
+//r(document )
+
+function r(obj) {
+var m;
+var txt = '';
+for (m in obj ) {
+
+
+txt += m + ':'+ obj[m]+ '\n'; 
+}
+alert(txt);
+}
+
+var x=0;
+var y=0;
+
+
+
+div.addEventListener('mousedown',function (e){
+window.addEventListener('mousemove',eventMove)
+})
+div.addEventListener('mouseup',function (e){
+window.removeEventListener('mousemove',eventMove)
+})
+
+
+
+
+
+
+
+function getStyle(){
+    //get style.innerHTML, remove all newlines, split by { and then }
+    var style=document.getElementsByTagName("style")[0].innerHTML.replace(/\n/g,"").split("}").map(function(v,i,a){return v.split("{")})
+    style.pop()
+    //iterate though style to form json string outp
+    var outp='{'
+    style.forEach(function (v,i,a){
+        outp+='"'+v[0]+'"'+':'+('{"'+(style[0][1].replace(/:/g,'":"')).replace(/;/g,'","')+'"}')
+        if (i!=a.length-1){
+            outp+=','
+        }else{
+            outp+='}'
+        }
+    })
+    //return the style object with style properties subObjects
+    return JSON.parse(outp)
+}
+
+
+
+function eventMove(e) {
+x=e.x;
+y=e.y;
+div.style.left=e.x-getStyle().div.width.slice(0,-2)*0.5+'px';
+div.style.top=e.y-getStyle().div.height.slice(0,-2)*0.5+'px';
+
+}
+//alert ()
+</script>

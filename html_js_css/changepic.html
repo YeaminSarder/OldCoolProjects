@@ -1,0 +1,26 @@
+<table>
+<tr>
+<td colspan="3">
+<img id="demo" src='../Pictures/Camera Roll/y1.jpg' alt="error" width="240" height="180" /><br><br>
+</td>
+</tr>
+
+<tr>
+<td>
+<button type='button' onclick='changePic("../Pictures/Camera Roll/s3.jpg")'  > s1</button>
+</td>
+<td>
+</td>
+<td align="right">
+<button type='button' onclick='changePic("../Pictures/Camera Roll/y1.jpg")'  > y1</button>
+</td>
+</table>
+
+
+
+
+<script>
+function changePic(x) {
+document.getElementsByTagName('img')[0].src=x;
+}
+</script>

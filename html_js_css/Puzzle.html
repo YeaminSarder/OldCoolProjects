@@ -1,0 +1,372 @@
+
+
+<head>
+<style>
+.elem {
+//border:1px solid red;
+position:absolute;
+height:50px;
+width:50px;
+left:50px;
+top:0px;
+z-index:0
+}
+
+button {
+//border:1px solid red;
+position:relative;
+height:50px;
+width:50px;
+//left:50px;
+//top:0px;
+z-index:0
+}
+#cd {
+position:none;
+}
+#c1 {
+
+position:absolute;
+
+bottom:0px;
+//left:3px;
+}
+</style>
+</head>
+
+
+<center id='c1'>
+<div id='cd'>
+</div>
+</center>
+
+<script>
+initStyle()
+
+
+
+///startup variables
+var arrElem=[]	//contains coloured elements
+var arrButt=[]	//contains buttons
+var arrElem2=[]	//contains faded elements
+var arrid=[]	//contains moveElement arguments
+var mX=window.innerWidth-16
+var mY=window.innerHeight
+var c1=document.getElementById('c1')
+var cd=document.getElementById('cd')
+var alpha="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+///
+
+///option variables
+var nElem=5;	//number of elements
+var nButt=4;	//number of Buttons
+var nMove=2;	//number of elements moves per Click
+
+var eWidth=50	//element Width
+var eHeight=50	//element Height
+var epad=1	//element padding
+var bWidth=mX*0.1	//Button Width
+var bHeight=mY*0.1	//Button Height
+var bpad=1		//Button padding
+var c1Height=bHeight*2
+var c1Width=mX
+var c1Color="#cccccc"	//color of button area
+
+
+
+///
+
+
+///synthesized variables
+mXint=Math.floor(mX/eWidth)
+mYint=Math.floor((mY-c1Height)/eHeight)
+
+
+///
+
+
+c1.style.width=c1Width
+c1.style.height=c1Height
+c1.style.backgroundColor=c1Color
+
+cd.style.width=bWidth*nButt
+cd.style.height=c1Height
+//c1.style.backgroundColor=c1Color
+
+//alert(mX)
+///add nElem elements and color and place them randomly and add same but faded
+ //elements
+for (var i=0;i<nElem;i++){
+    var tmp=document.body.appendChild(document.createElement('div'))
+    tmp.style.backgroundColor="#"+("000000"+(Math.floor(Math.random()*256*256*256).toString(16))).slice(-6)
+    tmp.style.width=eWidth-epad;
+    tmp.style.height=eHeight-epad;
+    tmp.style.left=8+Math.floor(Math.random()*mXint)*eWidth
+    tmp.style.top=8+Math.floor(Math.random()*mYint)*eHeight
+    tmp.setAttribute('Class','elem')
+    arrElem.push(tmp)
+    var xtmp=tmp
+
+
+    var tmp=document.body.appendChild(document.createElement('div'))
+    tmp.style.backgroundColor=xtmp.style.backgroundColor
+    tmp.style.width=eWidth-epad;
+    tmp.style.height=eHeight-epad;
+    tmp.style.left=xtmp.style.left
+    tmp.style.top=xtmp.style.top
+    tmp.setAttribute('Class','elem')
+    tmp.style.opacity=0.25
+    tmp.innerHTML="t"
+    arrElem2.push(tmp)
+}
+///
+///add nButt buttons in center
+for (var i=0;i<nButt*2;i++){
+    var tmp=cd.appendChild(document.createElement('button'))
+    //tmp.style.backgroundColor="#"+("000000"+(Math.floor(Math.random()*256*256*256).toString(16))).slice(-6)
+    tmp.style.width=bWidth-bpad;
+    tmp.style.height=bHeight-bpad;
+    if (i<nButt){
+    tmp.innerHTML=alpha[i]
+    arrid.push(genMoveElemArr(nMove))
+    tmp.setAttribute("onclick","moveElemByArr(arrid["+i+"])")
+    }else{
+    tmp.innerHTML=alpha[i-nButt]+"'"
+    tmp.setAttribute("onclick","moveElemByArr(arrid["+(i-nButt)+"],1)")
+    }
+    arrButt.push(tmp)
+}
+///
+
+//alert(arrid)
+
+
+
+
+//arrButt[0].setAttribute("onclick","moveElem(0,3)")
+function moveElem(i,d) {	//(index in arrElem,direction(1/2/3/4))
+    binD=("00"+d.toString(3)).slice(-2).split("").map(function (v,i,a){if (v==0){return -1}else{if(v==1){return 0}else{return 1}}})
+    arrElem[i].style.top=arrElem[i].style.top.slice(0,-2)*1+eWidth*(binD[0]*1)
+    arrElem[i].style.left=arrElem[i].style.left.slice(0,-2)*1+eWidth*(binD[1]*1)
+   // alert()
+
+}
+
+//moveElemByArr(arrid[3])
+function moveElemByArr(arr,isRev){	//format [[i,d],[i,d],...]
+    for (var i=0;i<arr.length;i++){
+        if (!isRev){
+            moveElem(arr[i][0],arr[i][1])
+        }else{
+            moveElem(arr[i][0],8-arr[i][1])
+        }
+    }
+}
+function genMoveElemArr(n){
+    var ret=[]
+    for (var i=0;i<n;i++){
+        ret.push([Math.floor(Math.random()*arrElem.length),Math.floor(Math.random()*9)])
+    }
+    return ret
+}
+
+
+
+
+
+
+
+function Response(elem) {
+    var t=this
+    this.elem = elem
+    
+    var vec0 = [0,0]
+    var fnull=function (){}
+      //returns the middle position of elem
+    Object.defineProperty(this,"vecMid",{get: function (){return [this.elem.style.width.slice(0,-2)*0.5,this.elem.style.height.slice(0,-2)*0.5]}})
+      //defines cursor position while dragging
+    this.vecRelCursor=[0,0]
+    Object.defineProperty(this,"vecDrag",{get: function (){return eval(this.vecDragSet)}})
+    this.vecDragSet="this.vecRelCursor"
+   //this.vecDrag=this.vecRelCursor;
+
+    
+    
+ 
+
+      //sets elem position as the pointer position
+    this.moveWithPointer=function (e) {
+        x=e.x;
+        y=e.y;
+        this.elem.style.left=e.x-this.vecDrag[0]+'px';
+        this.elem.style.top=e.y-this.vecDrag[1]+'px';
+    }
+
+    this.onDrag=this.moveWithPointer;
+    this.onDragStart=fnull;
+    this.onDragStop=fnull;
+    this.onNClick=[];
+    //this.onDoubleClick=function (){alert()}
+
+
+//alert(this.onDrag)
+    this.clickdure=450	//clicks are delayed that many time for triggering bigger trigers
+    this.nClick=0	//number of repeated clicks
+    var T=0
+    var isMousedown=0;
+    this.elem.addEventListener('mousedown',function (){
+        if (t.onNClick.length==0){t.clickdure=0}
+        isMousedown=1;
+        setTimeout(function (){isMousedown=0;},t.clickdure)
+    })
+    this.elem.addEventListener('mouseup',function (){
+        if (isMousedown){
+            t.nClick+=1;
+            //t.elem.innerHTML=t.nClick
+            if (T){
+                clearTimeout(T)
+            }
+            T=setTimeout(function (){
+                
+                if (t.nClick){
+                    if(t.onNClick[t.nClick]){
+                        t.onNClick[t.nClick]()
+                    }
+                }
+                t.nClick=0;
+                //t.elem.innerHTML=t.nClick
+            },t.clickdure)
+        }
+        isMousedown=0;
+    }) 
+
+
+    
+      
+    this.enableDrag = function (){
+        
+        var od=(t.onDrag).bind(t)
+        this.elem.addEventListener('mousedown',function (e){
+            t.vecRelCursor=[e.x-t.elem.style.left.slice(0,-2)*1,e.y-t.elem.style.top.slice(0,-2)*1]
+            t.onDragStart(e)
+            
+            window.addEventListener('mousemove',od)
+            
+        })
+        this.elem.addEventListener('mouseup',function (e){
+            t.onDragStop(e)
+            window.removeEventListener('mousemove',od)
+        })
+    }
+}
+
+
+
+
+function Dynamic(obj){
+             //velocity [x,y] vector
+    this.vel=[0,0]
+    this.MS=250
+    Object.defineProperty(this,'ms',{
+        set:function (v){
+            this.MS=v
+            clearInterval(this.interv)
+            this.interv=setInterval(this.engine,this.MS)
+        }
+    })
+
+    this.x=obj.style.width.slice(0,-2)*1;
+    this.y=obj.style.top.slice(0,-2)*1;
+    if (!this.x){this.x=0}
+    if (!this.y){this.y=0}
+    var t=this
+
+    this.uFunc=function (){}		//user defined function;runs in engine;
+
+
+    this.time=0;
+    this.engine=function (){
+        //alert(t.x)
+        t.x+=t.vel[0];
+        obj.style.left=t.x+'px'
+        t.y+=t.vel[1];
+        obj.style.top=t.y+'px'
+        t.uFunc()
+        t.time++
+    }
+    this.interv=setInterval(this.engine,this.MS)
+    
+
+
+}
+
+
+
+
+
+
+
+function Dice(){
+    this.faces=[1,2,3,4,5,6]	
+               //----returns one of these	
+    Object.defineProperty(this,'autoFace',{
+        set:function (arr){	
+               //----of the format [start,end,step],sets face
+            if (!arr[2]){arr[2]=1}
+            this.faces=[]
+            for (var i=arr[0];i<(arr[1]+1);i+=arr[2]){
+                 this.faces.push(i);
+            }
+        }
+
+
+    })
+
+    Object.defineProperty(this,'roll',{
+                    //----get random output from the arr faces
+        get:function (){
+            return this.faces[Math.floor(Math.random()*this.faces.length)]        
+        }
+    })
+
+
+}
+
+
+
+
+
+function getStyle(){
+    //get style.innerHTML, remove all newlines, split by { and then }
+    var style=document.getElementsByTagName("style")[0].innerHTML.replace(/\n/g,"").split("}").map(function(v,i,a){return v.split("{")})
+    style.pop()
+    //iterate though style to form json string outp
+    var outp='{'
+    style.forEach(function (v,i,a){
+        outp+='"'+v[0]+'"'+':'+('{"'+(style[0][1].replace(/:/g,'":"')).replace(/;/g,'","')+'"}')
+        if (i!=a.length-1){
+            outp+=','
+        }else{
+            outp+='}'
+        }
+    })
+    //return the style object with style properties subObjects
+    return JSON.parse(outp)
+}
+
+
+function initStyle(){
+    var style=getStyle();
+    for (t in style) {
+        var e=document.getElementsByTagName(t.trim())
+        for (n in style[t]){
+            var l=e.length
+            for (var i=0;i<l;i++){
+                e[i]["style"][n.trim()]=style[t][n]
+            }
+        }
+    }
+}
+
+
+</script>

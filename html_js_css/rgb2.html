@@ -1,0 +1,143 @@
+<style>
+p {
+display:inline;
+}
+
+#slim {
+display:block;
+//border:1px solid green;
+height:3em;
+width:13.1em;
+float:right;
+position : relative;
+}
+#p4::selection {
+color:black;
+}
+#p6,#p5,#i1,#p4 {
+position : relative ;
+
+}
+#p4 {
+border:none;
+background-color:white;
+padding:0;
+}
+
+input {
+transition : value 5s easy-in-out;
+display:inline-block;
+padding : 0;
+width:90%
+}
+
+.slide {
+padding-top:20px;
+padding-left:10px;
+box-sizing : border-box;
+background-color:rgba(128,128,128,0.1);
+width:100%;
+position:absolute;
+bottom:0px;
+left:0px
+}
+body {
+opacity : 0
+border: 0px solid black;
+background-color:black;
+//transition : background-color 1s;
+}
+
+.txt {
+float:right;
+width:20%;
+
+background-color:white;
+}
+b {
+padding:0;
+font-size:18px;
+}
+#i1 {
+display:inline;
+width: 2em;
+}
+</style>
+<div class='slide'>
+
+<b style='color:red' onclick='spp[0]-=1' ><tt>R</tt></b>
+<input class='slider' id='s1' onchange='m()' type='range' value=00 max=255></input>
+<p id='p1' style='color:red' onclick='spp[0]+=1'>0</p>
+
+<br><b style='color:green' onclick='spp[1]-=1'><tt>G</tt></b>
+<input class='slider' id='s2' onchange='m()' type='range' value=00 max=255></input>
+<p id='p2' style='color:green' onclick='spp[1]+=1'>0</p>
+
+<br><b style='color:blue' onclick='spp[2]-=1'><tt>B</tt></b>
+<input class='slider' id='s3' onchange='m()' type='range' value=00 max=255></input>
+<p id='p3' style='color:blue' onclick='spp[2]+=1'>0</p>
+<br>
+<div id='slim'>
+<t id='p5' >CODE: #</t><button id = 'p4' onclick='r()' >000000</button>
+<input id='i1' type='number' value=4 onchange='n()' ><t id='p6'>s</t>
+</div>
+
+</div>
+
+
+<script src='mf.js'></script>
+<script>
+var s1 = document.getElementById('s1')
+var s2 = document.getElementById('s2')
+var s3 = document.getElementById('s3')
+var p1 = document.getElementById('p1')
+var p2 = document.getElementById('p2')
+var p3 = document.getElementById('p3')
+var p4 = document.getElementById('p4')
+var i1 = document.getElementById('i1')
+function m() {
+document.body.style.backgroundColor = "rgb(" + s1.value + "," + s2.value + "," + s3.value + ")";
+p1.innerHTML = s1.value;
+p2.innerHTML = s2.value;
+p3.innerHTML = s3.value;
+p4.innerHTML = ('00' + parseInt(s1.value).toString(16).toUpperCase()).substr(-2,2) + ('00' + parseInt(s2.value).toString(16).toUpperCase()).substr(-2,2) + ('00' + parseInt(s3.value).toString(16).toUpperCase()).substr(-2,2)
+}
+
+function n() {
+document.body.style.transition = 'background-color ' + i1.value + 's';
+}
+
+function r() {
+s1.value = mfPickRandom(0,255);
+s2.value = mfPickRandom(0,255);
+s3.value = mfPickRandom(0,255);
+m();
+}
+
+//alert(v)
+var s=[s1,s2,s3]
+
+var sb=[1,1,1];
+var spp=[0,0,0];
+setInterval(sp,40);
+//slider{output.innerHTML = this.value}
+function sp() {
+for(var i=0;i<3;i++) {
+	if(sb[i]) {
+		s[i].value = 1*s[i].value+spp[i];
+	}else{
+		s[i].value = 1*s[i].value-spp[i];
+	}
+	if(s[i].value>=255||s[i].value<=0){
+		if(sb[i]) {
+			sb[i]=0;
+		}else{
+			sb[i]=1;
+		}
+	}
+}
+m();
+}
+
+
+</script>

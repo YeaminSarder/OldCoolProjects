@@ -1,0 +1,191 @@
+<style>
+span {
+text-shadow:1px 1px white ,-1px -1px white,1px -1px white ,-1px 1px white ;
+font-size:200%
+}
+div {
+height:50;
+width:100;
+position:absolute;
+left:0;
+top:50%;
+
+border-radius:500px;
+//border:10px solid black  ;
+opacity:1;
+}
+#d1{
+background-color: #ff0000;
+left:20%
+}
+#d2{
+background-color: #ffff00;
+left:30%
+}
+#d3{
+background-color: #00ff00;
+left:40%
+}
+#d4{
+background-color: #00ffff;
+left :50%
+}
+#d5{
+background-color: #0000ff;
+left :60%
+}
+#d6{
+background-color: #ff00ff;
+left:70%
+}
+
+
+
+</style>
+<tt><b><span id='red'>0</span><span>,</span><span id='green'>0</span><span>,</span><span id='blue'>0</span></b></tt>
+<div id='d1'></div>
+<div id='d2'></div>
+<div id='d3'></div>
+<div id='d4'></div>
+<div id='d5'></div>
+<div id='d6'></div>
+<script>
+document.body.style.backgroundColor='rgb(255,0,0)'
+var red=document.getElementById('red')
+var green=document.getElementById('green')
+var blue=document.getElementById('blue')
+var spans=[red,green,blue]
+
+
+var r=0,g=0,b=0;
+//var R=1,G=2,B=3,rr=0,gg=0,bb=0;
+occilateCol(document.body,40,20)
+occilateCol(document.getElementById('d1'),20,60)
+occilateCol(document.getElementById('d2'),20,60)
+occilateCol(document.getElementById('d3'),20,60)
+occilateCol(document.getElementById('d4'),20,60)
+occilateCol(document.getElementById('d5'),20,60)
+occilateCol(document.getElementById('d6'),20,60)
+
+
+
+function occilateCol(trg,speed,t) {
+
+var arr =[255,0,0] 
+var brr =[255,0,0]
+
+//var speed=20
+var k=0
+
+
+
+
+
+var sel=Math.floor(Math.random()*3)
+var c1,c2
+
+switch (sel) {
+case 0:
+c1=1;
+c2=2;
+break;
+case 1:
+c1=0;
+c2=2;
+break;
+case 2:
+c1=1;
+c2=0;
+break;
+
+}
+
+for (var i=0;i<t;i++) {
+var sel=(Math.random()>0.5) ? c1:c2
+
+
+switch (sel) {
+case 0:
+c1=1;
+c2=2;
+break;
+case 1:
+c1=0;
+c2=2;
+break;
+case 2:
+c1=1;
+c2=0;
+break;
+
+}
+set(sel,Math.floor(Math.random()*256))
+
+}
+
+
+
+
+
+
+
+
+
+
+
+function set(num,tg) {
+
+if (brr[num]<tg) {var st=1}
+if (brr[num]>tg) {var st=-1}
+for (var i=0;i<(tg-brr[num])*st;i++) {
+setTimeout( function () {inc(num,st)},k)
+k+=speed
+
+}
+
+brr[num]=tg
+
+
+}
+
+
+
+
+
+
+
+
+//var col=['red','green','blue']
+//var col2=['rgb(0,255,255)','rgb(255,0,255)','rgb(255,255,0)']
+
+
+function inc(r,n) {
+arr[r]+=n
+trg.style.backgroundColor='rgb(' + arr[0] + ',' + arr[1] + ',' + arr[2] + ')'
+/*spans[0].style.color='black'
+spans[1].style.color='black'
+spans[2].style.color='black'
+spans[0].style.fontSize='200%'
+spans[1].style.fontSize='200%'
+spans[2].style.fontSize='200%'
+spans[r].style.fontSize='225%'
+if (n>0) {
+spans[r].style.color=col[r]
+}
+if (n==0) {
+spans[r].style.color='blue'
+
+}
+if (n<0) {
+spans[r].style.color=col2[r]
+//spans[r].style.fontSize='175%'
+}
+
+red.innerHTML=arr[0]
+green.innerHTML=arr[1]
+blue.innerHTML=arr[2]
+*/
+}
+
+}
+</script>
